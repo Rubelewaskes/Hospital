@@ -12,6 +12,7 @@ from models.check_up import (
     )
 from models.patient import Patient
 from models.area import Area, AddressArea, AreaDoctor
+from models.gender import Gender
 from models.doctor import Doctor
 
 
@@ -139,6 +140,7 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
                     func.concat(
                         Patient.first_name, ' ', Patient.second_name, ' ', Patient.third_name
                     ).label('Patient_FIO'),
+                    Gender.description,
                     Patient.born_date,
                     Patient.phone_number,
                 )
@@ -146,6 +148,7 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
                 .outerjoin(Area, Area.area_id == AddressArea.area_id)
                 .outerjoin(AreaDoctor, AreaDoctor.area_id == Area.area_id)
                 .outerjoin(Doctor, Doctor.doctor_id == AreaDoctor.doctor_id)
+                .join(Gender, Gender.gender_id == Patient.gender_id)
                 .where(Doctor.doctor_id == id)
             )
 
@@ -155,8 +158,9 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
                 result = [{
                     "patient_id": row[0],
                     "patient_FIO": row[1],
-                    "born_date": row[2],
-                    "phone_number": row[3],
+                    "gender": row[2],
+                    "born_date": row[3],
+                    "phone_number": row[4],
                 }
                     for row in rows
                 ]
