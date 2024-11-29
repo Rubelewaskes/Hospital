@@ -116,62 +116,49 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
             )
 
             res = await session.execute(stmt)
-            row = res.first()
-            if not row:
-                return None
+            
+            if row := res.first():
+                result = {
+                    "check_up_id": row[0],
+                    "place": row[1],
+                    "check_up_date": row[2],
+                    "doctor_FIO": row[3],
+                    "diagnosis": row[4],
+                    "prescription": row[5],
+                    "symptoms": row[6],
+                }
+                return result
+            
+            return None
 
-            result = {
-                "check_up_id": row[0],
-                "place": row[1],
-                "check_up_date": row[2],
-                "doctor_FIO": row[3],
-                "diagnosis": row[4],
-                "prescription": row[5],
-                "symptoms": row[6],
-            }
-            return result
-
-    async def get_all_symptoms(self, id):
+    async def get_all_patients_on_doctor_area(self, id):
         async with async_session_maker() as session:
-
-# select 
-# 	pt.patient_id, 
-# 	concat(pt.first_name, ' ', pt.second_name, ' ', pt.third_name) as pacient_FIO, 
-# 	pt.born_date, 
-# 	pt.phone_number	
-# from hospital.patient pt
-# left join hospital.address_area aa on pt.address_id =aa.address_id
-# left join hospital.area ar on aa.area_id = ar.area_id
-# left join hospital.area_doctor ad on ar.area_id = ad.area_id
-# left join hospital.doctor d on ad.doctor_id = d.doctor_id
-# where d.doctor_id = 2;
             stmt = (
                 select(
                     Patient.patient_id,
                     func.concat(
                         Patient.first_name, ' ', Patient.second_name, ' ', Patient.third_name
-                    ).label('doctor_FIO'),
+                    ).label('Patient_FIO'),
                     Patient.born_date,
                     Patient.phone_number,
                 )
-                .join(Doctor, Doctor.doctor_id == CheckUp.doctor_id)
-                .join(CheckUpPlace, CheckUpPlace.check_up_place_id == CheckUp.check_up_place_id)
-                .outerjoin(Diagnosis, Diagnosis.diagnosis_id == CheckUp.diagnosis_id)
-                .where(CheckUp.check_up_id == id)
+                .outerjoin(AddressArea, AddressArea.address_id == Patient.address_id)
+                .outerjoin(Area, Area.area_id == AddressArea.area_id)
+                .outerjoin(AreaDoctor, AreaDoctor.area_id == Area.area_id)
+                .outerjoin(Doctor, Doctor.doctor_id == AreaDoctor.doctor_id)
+                .where(Doctor.doctor_id == id)
             )
 
             res = await session.execute(stmt)
-            row = res.first()
-            if not row:
-                return None
 
-            result = {
-                "check_up_id": row[0],
-                "place": row[1],
-                "check_up_date": row[2],
-                "doctor_FIO": row[3],
-                "diagnosis": row[4],
-                "prescription": row[5],
-                "symptoms": row[6],
-            }
-            return result
+            if rows := res.all():
+                result = [{
+                    "patient_id": row[0],
+                    "patient_FIO": row[1],
+                    "born_date": row[2],
+                    "phone_number": row[3],
+                }
+                    for row in rows
+                ]
+                return result
+            return None
