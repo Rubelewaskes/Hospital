@@ -12,15 +12,15 @@
     <div class="chekup">
       <h3 v-if="posts.length > 0">Список осмотров</h3>
       <h2 v-else style="color: red">Отсутствуют осмотры</h2>
-    <div class="btn">
-      <my-button @click="showDialog"> Новый осмотр </my-button>
+      <div class="btn">
+        <my-button @click="showDialog"> Новый осмотр </my-button>
+      </div>
     </div>
-  </div>
     <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading" />
 
     <div v-else>Идет загрузка...</div>
     <div class="app__btns">
-      <my-select />
+      <my-select v-model="selectedSort" />
     </div>
 
     <my-dialog v-model:show="dialogVisible">
@@ -45,6 +45,7 @@ export default {
       posts: [],
       dialogVisible: false,
       isPostsLoading: false,
+      selectedSort: "",
     };
   },
   methods: {
@@ -85,12 +86,13 @@ export default {
   box-sizing: border-box;
 }
 
-.chekup{
+.chekup {
   display: flex;
   justify-content: space-between;
 }
 
 .app__btns {
+  margin: 15px 0px;
   display: flex;
   justify-content: space-between;
 }
