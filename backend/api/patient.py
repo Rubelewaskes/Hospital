@@ -10,12 +10,10 @@ router = APIRouter(
     tags=["Patients"],
 )
 
-
 @router.get("/get_all")
 async def get_all_patients(
     patient_service: Annotated[PatientService, Depends(patient_service)],
 ):
-    print(patient_service)
     patient = await patient_service.get_all_patients()
     return patient
 
