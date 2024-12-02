@@ -1,4 +1,4 @@
-from repositories.patient import PatientRepository
+from repositories.patient import PatientRepository, PatientAddressAreaRepository
 from services.patient import PatientService
 from repositories.check_up import CheckUpRepository, CheckUpPlaceRepository, SymptomRepository
 from services.check_up import CheckUpService
@@ -7,7 +7,7 @@ from services.gender import GenderService
 
 
 def patient_service():
-    return PatientService(PatientRepository)
+    return PatientService(PatientRepository, PatientAddressAreaRepository)
 
 def check_up_service():
     return CheckUpService(CheckUpRepository)

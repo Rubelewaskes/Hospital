@@ -1,13 +1,16 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException 
+from fastapi import APIRouter, Depends
 
 from api.dependencies import (check_up_service, 
 check_up_place_service, 
 symptom_service, 
 )
 
+from schemas.check_up import DiagnosisSchemaAdd
+
 from services.check_up import CheckUpService
+
 
 router = APIRouter(
     prefix="/check_up",
@@ -51,3 +54,11 @@ async def get_check_up_places(
 ):
     patients = await check_up_service.get_all_patients_on_doctor_area(doctor_id)
     return patients
+
+@router.post("/add_diagnosis")
+async def get_check_up_places(
+    diagnosis: DiagnosisSchemaAdd, 
+    check_up_service: Annotated[CheckUpService, Depends(check_up_service)],
+):
+    added_diagnosis = await check_up_service.add_one_diagnosis(diagnosis)
+    return added_diagnosis

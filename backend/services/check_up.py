@@ -1,5 +1,7 @@
 from utils.repository import AbstractRepository
 
+from models.check_up import Diagnosis
+
 
 class CheckUpService:
     def __init__(self, check_up_repo: AbstractRepository):
@@ -28,3 +30,8 @@ class CheckUpService:
     async def get_all_patients_on_doctor_area(self, id):
         all_patients_on_doctor_area = await self.check_up_repo.get_all_patients_on_doctor_area(id)
         return all_patients_on_doctor_area
+
+    async def add_one_diagnosis(self, diagnosis):
+        newDiagnosis = Diagnosis(name=diagnosis.name)
+        added_diagnosis = await self.check_up_repo.add_one(newDiagnosis)
+        return added_diagnosis

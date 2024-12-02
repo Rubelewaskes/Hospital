@@ -37,10 +37,10 @@ class SQLAlchemyRepository(AbstractRepository):
 
     async def add_one(self, data: dict) -> int:
         async with async_session_maker() as session:
-            stmt = insert(self.model).values(**data).returning(self.model.id)
-            res = await session.execute(stmt)
+            session.add(data)
             await session.commit()
-            return res.scalar_one()
+            await session.refresh(data)
+            return {col.name: getattr(data, col.name) for col in data.__mapper__.primary_key}
     
     async def find_all(self):
         async with async_session_maker() as session:
@@ -56,7 +56,24 @@ class SQLAlchemyRepository(AbstractRepository):
             res = [row[0].to_read_model() for row in res.all()]
             return res
     
-    
+class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
+    async def find_address(self, data: dict):
+        async with async_session_maker() as session:
+            stmt = (
+                    select(self.model)
+                    .where(self.model.street == data.street and 
+                    self.model.house == data.house and
+                    self.model.building == data.building and
+                    self.model.flat == data.flat)
+                )
+            res = await session.execute(stmt)
+            if row := res.first():
+                result = {
+                    "address_id": row[0].address_id,
+                }
+                return result
+            return None
+
 
 class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
     async def get_all_short_checkup(self, id):

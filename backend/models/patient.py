@@ -15,11 +15,10 @@ class Patient(Base):
     second_name: Mapped[str] = mapped_column()
     third_name: Mapped[str] = mapped_column()
     phone_number: Mapped[str] = mapped_column()
-    address_id: Mapped[int] = mapped_column(ForeignKey("address.id"))
+    address_id: Mapped[int] = mapped_column(ForeignKey("hospital.address_area.address_id"))
     born_date: Mapped[date] = mapped_column()
-    gender_id: Mapped[int] = mapped_column(ForeignKey("gender.id"))
-    
-    # assignee_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    gender_id: Mapped[int] = mapped_column(ForeignKey("hospital.gender.gender_id"))
+
 
     def to_read_model(self) -> PatientSchema:
         return PatientSchema(

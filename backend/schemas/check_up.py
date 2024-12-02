@@ -2,6 +2,8 @@ from datetime import date
 
 from pydantic import BaseModel
 
+class DiagnosisSchemaAdd(BaseModel):
+    name: str
 
 class CheckUpSchema(BaseModel):
     id: int

@@ -1,6 +1,10 @@
 from models.patient import Patient
-from utils.repository import SQLAlchemyRepository
+from models.area import AddressArea
+from utils.repository import SQLAlchemyRepositoryPatient
 
 
-class PatientRepository(SQLAlchemyRepository):
+class PatientRepository(SQLAlchemyRepositoryPatient):
     model = Patient
+
+class PatientAddressAreaRepository(SQLAlchemyRepositoryPatient):
+    model = AddressArea
