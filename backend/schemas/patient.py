@@ -30,6 +30,3 @@ class PatientSchemaAdd(BaseModel):
     born_date: date
     gender_id: int
     address: AddressSchema
-
-    class Config:
-        from_attributes = True

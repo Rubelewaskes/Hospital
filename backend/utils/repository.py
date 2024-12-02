@@ -3,18 +3,14 @@ from sqlalchemy import insert, select, func
 from sqlalchemy.orm import aliased
 from db.database import async_session_maker
 
-from models.check_up import (
-    CheckUp, 
-    CheckUpPlace, 
-    Diagnosis,
-    Symptom,
-    SymptomCheckUp,
+from models import (
+    CheckUp, CheckUpPlace, 
+    Diagnosis, Symptom,
+    SymptomCheckUp, Patient,
+    Area, AddressArea, 
+    AreaDoctor, Gender,
+    Doctor,
     )
-from models.patient import Patient
-from models.area import Area, AddressArea, AreaDoctor
-from models.gender import Gender
-from models.doctor import Doctor
-
 
 
 class AbstractRepository(ABC):
@@ -69,7 +65,7 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
             res = await session.execute(stmt)
             if row := res.first():
                 result = {
-                    "address_id": row[0].address_id,
+                    "address_id": row[0].id,
                 }
                 return result
             return None
@@ -80,15 +76,15 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
         async with async_session_maker() as session:
             stmt = (
                 select(
-                    CheckUp.check_up_id,
+                    CheckUp.id,
                     CheckUpPlace.place,
                     CheckUp.check_up_date,
                     func.concat(Doctor.first_name, ' ', Doctor.second_name, ' ', Doctor.third_name).label('doctor_FIO'),
                     Diagnosis.name
                 )
-                .join(Doctor, Doctor.doctor_id == CheckUp.doctor_id)
-                .join(CheckUpPlace, CheckUpPlace.check_up_place_id == CheckUp.check_up_place_id)
-                .outerjoin(Diagnosis, Diagnosis.diagnosis_id == CheckUp.diagnosis_id)
+                .join(Doctor, Doctor.id == CheckUp.doctor_id)
+                .join(CheckUpPlace, CheckUpPlace.id == CheckUp.check_up_place_id)
+                .outerjoin(Diagnosis, Diagnosis.id == CheckUp.diagnosis_id)
                 .where(CheckUp.patient_id == id)
             )
             res = await session.execute(stmt)
@@ -110,14 +106,14 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
         async with async_session_maker() as session:
             subquery_symptoms = (
                 select(func.array_agg(func.distinct(Symptom.name)))
-                .join(SymptomCheckUp, SymptomCheckUp.symptom_id == Symptom.symptom_id)
+                .join(SymptomCheckUp, Symptom.id == SymptomCheckUp.symptom_id)
                 .where(SymptomCheckUp.check_up_id == id)
                 .scalar_subquery()
             )
 
             stmt = (
                 select(
-                    CheckUp.check_up_id,
+                    CheckUp.id,
                     CheckUpPlace.place,
                     CheckUp.check_up_date,
                     func.concat(
@@ -127,10 +123,10 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
                     CheckUp.prescription,
                     subquery_symptoms.label("symptoms"),
                 )
-                .join(Doctor, Doctor.doctor_id == CheckUp.doctor_id)
-                .join(CheckUpPlace, CheckUpPlace.check_up_place_id == CheckUp.check_up_place_id)
-                .outerjoin(Diagnosis, Diagnosis.diagnosis_id == CheckUp.diagnosis_id)
-                .where(CheckUp.check_up_id == id)
+                .join(Doctor, Doctor.id == CheckUp.doctor_id)
+                .join(CheckUpPlace, CheckUpPlace.id == CheckUp.check_up_place_id)
+                .outerjoin(Diagnosis, Diagnosis.id == CheckUp.diagnosis_id)
+                .where(CheckUp.id == id)
             )
 
             res = await session.execute(stmt)
@@ -153,7 +149,7 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
         async with async_session_maker() as session:
             stmt = (
                 select(
-                    Patient.patient_id,
+                    Patient.id,
                     func.concat(
                         Patient.first_name, ' ', Patient.second_name, ' ', Patient.third_name
                     ).label('Patient_FIO'),
@@ -161,12 +157,12 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
                     Patient.born_date,
                     Patient.phone_number,
                 )
-                .outerjoin(AddressArea, AddressArea.address_id == Patient.address_id)
-                .outerjoin(Area, Area.area_id == AddressArea.area_id)
-                .outerjoin(AreaDoctor, AreaDoctor.area_id == Area.area_id)
-                .outerjoin(Doctor, Doctor.doctor_id == AreaDoctor.doctor_id)
-                .join(Gender, Gender.gender_id == Patient.gender_id)
-                .where(Doctor.doctor_id == id)
+                .outerjoin(AddressArea, AddressArea.id == Patient.address_id)
+                .outerjoin(Area, Area.id == AddressArea.area_id)
+                .outerjoin(AreaDoctor, Area.id == AreaDoctor.area_id )
+                .outerjoin(Doctor, Doctor.id == AreaDoctor.doctor_id)
+                .join(Gender, Gender.id == Patient.gender_id)
+                .where(Doctor.id == id)
             )
 
             res = await session.execute(stmt)

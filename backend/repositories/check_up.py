@@ -1,4 +1,4 @@
-from models.check_up import CheckUp, CheckUpPlace, Symptom
+from models import CheckUp, CheckUpPlace, Symptom
 from utils.repository import SQLAlchemyRepositoryCheckUp, SQLAlchemyRepository
 
 

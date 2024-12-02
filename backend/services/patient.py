@@ -1,8 +1,7 @@
 from utils.repository import AbstractRepository
 from fastapi import HTTPException 
 
-from models.area import AddressArea
-from models.patient import Patient
+from models import AddressArea, Patient
 
 
 class PatientService:    

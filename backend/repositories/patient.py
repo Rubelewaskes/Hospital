@@ -1,5 +1,5 @@
-from models.patient import Patient
-from models.area import AddressArea
+from models import Patient
+from models import AddressArea
 from utils.repository import SQLAlchemyRepositoryPatient
 
 

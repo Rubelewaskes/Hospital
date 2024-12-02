@@ -1,4 +1,4 @@
-from models.gender import Gender
+from models import Gender
 from utils.repository import SQLAlchemyRepository
 
 

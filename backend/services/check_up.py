@@ -1,6 +1,6 @@
 from utils.repository import AbstractRepository
 
-from models.check_up import Diagnosis
+from models import Diagnosis
 
 
 class CheckUpService:
