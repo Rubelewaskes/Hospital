@@ -1,28 +1,30 @@
-<template lang="">
-  <select v-model="modelValue" @change="changeOption">
-    <option disabled value="">Выберите из списка</option>
-    <option v-for="option in options" :key="option.value" :value="option.value">
+<template>
+  <select v-model="selectedValue" @change="changeOption">
+    <option disabled value="">ФИО</option>
+    <option v-for="option in options" :key="option.name">
       {{ option.name }}
     </option>
   </select>
 </template>
+
 <script>
 export default {
-  name: "my-select",
+  name: "MySelect",
   props: {
-    modelValue: {
-      type: String,
-    },
     options: {
       type: Array,
       default: () => [],
     },
   },
+  data() {
+    return {
+      selectedValue: "",
+    };
+  },
   methods: {
     changeOption(event) {
-      this.$emit('update:modelValue', option)
-    }
+      this.$emit("update:modelValue", this.selectedValue);
+    },
   },
 };
 </script>
-<style scoped></style>

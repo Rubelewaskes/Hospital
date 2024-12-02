@@ -19,26 +19,33 @@
     <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading" />
 
     <div v-else>Идет загрузка...</div>
-    <div class="app__btns">
+
+    <!-- <div class="app__btns">
       <my-select v-model="selectedSort" />
-    </div>
+    </div> -->
 
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost" />
     </my-dialog>
   </div>
+
+  <!-- <div>
+    <my-select v-model="selectedOption" :options="options" />
+  </div> -->
 </template>
 
 <script>
 import PostForm from "@/Components/PostForm";
 import PostList from "@/Components/PostList";
 import axios from "axios";
+import MySelect from "./Components/UI/MySelect";
 import MyButton from "@/Components/UI/MyButton.vue";
 
 export default {
   components: {
     PostForm,
     PostList,
+    MySelect,
   },
   data() {
     return {
@@ -46,6 +53,8 @@ export default {
       dialogVisible: false,
       isPostsLoading: false,
       selectedSort: "",
+      // options: [], // Данные для выпадающего списка
+      // selectedOption: "", // Выбранное значение
     };
   },
   methods: {
@@ -63,7 +72,7 @@ export default {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+          "http://127.0.0.1:8000/patient/get_all"
         );
         this.posts = response.data;
       } catch (e) {
@@ -72,9 +81,30 @@ export default {
         this.isPostsLoading = false;
       }
     },
+    async fetchOptions() {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        );
+        console.log("Полученные данные:", response.data);
+        this.options = response.data.map((item) => ({ name: item.id })); // Убедитесь, что name не пустое
+      } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+      }
+    },
+    // async updateSelection(newValue) {
+    //   this.selectedOption = newValue;
+    //   try {
+    //     await axios.post("/api/save-selection", { value: newValue }); // Сохранение значения
+    //     console.log("Выбранное значение сохранено");
+    //   } catch (error) {
+    //     console.error("Ошибка при сохранении:", error);
+    //   }
+    // },
   },
   mounted() {
     this.fetchPosts();
+    this.fetchOptions();
   },
 };
 </script>
