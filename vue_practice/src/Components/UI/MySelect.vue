@@ -1,7 +1,7 @@
 <template>
-  <select v-model="selectedValue" @change="changeOption">
+  <select v-model="selectedValueFIO" @change="changeOption">
     <option disabled value="">ФИО</option>
-    <option v-for="option in options" :key="option.name">
+    <option v-for="option in optionsFIO" :key="option.name">
       {{ option.name }}
     </option>
   </select>
@@ -9,21 +9,21 @@
 
 <script>
 export default {
-  name: "MySelect",
+  name: "MySelectFIO",
   props: {
-    options: {
+    optionsFIO: {
       type: Array,
       default: () => [],
     },
   },
   data() {
     return {
-      selectedValue: "",
+      selectedValueFIO: "",
     };
   },
   methods: {
     changeOption(event) {
-      this.$emit("update:modelValue", this.selectedValue);
+      this.$emit("update:modelValue", this.selectedValueFIO);
     },
   },
 };
