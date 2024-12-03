@@ -1,5 +1,5 @@
 <template>
-  <select v-model="selectedValueFIO" @change="changeOption">
+  <select class="selectFIO"  v-model="selectedValueFIO" @change="changeOption">
     <option disabled value="">ФИО</option>
     <option v-for="option in optionsFIO" :key="option.name">
       {{ option.name }}
@@ -28,3 +28,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .selectFIO {
+ 
+ border: 1px solid teal;
+ padding: 10px 15px;
+ margin: 15px;
+  }
+ 
+</style>
