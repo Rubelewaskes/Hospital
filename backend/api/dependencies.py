@@ -1,10 +1,17 @@
 from repositories.patient import PatientRepository
-from services.patient import PatientService
+from repositories.address import AddressAreaRepository
 from repositories.check_up import CheckUpRepository, CheckUpPlaceRepository, SymptomRepository
-from services.check_up import CheckUpService
 from repositories.gender import GenderRepository
-from services.gender import GenderService
+from repositories.diagnosis import DiagnosisRepository
+from services import (
+    PatientService, CheckUpService,
+    SymptomService, GenderService,
+    CheckUpPlaceService, DiagnosisService, 
+    AddressService
+)
 
+def address_service():
+    return AddressService(AddressAreaRepository)
 
 def patient_service():
     return PatientService(PatientRepository)
@@ -13,10 +20,13 @@ def check_up_service():
     return CheckUpService(CheckUpRepository)
 
 def symptom_service():
-    return CheckUpService(SymptomRepository)
+    return SymptomService(SymptomRepository)
+
+def diagnosis_service():
+    return DiagnosisService(DiagnosisRepository)
 
 def check_up_place_service():
-    return CheckUpService(CheckUpPlaceRepository)
+    return CheckUpPlaceService(CheckUpPlaceRepository)
 
 def gender_service():
     return GenderService(GenderRepository)

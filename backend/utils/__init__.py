@@ -1,0 +1,3 @@
+from .check_up import SQLAlchemyRepositoryCheckUp
+from .patient import SQLAlchemyRepositoryPatient
+from .repository import SQLAlchemyRepository
