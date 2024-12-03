@@ -10,8 +10,8 @@
   </div>
   <div class="app">
     <div class="chekup">
-      <h3 v-if="posts.length > 0">Список осмотров</h3>
-      <h2 v-else style="color: red">Отсутствуют осмотры</h2>
+      <h3 v-if="posts.length > 0">Список пациентов</h3>
+      <h2 v-else style="color: red">Отсутствуют пациенты</h2>
       <div class="btn">
         <my-button @click="showDialog"> Новый осмотр </my-button>
       </div>
@@ -119,6 +119,7 @@ export default {
 .chekup {
   display: flex;
   justify-content: space-between;
+  margin: 0px 15px;
 }
 
 .app__btns {
