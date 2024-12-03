@@ -76,22 +76,22 @@ export default {
         );
         this.posts = response.data;
       } catch (e) {
-        alert("Ошибка");
+        alert("Ошибка при получении пациентов");
       } finally {
         this.isPostsLoading = false;
       }
     },
-    async fetchOptions() {
-      try {
-        const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?_limit=10"
-        );
-        console.log("Полученные данные:", response.data);
-        this.options = response.data.map((item) => ({ name: item.id })); // Убедитесь, что name не пустое
-      } catch (error) {
-        console.error("Ошибка при загрузке данных:", error);
-      }
-    },
+    // async fetchOptions() {
+    //   try {
+    //     const response = await axios.get(
+    //       "https://jsonplaceholder.typicode.com/posts?_limit=10"
+    //     );
+    //     console.log("Полученные данные:", response.data);
+    //     this.options = response.data.map((item) => ({ name: item.id })); // Убедитесь, что name не пустое
+    //   } catch (error) {
+    //     console.error("Ошибка при загрузке данных:", error);
+    //   }
+    // },
     // async updateSelection(newValue) {
     //   this.selectedOption = newValue;
     //   try {
@@ -104,7 +104,7 @@ export default {
   },
   mounted() {
     this.fetchPosts();
-    this.fetchOptions();
+    // this.fetchOptions();
   },
 };
 </script>
