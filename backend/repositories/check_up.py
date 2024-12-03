@@ -8,5 +8,3 @@ class CheckUpRepository(SQLAlchemyRepositoryCheckUp):
 class CheckUpPlaceRepository(SQLAlchemyRepository):
     model = CheckUpPlace
 
-class SymptomRepository(SQLAlchemyRepository):
-    model = Symptom

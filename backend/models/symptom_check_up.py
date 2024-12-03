@@ -18,5 +18,5 @@ class SymptomCheckUp(Base):
             id=self.diagnosis_id,
             symptom_id=self.symptom_id,
             check_up_id=self.check_up_id,
-            name=self.name,
+            description=self.description,
         )

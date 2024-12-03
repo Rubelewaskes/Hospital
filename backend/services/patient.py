@@ -3,7 +3,7 @@ from fastapi import HTTPException
 
 from models import Patient
 
-from services import AddressService
+from services.address import AddressService
 from repositories.address import AddressAreaRepository
 
 

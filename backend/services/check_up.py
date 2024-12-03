@@ -1,5 +1,8 @@
 from utils.repository import AbstractRepository
 
+from models import CheckUp
+from services.symptom import SymptomService
+from repositories.symptom import SymptomRepository
 
 class CheckUpService:
     def __init__(self, check_up_repo: AbstractRepository):
@@ -17,7 +20,26 @@ class CheckUpService:
         check_up_places = await self.check_up_repo.find_all()
         return check_up_places
     
-
-
-
-
+    async def add_new_check_up(self, data):
+        new_check_up_info = CheckUp(
+            check_up_place_id=data.check_up_place_id, 
+            check_up_date=data.check_up_date, 
+            doctor_id=data.doctor_id, 
+            patient_id=data.patient_id, 
+            diagnosis_id=data.diagnosis_id, 
+            prescription=data.prescription)
+        
+        print(data)
+            
+        if check_up_id := await self.check_up_repo.add_one(new_check_up_info):
+            symptom_service = SymptomService(SymptomRepository)
+            for symptom in data.symptoms_list:
+                print(symptom)
+                symptom.check_up_id = check_up_id["id"]
+                await symptom_service.add_new_symptom_check_up(symptom)
+            return check_up_id
+        
+        raise HTTPException(
+                status_code=418,
+                detail="Insertation error, invalid value"
+            )

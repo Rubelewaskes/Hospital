@@ -2,7 +2,7 @@ from .address_area import AddressAreaSchema
 from .area_doctor import AreaDoctorSchema
 from .area import AreaSchema
 from .check_up_place import CheckUpPlaceSchema
-from .check_up import CheckUpSchema
+from .check_up import CheckUpSchema, CheckUpAddSchema
 from .diagnosis import DiagnosisSchema, DiagnosisSchemaAdd
 from .doctor import DoctorSchema
 from .gender import GenderSchema

@@ -1,6 +1,7 @@
 from repositories.patient import PatientRepository
 from repositories.address import AddressAreaRepository
-from repositories.check_up import CheckUpRepository, CheckUpPlaceRepository, SymptomRepository
+from repositories.check_up import CheckUpRepository, CheckUpPlaceRepository
+from repositories.symptom import SymptomRepository
 from repositories.gender import GenderRepository
 from repositories.diagnosis import DiagnosisRepository
 from services import (
