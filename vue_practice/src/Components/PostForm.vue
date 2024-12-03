@@ -3,23 +3,17 @@
   <form @submit.prevent="createPost">
     <h4>Новый осмотр</h4>
 
+    <my-input v-model="post.place" type="text" placeholder="Место осмотра" />
     <my-input v-model="post.date" type="text" placeholder="Дата осмотра" />
     <my-input
       v-model="post.doctor"
       type="text"
       placeholder="Врач проводивший осмотр"
     />
-    
     <div>
       <!-- Выпадающий список для ФИО-->
-      <my-select
-        v-model="selectedOption"
-        :options="options"
-
-      />
+      <my-select v-model="selectedOption" :options="options" />
     </div>
-
-
     <my-input v-model="post.symptoms" type="text" placeholder="Симптомы" />
     <my-input v-model="post.diagnosis" type="text" placeholder="Диагноз" />
     <my-input
@@ -35,6 +29,7 @@
       Создать
     </my-button>
   </form>
+  
 </template>
 
 <script>
@@ -48,12 +43,12 @@ export default {
   data() {
     return {
       post: {
+        place: "",
         date: "",
         doctor: "",
-        patient: "",
-        symptoms: "",
         diagnosis: "",
         prescription: "",
+        symptoms: "",
       },
       options: [], // Данные для выпадающего списка
       selectedOption: "", // Выбранное значение из выпадающего списка
@@ -85,12 +80,12 @@ export default {
 
       // Сброс формы
       this.post = {
+        place: "",
         date: "",
         doctor: "",
-        patient: "",
-        symptoms: "",
         diagnosis: "",
         prescription: "",
+        symptoms: "",
       };
       this.selectedOption = ""; // Очистка выбранной опции
     },
