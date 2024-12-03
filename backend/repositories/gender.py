@@ -1,5 +1,5 @@
 from models import Gender
-from utils.repository import SQLAlchemyRepository
+from utils import SQLAlchemyRepository
 
 
 class GenderRepository(SQLAlchemyRepository):

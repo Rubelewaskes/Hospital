@@ -1,13 +1,15 @@
 from utils.repository import AbstractRepository
 from fastapi import HTTPException 
 
-from models import AddressArea, Patient
+from models import Patient
+
+from services import AddressService
+from repositories.address import AddressAreaRepository
 
 
 class PatientService:    
-    def __init__(self, patient_repo: AbstractRepository, address_repo: AbstractRepository):
+    def __init__(self, patient_repo: AbstractRepository):
         self.patient_repo: AbstractRepository = patient_repo()
-        self.address_repo: AbstractRepository = address_repo()
 
     async def get_all_patients(self):
         patient = await self.patient_repo.find_all()
@@ -17,11 +19,16 @@ class PatientService:
         patient = await self.patient_repo.find_one(id)
         return patient
 
+    async def get_all_patients_on_doctor_area(self, id):
+        all_patients_on_doctor_area = await self.patient_repo.get_all_patients_on_doctor_area(id)
+        return all_patients_on_doctor_area
+
     async def add_new_patient(self, data):
-        address_info = AddressArea(street=data.address.street, house=data.address.house, 
-            building=data.address.building, flat=data.address.flat)
-        if address_id := await self.address_repo.find_address(address_info):
-            print(address_id)
+        address_info = data.address
+        
+        address_service = AddressService(AddressAreaRepository)
+        
+        if address_id := await address_service.get_address_id(address_info):
             new_patient_info = Patient(
                 first_name=data.first_name, 
                 second_name=data.second_name, 
