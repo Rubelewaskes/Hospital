@@ -18,7 +18,7 @@
     </div>
     <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading" />
 
-    <div v-else>Идет загрузка...</div>
+    <div class="loading" v-else>Идет загрузка...</div>
 
     <!-- <div class="app__btns">
       <my-select v-model="selectedSort" />
@@ -65,7 +65,7 @@ export default {
       isPostsLoading: false,
       selectedSort: "",
       page: 1,
-      limit: 3,
+      limit: 10,
       totalPages: 0,
       // options: [], // Данные для выпадающего списка
       // selectedOption: "", // Выбранное значение
@@ -84,7 +84,6 @@ export default {
     },
     changePage(pageNumber) {
       this.page = pageNumber;
-      this.fetchPosts();
     },
     async fetchPosts() {
       try {
@@ -133,6 +132,11 @@ export default {
     this.fetchPosts();
     // this.fetchOptions();
   },
+  watch: {
+    page() {
+      this.fetchPosts();
+    },
+  },
 };
 </script>
 
@@ -178,9 +182,13 @@ export default {
   gap: 15px;
 }
 
+.loading {
+  margin: 0px 15px;
+}
+
 .page__wrapper {
   display: flex;
-  margin-top: 15px;
+  margin: 15px 15px;
 }
 
 .page {
