@@ -1,7 +1,5 @@
 from typing import Annotated
-
 from fastapi import APIRouter, Depends, HTTPException 
-
 from schemas.patient import PatientSchemaAdd
 
 from api.dependencies import patient_service

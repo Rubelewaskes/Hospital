@@ -1,5 +1,4 @@
 from typing import Annotated
-
 from fastapi import APIRouter, Depends
 
 from api.dependencies import check_up_place_service

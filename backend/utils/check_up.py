@@ -1,6 +1,6 @@
 from utils.repository import SQLAlchemyRepository
 
-from sqlalchemy import insert, select, func
+from sqlalchemy import insert, select, func, case
 from sqlalchemy.orm import aliased
 from db.database import async_session_maker
 
@@ -11,6 +11,18 @@ from models import (
     )
 
 class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
+    async def add_new_check_up(self, check_up: dict, symptom_list: list):
+        async with async_session_maker() as session:
+            async with session.begin():
+                session.add(check_up)
+                await session.flush()
+                
+                for symptom in symptom_list:
+                    symptom.check_up_id = check_up.id
+                    session.add(symptom)
+                
+                return {"id" : check_up.id}
+
     async def get_all_short_checkup(self, id):
         async with async_session_maker() as session:
             stmt = (
@@ -44,8 +56,18 @@ class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
     async def get_check_up(self, id):
         async with async_session_maker() as session:
             subquery_symptoms = (
-                select(func.array_agg(func.distinct(Symptom.name)))
-                .join(SymptomCheckUp, Symptom.id == SymptomCheckUp.symptom_id)
+                select(
+                    func.array_agg(
+                        func.distinct(
+                            case(
+                                (SymptomCheckUp.symptom_id.isnot(None), Symptom.name),
+                                else_=SymptomCheckUp.description
+                            )
+                        )
+                    )
+                )
+                .select_from(SymptomCheckUp)
+                .join(Symptom, Symptom.id == SymptomCheckUp.symptom_id, isouter=True)
                 .where(SymptomCheckUp.check_up_id == id)
                 .scalar_subquery()
             )

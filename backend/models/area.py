@@ -11,7 +11,7 @@ class Area(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     def to_read_model(self) -> AreaSchema:
-        return DoctorSchema(
+        return AreaSchema(
             id=self.id,
         )
     

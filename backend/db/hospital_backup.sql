@@ -5,7 +5,7 @@
 -- Dumped from database version 16rc1
 -- Dumped by pg_dump version 16rc1
 
--- Started on 2024-12-02 15:37:31
+-- Started on 2024-12-04 12:45:51
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -425,7 +425,6 @@ COPY hospital.check_up_place (id, place) FROM stdin;
 COPY hospital.diagnosis (id, name) FROM stdin;
 1	ОРВИ
 2	Ангина
-9	Грипп
 \.
 
 
@@ -526,7 +525,7 @@ COPY hospital.symptom_check_up (id, check_up_id, symptom_id, description) FROM s
 -- Name: address_area_address_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.address_area_address_id_seq', 5, true);
+SELECT pg_catalog.setval('hospital.address_area_address_id_seq', 6, true);
 
 
 --
@@ -535,7 +534,7 @@ SELECT pg_catalog.setval('hospital.address_area_address_id_seq', 5, true);
 -- Name: area_doctor_area_doctor_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.area_doctor_area_doctor_id_seq', 3, true);
+SELECT pg_catalog.setval('hospital.area_doctor_area_doctor_id_seq', 7, true);
 
 
 --
@@ -544,7 +543,7 @@ SELECT pg_catalog.setval('hospital.area_doctor_area_doctor_id_seq', 3, true);
 -- Name: check_up_check_up_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.check_up_check_up_id_seq', 7, true);
+SELECT pg_catalog.setval('hospital.check_up_check_up_id_seq', 23, true);
 
 
 --
@@ -562,7 +561,7 @@ SELECT pg_catalog.setval('hospital.check_up_place_check_up_place_id_seq', 2, tru
 -- Name: diagnosis_diagnosis_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.diagnosis_diagnosis_id_seq', 9, true);
+SELECT pg_catalog.setval('hospital.diagnosis_diagnosis_id_seq', 10, true);
 
 
 --
@@ -571,7 +570,7 @@ SELECT pg_catalog.setval('hospital.diagnosis_diagnosis_id_seq', 9, true);
 -- Name: doctor_doctor_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.doctor_doctor_id_seq', 2, true);
+SELECT pg_catalog.setval('hospital.doctor_doctor_id_seq', 4, true);
 
 
 --
@@ -589,7 +588,7 @@ SELECT pg_catalog.setval('hospital.gender_gender_id_seq', 2, true);
 -- Name: patient_patient_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.patient_patient_id_seq', 7, true);
+SELECT pg_catalog.setval('hospital.patient_patient_id_seq', 10, true);
 
 
 --
@@ -598,7 +597,7 @@ SELECT pg_catalog.setval('hospital.patient_patient_id_seq', 7, true);
 -- Name: symptom_check_up_symptom_check_up_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.symptom_check_up_symptom_check_up_id_seq', 27, true);
+SELECT pg_catalog.setval('hospital.symptom_check_up_symptom_check_up_id_seq', 47, true);
 
 
 --
@@ -607,7 +606,7 @@ SELECT pg_catalog.setval('hospital.symptom_check_up_symptom_check_up_id_seq', 27
 -- Name: symptom_symptom_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.symptom_symptom_id_seq', 5, true);
+SELECT pg_catalog.setval('hospital.symptom_symptom_id_seq', 6, true);
 
 
 --
@@ -808,7 +807,7 @@ ALTER TABLE ONLY hospital.symptom_check_up
     ADD CONSTRAINT symptom_check_up_symptom_id_fkey FOREIGN KEY (symptom_id) REFERENCES hospital.symptom(id) ON DELETE CASCADE;
 
 
--- Completed on 2024-12-02 15:37:31
+-- Completed on 2024-12-04 12:45:52
 
 --
 -- PostgreSQL database dump complete
