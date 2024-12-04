@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ./
+    container_name: hospital_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - hospital_network
+
+  db:
+    build:
+      context: ./db
+    container_name: postgres_container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=hospital
+    volumes:
+      - ./db/hospital_backup.sql:/docker-entrypoint-initdb.d/hospital_backup.sql
+    ports:
+      - "1266:5432"
+    networks:
+      - hospital_network
+
+networks:
+  hospital_network:
+    driver: bridge

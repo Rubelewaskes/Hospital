@@ -1,5 +1,5 @@
-from models.check_up import CheckUp, CheckUpPlace, Symptom
-from utils.repository import SQLAlchemyRepositoryCheckUp, SQLAlchemyRepository
+from models import CheckUp, CheckUpPlace, Symptom
+from utils import SQLAlchemyRepositoryCheckUp, SQLAlchemyRepository
 
 
 class CheckUpRepository(SQLAlchemyRepositoryCheckUp):
@@ -8,5 +8,3 @@ class CheckUpRepository(SQLAlchemyRepositoryCheckUp):
 class CheckUpPlaceRepository(SQLAlchemyRepository):
     model = CheckUpPlace
 
-class SymptomRepository(SQLAlchemyRepository):
-    model = Symptom

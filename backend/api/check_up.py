@@ -1,53 +1,49 @@
 from typing import Annotated
+from fastapi import APIRouter, Depends, Query, Response
 
-from fastapi import APIRouter, Depends, HTTPException 
+from api.dependencies import check_up_service
+from services import CheckUpService
+from schemas import CheckUpSchemaAdd
 
-from api.dependencies import (check_up_service, 
-check_up_place_service, 
-symptom_service, 
-)
-
-from services.check_up import CheckUpService
 
 router = APIRouter(
     prefix="/check_up",
-    tags=["Check_ups"],
+    tags=["Check_up"],
 )
 
-@router.get("/get_all_checkups_of/{user_id}")
-async def get_all_check_ups(
-    user_id: int,
+@router.get("/get_all_checkups_of/{patient_id}")
+async def get_all_check_ups_of_patient(
+    patient_id: int,
     check_up_service: Annotated[CheckUpService, Depends(check_up_service)],
+    response: Response,
+    _limit: int = Query(0, ge=0),
+    _page: int = Query(1, ge=1),
 ):
-    check_ups = await check_up_service.get_all_short_checkup(user_id)
+    check_ups = await check_up_service.get_all_short_checkup(patient_id)
+    check_ups = await area_service.get_all_areas()
+    response.headers["X-Total-Count"] = str(len(check_ups))
+
+    if _limit != 0:
+        start = (_page - 1) * _limit
+        end = start + _limit
+
+        return check_ups[start:end]
     return check_ups
 
 @router.get("/get_check_up/{check_up_id}")
-async def get_all_check_ups(
+async def get_check_up(
     check_up_id: int,
     check_up_service: Annotated[CheckUpService, Depends(check_up_service)],
 ):
     check_ups = await check_up_service.get_check_up(check_up_id)
     return check_ups
 
-@router.get("/get_symptoms")
-async def get_all_symptoms(
-    check_up_service: Annotated[CheckUpService, Depends(symptom_service)],
-):
-    symptoms = await check_up_service.get_all_symptoms()
-    return symptoms
 
-@router.get("/get_check_up_places")
-async def get_check_up_places(
-    check_up_service: Annotated[CheckUpService, Depends(check_up_place_service)],
-):
-    symptoms = await check_up_service.get_all_check_up_places()
-    return symptoms
-
-@router.get("/get_all_patients_of_doctor/{doctor_id}")
-async def get_check_up_places(
-    doctor_id: int,
+@router.post("/add_new")
+async def add_new_check_up(
+    data: CheckUpSchemaAdd,
     check_up_service: Annotated[CheckUpService, Depends(check_up_service)],
 ):
-    patients = await check_up_service.get_all_patients_on_doctor_area(doctor_id)
-    return patients
+    check_up_id = await check_up_service.add_new_check_up(data)
+    return check_up_id
+

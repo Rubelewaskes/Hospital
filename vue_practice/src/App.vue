@@ -10,6 +10,11 @@ export default {
   components: {
     Navbar,
   },
+  watch: {
+    page() {
+      this.fetchPosts();
+    },
+  },
 };
 </script>
 
