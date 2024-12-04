@@ -1,6 +1,6 @@
-from models.patient import Patient
-from utils.repository import SQLAlchemyRepository
+from models import Patient
+from utils import SQLAlchemyRepositoryPatient
 
 
-class PatientRepository(SQLAlchemyRepository):
+class PatientRepository(SQLAlchemyRepositoryPatient):
     model = Patient

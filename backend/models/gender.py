@@ -8,11 +8,11 @@ class Gender(Base):
     __tablename__ = "gender"
     __table_args__ = {'schema': 'hospital'}
 
-    gender_id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     description: Mapped[str] = mapped_column()
 
     def to_read_model(self) -> GenderSchema:
         return GenderSchema(
-            id=self.gender_id,
+            id=self.id,
             description=self.description,
         )

@@ -5,7 +5,7 @@
 -- Dumped from database version 16rc1
 -- Dumped by pg_dump version 16rc1
 
--- Started on 2024-11-29 10:32:23
+-- Started on 2024-12-04 12:45:51
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -22,7 +22,6 @@ SET row_security = off;
 -- TOC entry 5 (class 2615 OID 19754)
 -- Name: hospital; Type: SCHEMA; Schema: -; Owner: postgres
 --
-DROP SCHEMA public;
 
 CREATE SCHEMA hospital;
 
@@ -39,7 +38,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE hospital.address_area (
-    address_id integer NOT NULL,
+    id integer NOT NULL,
     street character varying(100) NOT NULL,
     house character varying(10) NOT NULL,
     building character varying(15),
@@ -55,7 +54,7 @@ ALTER TABLE hospital.address_area OWNER TO postgres;
 -- Name: address_area_address_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.address_area ALTER COLUMN address_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.address_area ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.address_area_address_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -71,7 +70,7 @@ ALTER TABLE hospital.address_area ALTER COLUMN address_id ADD GENERATED ALWAYS A
 --
 
 CREATE TABLE hospital.area (
-    area_id integer NOT NULL
+    id integer NOT NULL
 );
 
 
@@ -83,7 +82,7 @@ ALTER TABLE hospital.area OWNER TO postgres;
 --
 
 CREATE TABLE hospital.area_doctor (
-    area_doctor_id integer NOT NULL,
+    id integer NOT NULL,
     doctor_id integer NOT NULL,
     area_id integer NOT NULL
 );
@@ -96,7 +95,7 @@ ALTER TABLE hospital.area_doctor OWNER TO postgres;
 -- Name: area_doctor_area_doctor_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.area_doctor ALTER COLUMN area_doctor_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.area_doctor ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.area_doctor_area_doctor_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -112,7 +111,7 @@ ALTER TABLE hospital.area_doctor ALTER COLUMN area_doctor_id ADD GENERATED ALWAY
 --
 
 CREATE TABLE hospital.check_up (
-    check_up_id integer NOT NULL,
+    id integer NOT NULL,
     check_up_place_id integer NOT NULL,
     check_up_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     doctor_id integer NOT NULL,
@@ -129,7 +128,7 @@ ALTER TABLE hospital.check_up OWNER TO postgres;
 -- Name: check_up_check_up_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.check_up ALTER COLUMN check_up_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.check_up ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.check_up_check_up_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -145,7 +144,7 @@ ALTER TABLE hospital.check_up ALTER COLUMN check_up_id ADD GENERATED ALWAYS AS I
 --
 
 CREATE TABLE hospital.check_up_place (
-    check_up_place_id integer NOT NULL,
+    id integer NOT NULL,
     place character varying(11) NOT NULL
 );
 
@@ -157,7 +156,7 @@ ALTER TABLE hospital.check_up_place OWNER TO postgres;
 -- Name: check_up_place_check_up_place_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.check_up_place ALTER COLUMN check_up_place_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.check_up_place ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.check_up_place_check_up_place_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -173,7 +172,7 @@ ALTER TABLE hospital.check_up_place ALTER COLUMN check_up_place_id ADD GENERATED
 --
 
 CREATE TABLE hospital.diagnosis (
-    diagnosis_id integer NOT NULL,
+    id integer NOT NULL,
     name character varying(150) NOT NULL
 );
 
@@ -185,7 +184,7 @@ ALTER TABLE hospital.diagnosis OWNER TO postgres;
 -- Name: diagnosis_diagnosis_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.diagnosis ALTER COLUMN diagnosis_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.diagnosis ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.diagnosis_diagnosis_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -201,7 +200,7 @@ ALTER TABLE hospital.diagnosis ALTER COLUMN diagnosis_id ADD GENERATED ALWAYS AS
 --
 
 CREATE TABLE hospital.doctor (
-    doctor_id integer NOT NULL,
+    id integer NOT NULL,
     first_name character varying(100) NOT NULL,
     second_name character varying(100) NOT NULL,
     third_name character varying(100),
@@ -217,7 +216,7 @@ ALTER TABLE hospital.doctor OWNER TO postgres;
 -- Name: doctor_doctor_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.doctor ALTER COLUMN doctor_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.doctor ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.doctor_doctor_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -233,7 +232,7 @@ ALTER TABLE hospital.doctor ALTER COLUMN doctor_id ADD GENERATED ALWAYS AS IDENT
 --
 
 CREATE TABLE hospital.gender (
-    gender_id integer NOT NULL,
+    id integer NOT NULL,
     description character(7) NOT NULL
 );
 
@@ -245,7 +244,7 @@ ALTER TABLE hospital.gender OWNER TO postgres;
 -- Name: gender_gender_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.gender ALTER COLUMN gender_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.gender ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.gender_gender_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -261,7 +260,7 @@ ALTER TABLE hospital.gender ALTER COLUMN gender_id ADD GENERATED ALWAYS AS IDENT
 --
 
 CREATE TABLE hospital.patient (
-    patient_id integer NOT NULL,
+    id integer NOT NULL,
     first_name character varying(100) NOT NULL,
     second_name character varying(100) NOT NULL,
     third_name character varying(100),
@@ -279,7 +278,7 @@ ALTER TABLE hospital.patient OWNER TO postgres;
 -- Name: patient_patient_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.patient ALTER COLUMN patient_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.patient ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.patient_patient_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -295,7 +294,7 @@ ALTER TABLE hospital.patient ALTER COLUMN patient_id ADD GENERATED ALWAYS AS IDE
 --
 
 CREATE TABLE hospital.symptom (
-    symptom_id integer NOT NULL,
+    id integer NOT NULL,
     name character varying(400) NOT NULL
 );
 
@@ -308,7 +307,7 @@ ALTER TABLE hospital.symptom OWNER TO postgres;
 --
 
 CREATE TABLE hospital.symptom_check_up (
-    symptom_check_up_id integer NOT NULL,
+    id integer NOT NULL,
     check_up_id integer NOT NULL,
     symptom_id integer,
     description character varying(200)
@@ -322,7 +321,7 @@ ALTER TABLE hospital.symptom_check_up OWNER TO postgres;
 -- Name: symptom_check_up_symptom_check_up_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.symptom_check_up ALTER COLUMN symptom_check_up_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.symptom_check_up ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.symptom_check_up_symptom_check_up_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -337,7 +336,7 @@ ALTER TABLE hospital.symptom_check_up ALTER COLUMN symptom_check_up_id ADD GENER
 -- Name: symptom_symptom_id_seq; Type: SEQUENCE; Schema: hospital; Owner: postgres
 --
 
-ALTER TABLE hospital.symptom ALTER COLUMN symptom_id ADD GENERATED ALWAYS AS IDENTITY (
+ALTER TABLE hospital.symptom ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     SEQUENCE NAME hospital.symptom_symptom_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -353,7 +352,7 @@ ALTER TABLE hospital.symptom ALTER COLUMN symptom_id ADD GENERATED ALWAYS AS IDE
 -- Data for Name: address_area; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.address_area (address_id, street, house, building, flat, area_id) FROM stdin;
+COPY hospital.address_area (id, street, house, building, flat, area_id) FROM stdin;
 1	ул. 8 Марта	14	\N	1	1
 2	ул. 8 Марта	11	корпус 3	1	2
 3	ул. 8 Марта	11	корпус 3	2	2
@@ -368,7 +367,7 @@ COPY hospital.address_area (address_id, street, house, building, flat, area_id) 
 -- Data for Name: area; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.area (area_id) FROM stdin;
+COPY hospital.area (id) FROM stdin;
 1
 2
 3
@@ -381,7 +380,7 @@ COPY hospital.area (area_id) FROM stdin;
 -- Data for Name: area_doctor; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.area_doctor (area_doctor_id, doctor_id, area_id) FROM stdin;
+COPY hospital.area_doctor (id, doctor_id, area_id) FROM stdin;
 1	1	1
 2	1	2
 3	2	3
@@ -394,7 +393,7 @@ COPY hospital.area_doctor (area_doctor_id, doctor_id, area_id) FROM stdin;
 -- Data for Name: check_up; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.check_up (check_up_id, check_up_place_id, check_up_date, doctor_id, patient_id, diagnosis_id, prescription) FROM stdin;
+COPY hospital.check_up (id, check_up_place_id, check_up_date, doctor_id, patient_id, diagnosis_id, prescription) FROM stdin;
 1	1	2024-06-10 14:30:00	1	1	1	
 2	1	2024-11-10 14:55:00	1	2	1	
 3	1	2024-11-15 15:30:00	1	3	\N	Пациент отправлен на прохождение дальнейшего обследования.
@@ -411,7 +410,7 @@ COPY hospital.check_up (check_up_id, check_up_place_id, check_up_date, doctor_id
 -- Data for Name: check_up_place; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.check_up_place (check_up_place_id, place) FROM stdin;
+COPY hospital.check_up_place (id, place) FROM stdin;
 1	Поликлиника
 2	На дому
 \.
@@ -423,7 +422,7 @@ COPY hospital.check_up_place (check_up_place_id, place) FROM stdin;
 -- Data for Name: diagnosis; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.diagnosis (diagnosis_id, name) FROM stdin;
+COPY hospital.diagnosis (id, name) FROM stdin;
 1	ОРВИ
 2	Ангина
 \.
@@ -435,7 +434,7 @@ COPY hospital.diagnosis (diagnosis_id, name) FROM stdin;
 -- Data for Name: doctor; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.doctor (doctor_id, first_name, second_name, third_name, phone_number, experience) FROM stdin;
+COPY hospital.doctor (id, first_name, second_name, third_name, phone_number, experience) FROM stdin;
 1	Дана	Князева	Тимофеевна	+79999999911	5
 2	Марк	Ильин	Петрович	+79999999912	15
 \.
@@ -447,7 +446,7 @@ COPY hospital.doctor (doctor_id, first_name, second_name, third_name, phone_numb
 -- Data for Name: gender; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.gender (gender_id, description) FROM stdin;
+COPY hospital.gender (id, description) FROM stdin;
 1	Мужской
 2	Женский
 \.
@@ -459,7 +458,7 @@ COPY hospital.gender (gender_id, description) FROM stdin;
 -- Data for Name: patient; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.patient (patient_id, first_name, second_name, third_name, phone_number, address_id, gender_id, born_date) FROM stdin;
+COPY hospital.patient (id, first_name, second_name, third_name, phone_number, address_id, gender_id, born_date) FROM stdin;
 1	Евангелина	Федорова	Александровна	+79999999991	1	2	2004-11-26
 2	Вероника	Королёва	Павловна	+79999999992	2	2	1994-11-26
 3	Вячеслав	Беляев	Маркович	+79999999993	3	1	1984-11-26
@@ -474,7 +473,7 @@ COPY hospital.patient (patient_id, first_name, second_name, third_name, phone_nu
 -- Data for Name: symptom; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.symptom (symptom_id, name) FROM stdin;
+COPY hospital.symptom (id, name) FROM stdin;
 1	Головная боль
 2	Насморк
 3	Кашель
@@ -489,7 +488,7 @@ COPY hospital.symptom (symptom_id, name) FROM stdin;
 -- Data for Name: symptom_check_up; Type: TABLE DATA; Schema: hospital; Owner: postgres
 --
 
-COPY hospital.symptom_check_up (symptom_check_up_id, check_up_id, symptom_id, description) FROM stdin;
+COPY hospital.symptom_check_up (id, check_up_id, symptom_id, description) FROM stdin;
 1	1	1	\N
 2	2	1	\N
 3	2	2	\N
@@ -526,7 +525,7 @@ COPY hospital.symptom_check_up (symptom_check_up_id, check_up_id, symptom_id, de
 -- Name: address_area_address_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.address_area_address_id_seq', 5, true);
+SELECT pg_catalog.setval('hospital.address_area_address_id_seq', 6, true);
 
 
 --
@@ -535,7 +534,7 @@ SELECT pg_catalog.setval('hospital.address_area_address_id_seq', 5, true);
 -- Name: area_doctor_area_doctor_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.area_doctor_area_doctor_id_seq', 3, true);
+SELECT pg_catalog.setval('hospital.area_doctor_area_doctor_id_seq', 7, true);
 
 
 --
@@ -544,7 +543,7 @@ SELECT pg_catalog.setval('hospital.area_doctor_area_doctor_id_seq', 3, true);
 -- Name: check_up_check_up_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.check_up_check_up_id_seq', 7, true);
+SELECT pg_catalog.setval('hospital.check_up_check_up_id_seq', 23, true);
 
 
 --
@@ -562,7 +561,7 @@ SELECT pg_catalog.setval('hospital.check_up_place_check_up_place_id_seq', 2, tru
 -- Name: diagnosis_diagnosis_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.diagnosis_diagnosis_id_seq', 2, true);
+SELECT pg_catalog.setval('hospital.diagnosis_diagnosis_id_seq', 10, true);
 
 
 --
@@ -571,7 +570,7 @@ SELECT pg_catalog.setval('hospital.diagnosis_diagnosis_id_seq', 2, true);
 -- Name: doctor_doctor_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.doctor_doctor_id_seq', 2, true);
+SELECT pg_catalog.setval('hospital.doctor_doctor_id_seq', 4, true);
 
 
 --
@@ -589,7 +588,7 @@ SELECT pg_catalog.setval('hospital.gender_gender_id_seq', 2, true);
 -- Name: patient_patient_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.patient_patient_id_seq', 5, true);
+SELECT pg_catalog.setval('hospital.patient_patient_id_seq', 10, true);
 
 
 --
@@ -598,7 +597,7 @@ SELECT pg_catalog.setval('hospital.patient_patient_id_seq', 5, true);
 -- Name: symptom_check_up_symptom_check_up_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.symptom_check_up_symptom_check_up_id_seq', 27, true);
+SELECT pg_catalog.setval('hospital.symptom_check_up_symptom_check_up_id_seq', 47, true);
 
 
 --
@@ -607,7 +606,7 @@ SELECT pg_catalog.setval('hospital.symptom_check_up_symptom_check_up_id_seq', 27
 -- Name: symptom_symptom_id_seq; Type: SEQUENCE SET; Schema: hospital; Owner: postgres
 --
 
-SELECT pg_catalog.setval('hospital.symptom_symptom_id_seq', 5, true);
+SELECT pg_catalog.setval('hospital.symptom_symptom_id_seq', 6, true);
 
 
 --
@@ -616,7 +615,7 @@ SELECT pg_catalog.setval('hospital.symptom_symptom_id_seq', 5, true);
 --
 
 ALTER TABLE ONLY hospital.address_area
-    ADD CONSTRAINT address_area_pkey PRIMARY KEY (address_id);
+    ADD CONSTRAINT address_area_pkey PRIMARY KEY (id);
 
 
 --
@@ -625,7 +624,7 @@ ALTER TABLE ONLY hospital.address_area
 --
 
 ALTER TABLE ONLY hospital.area_doctor
-    ADD CONSTRAINT area_doctor_pkey PRIMARY KEY (area_doctor_id);
+    ADD CONSTRAINT area_doctor_pkey PRIMARY KEY (id);
 
 
 --
@@ -634,7 +633,7 @@ ALTER TABLE ONLY hospital.area_doctor
 --
 
 ALTER TABLE ONLY hospital.area
-    ADD CONSTRAINT area_pkey PRIMARY KEY (area_id);
+    ADD CONSTRAINT area_pkey PRIMARY KEY (id);
 
 
 --
@@ -643,7 +642,7 @@ ALTER TABLE ONLY hospital.area
 --
 
 ALTER TABLE ONLY hospital.check_up
-    ADD CONSTRAINT check_up_pkey PRIMARY KEY (check_up_id);
+    ADD CONSTRAINT check_up_pkey PRIMARY KEY (id);
 
 
 --
@@ -652,7 +651,7 @@ ALTER TABLE ONLY hospital.check_up
 --
 
 ALTER TABLE ONLY hospital.check_up_place
-    ADD CONSTRAINT check_up_place_pkey PRIMARY KEY (check_up_place_id);
+    ADD CONSTRAINT check_up_place_pkey PRIMARY KEY (id);
 
 
 --
@@ -661,7 +660,7 @@ ALTER TABLE ONLY hospital.check_up_place
 --
 
 ALTER TABLE ONLY hospital.diagnosis
-    ADD CONSTRAINT diagnosis_pkey PRIMARY KEY (diagnosis_id);
+    ADD CONSTRAINT diagnosis_pkey PRIMARY KEY (id);
 
 
 --
@@ -670,7 +669,7 @@ ALTER TABLE ONLY hospital.diagnosis
 --
 
 ALTER TABLE ONLY hospital.doctor
-    ADD CONSTRAINT doctor_pkey PRIMARY KEY (doctor_id);
+    ADD CONSTRAINT doctor_pkey PRIMARY KEY (id);
 
 
 --
@@ -679,7 +678,7 @@ ALTER TABLE ONLY hospital.doctor
 --
 
 ALTER TABLE ONLY hospital.gender
-    ADD CONSTRAINT gender_pkey PRIMARY KEY (gender_id);
+    ADD CONSTRAINT gender_pkey PRIMARY KEY (id);
 
 
 --
@@ -688,7 +687,7 @@ ALTER TABLE ONLY hospital.gender
 --
 
 ALTER TABLE ONLY hospital.patient
-    ADD CONSTRAINT patient_pkey PRIMARY KEY (patient_id);
+    ADD CONSTRAINT patient_pkey PRIMARY KEY (id);
 
 
 --
@@ -697,7 +696,7 @@ ALTER TABLE ONLY hospital.patient
 --
 
 ALTER TABLE ONLY hospital.symptom_check_up
-    ADD CONSTRAINT symptom_check_up_pkey PRIMARY KEY (symptom_check_up_id);
+    ADD CONSTRAINT symptom_check_up_pkey PRIMARY KEY (id);
 
 
 --
@@ -706,7 +705,7 @@ ALTER TABLE ONLY hospital.symptom_check_up
 --
 
 ALTER TABLE ONLY hospital.symptom
-    ADD CONSTRAINT symptom_pkey PRIMARY KEY (symptom_id);
+    ADD CONSTRAINT symptom_pkey PRIMARY KEY (id);
 
 
 --
@@ -715,7 +714,7 @@ ALTER TABLE ONLY hospital.symptom
 --
 
 ALTER TABLE ONLY hospital.address_area
-    ADD CONSTRAINT address_area_area_id_fkey FOREIGN KEY (area_id) REFERENCES hospital.area(area_id) ON DELETE CASCADE;
+    ADD CONSTRAINT address_area_area_id_fkey FOREIGN KEY (area_id) REFERENCES hospital.area(id) ON DELETE CASCADE;
 
 
 --
@@ -724,7 +723,7 @@ ALTER TABLE ONLY hospital.address_area
 --
 
 ALTER TABLE ONLY hospital.area_doctor
-    ADD CONSTRAINT area_doctor_area_id_fkey FOREIGN KEY (area_id) REFERENCES hospital.area(area_id) ON DELETE CASCADE;
+    ADD CONSTRAINT area_doctor_area_id_fkey FOREIGN KEY (area_id) REFERENCES hospital.area(id) ON DELETE CASCADE;
 
 
 --
@@ -733,7 +732,7 @@ ALTER TABLE ONLY hospital.area_doctor
 --
 
 ALTER TABLE ONLY hospital.area_doctor
-    ADD CONSTRAINT area_doctor_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES hospital.doctor(doctor_id) ON DELETE CASCADE;
+    ADD CONSTRAINT area_doctor_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES hospital.doctor(id) ON DELETE CASCADE;
 
 
 --
@@ -742,7 +741,7 @@ ALTER TABLE ONLY hospital.area_doctor
 --
 
 ALTER TABLE ONLY hospital.check_up
-    ADD CONSTRAINT check_up_check_up_place_id_fkey FOREIGN KEY (check_up_place_id) REFERENCES hospital.check_up_place(check_up_place_id) ON DELETE CASCADE;
+    ADD CONSTRAINT check_up_check_up_place_id_fkey FOREIGN KEY (check_up_place_id) REFERENCES hospital.check_up_place(id) ON DELETE CASCADE;
 
 
 --
@@ -751,7 +750,7 @@ ALTER TABLE ONLY hospital.check_up
 --
 
 ALTER TABLE ONLY hospital.check_up
-    ADD CONSTRAINT check_up_diagnosis_id_fkey FOREIGN KEY (diagnosis_id) REFERENCES hospital.diagnosis(diagnosis_id) ON DELETE CASCADE;
+    ADD CONSTRAINT check_up_diagnosis_id_fkey FOREIGN KEY (diagnosis_id) REFERENCES hospital.diagnosis(id) ON DELETE CASCADE;
 
 
 --
@@ -760,7 +759,7 @@ ALTER TABLE ONLY hospital.check_up
 --
 
 ALTER TABLE ONLY hospital.check_up
-    ADD CONSTRAINT check_up_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES hospital.doctor(doctor_id) ON DELETE CASCADE;
+    ADD CONSTRAINT check_up_doctor_id_fkey FOREIGN KEY (doctor_id) REFERENCES hospital.doctor(id) ON DELETE CASCADE;
 
 
 --
@@ -769,7 +768,7 @@ ALTER TABLE ONLY hospital.check_up
 --
 
 ALTER TABLE ONLY hospital.check_up
-    ADD CONSTRAINT check_up_patient_id_fkey FOREIGN KEY (patient_id) REFERENCES hospital.patient(patient_id) ON DELETE CASCADE;
+    ADD CONSTRAINT check_up_patient_id_fkey FOREIGN KEY (patient_id) REFERENCES hospital.patient(id) ON DELETE CASCADE;
 
 
 --
@@ -778,7 +777,7 @@ ALTER TABLE ONLY hospital.check_up
 --
 
 ALTER TABLE ONLY hospital.patient
-    ADD CONSTRAINT patient_address_id_fkey FOREIGN KEY (address_id) REFERENCES hospital.address_area(address_id) ON DELETE CASCADE;
+    ADD CONSTRAINT patient_address_id_fkey FOREIGN KEY (address_id) REFERENCES hospital.address_area(id) ON DELETE CASCADE;
 
 
 --
@@ -787,7 +786,7 @@ ALTER TABLE ONLY hospital.patient
 --
 
 ALTER TABLE ONLY hospital.patient
-    ADD CONSTRAINT patient_gender_id_fkey FOREIGN KEY (gender_id) REFERENCES hospital.gender(gender_id) ON DELETE CASCADE;
+    ADD CONSTRAINT patient_gender_id_fkey FOREIGN KEY (gender_id) REFERENCES hospital.gender(id) ON DELETE CASCADE;
 
 
 --
@@ -796,7 +795,7 @@ ALTER TABLE ONLY hospital.patient
 --
 
 ALTER TABLE ONLY hospital.symptom_check_up
-    ADD CONSTRAINT symptom_check_up_check_up_id_fkey FOREIGN KEY (check_up_id) REFERENCES hospital.check_up(check_up_id) ON DELETE CASCADE;
+    ADD CONSTRAINT symptom_check_up_check_up_id_fkey FOREIGN KEY (check_up_id) REFERENCES hospital.check_up(id) ON DELETE CASCADE;
 
 
 --
@@ -805,10 +804,10 @@ ALTER TABLE ONLY hospital.symptom_check_up
 --
 
 ALTER TABLE ONLY hospital.symptom_check_up
-    ADD CONSTRAINT symptom_check_up_symptom_id_fkey FOREIGN KEY (symptom_id) REFERENCES hospital.symptom(symptom_id) ON DELETE CASCADE;
+    ADD CONSTRAINT symptom_check_up_symptom_id_fkey FOREIGN KEY (symptom_id) REFERENCES hospital.symptom(id) ON DELETE CASCADE;
 
 
--- Completed on 2024-11-29 10:32:24
+-- Completed on 2024-12-04 12:45:52
 
 --
 -- PostgreSQL database dump complete

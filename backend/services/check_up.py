@@ -1,13 +1,12 @@
 from utils.repository import AbstractRepository
 
+from models import CheckUp, SymptomCheckUp
+from services.symptom import SymptomService
+from repositories.symptom import SymptomRepository
 
 class CheckUpService:
     def __init__(self, check_up_repo: AbstractRepository):
         self.check_up_repo: AbstractRepository = check_up_repo()
-    
-    # async def get_all_patients(self):
-    #     patient = await self.patient_repo.find_all()
-    #     return patient
     
     async def get_all_short_checkup(self, id):
         all_short_checkup = await self.check_up_repo.get_all_short_checkup(id)
@@ -16,15 +15,31 @@ class CheckUpService:
     async def get_check_up(self, id):
         get_check_up = await self.check_up_repo.get_check_up(id)
         return get_check_up
-
-    async def get_all_symptoms(self):
-        all_symptoms = await self.check_up_repo.find_all()
-        return all_symptoms
     
     async def get_all_check_up_places(self):
         check_up_places = await self.check_up_repo.find_all()
         return check_up_places
     
-    async def get_all_patients_on_doctor_area(self, id):
-        all_patients_on_doctor_area = await self.check_up_repo.get_all_patients_on_doctor_area(id)
-        return all_patients_on_doctor_area
+    async def add_new_check_up(self, data):
+        new_check_up_info = CheckUp(
+            check_up_place_id=data.check_up_place_id, 
+            check_up_date=data.check_up_date, 
+            doctor_id=data.doctor_id, 
+            patient_id=data.patient_id, 
+            diagnosis_id=data.diagnosis_id, 
+            prescription=data.prescription)
+
+        symptoms_list = []
+        for symptom in data.symptoms_list:
+            symptoms_list.append(SymptomCheckUp(
+                symptom_id=symptom.symptom_id, 
+                description=symptom.description,
+                ))    
+
+        if check_up_id := await self.check_up_repo.add_new_check_up(new_check_up_info, symptoms_list):
+            return check_up_id
+        
+        raise HTTPException(
+                status_code=418,
+                detail="Insertation error, invalid value"
+            )
