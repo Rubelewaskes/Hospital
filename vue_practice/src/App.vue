@@ -32,6 +32,17 @@
   <!-- <div>
     <my-select v-model="selectedOption" :options="options" />
   </div> -->
+  <div class="page__wrapper">
+    <div
+      class="page"
+      v-for="pageNumber in totalPages"
+      :key="pageNumber"
+      :class="{ 'current-page': page === pageNumber }"
+      @click="changePage(pageNumber)"
+    >
+      {{ pageNumber }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -53,6 +64,9 @@ export default {
       dialogVisible: false,
       isPostsLoading: false,
       selectedSort: "",
+      page: 1,
+      limit: 3,
+      totalPages: 0,
       // options: [], // Данные для выпадающего списка
       // selectedOption: "", // Выбранное значение
     };
@@ -68,11 +82,24 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
+    changePage(pageNumber) {
+      this.page = pageNumber;
+      this.fetchPosts();
+    },
     async fetchPosts() {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          "http://127.0.0.1:8000/patient/get_all"
+          "https://jsonplaceholder.typicode.com/posts",
+          {
+            params: {
+              _page: this.page,
+              _limit: this.limit,
+            },
+          }
+        );
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
         );
         this.posts = response.data;
       } catch (e) {
@@ -149,5 +176,19 @@ export default {
   display: flex;
   align-items: center;
   gap: 15px;
+}
+
+.page__wrapper {
+  display: flex;
+  margin-top: 15px;
+}
+
+.page {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.current-page {
+  border: 2px solid teal;
 }
 </style>
