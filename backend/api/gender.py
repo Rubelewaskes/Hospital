@@ -1,5 +1,4 @@
 from typing import Annotated
-
 from fastapi import APIRouter, Depends, HTTPException 
 
 from api.dependencies import gender_service

@@ -1,6 +1,6 @@
 from utils.repository import AbstractRepository
 
-from models import CheckUp
+from models import CheckUp, SymptomCheckUp
 from services.symptom import SymptomService
 from repositories.symptom import SymptomRepository
 
@@ -28,15 +28,15 @@ class CheckUpService:
             patient_id=data.patient_id, 
             diagnosis_id=data.diagnosis_id, 
             prescription=data.prescription)
-        
-        print(data)
-            
-        if check_up_id := await self.check_up_repo.add_one(new_check_up_info):
-            symptom_service = SymptomService(SymptomRepository)
-            for symptom in data.symptoms_list:
-                print(symptom)
-                symptom.check_up_id = check_up_id["id"]
-                await symptom_service.add_new_symptom_check_up(symptom)
+
+        symptoms_list = []
+        for symptom in data.symptoms_list:
+            symptoms_list.append(SymptomCheckUp(
+                symptom_id=symptom.symptom_id, 
+                description=symptom.description,
+                ))    
+
+        if check_up_id := await self.check_up_repo.add_new_check_up(new_check_up_info, symptoms_list):
             return check_up_id
         
         raise HTTPException(

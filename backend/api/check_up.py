@@ -1,10 +1,9 @@
 from typing import Annotated
-
 from fastapi import APIRouter, Depends
 
 from api.dependencies import check_up_service
 from services import CheckUpService
-from schemas import CheckUpAddSchema
+from schemas import CheckUpSchemaAdd
 
 
 router = APIRouter(
@@ -29,9 +28,9 @@ async def get_check_up(
     return check_ups
 
 
-@router.post("/add_new/")
+@router.post("/add_new")
 async def add_new_check_up(
-    data: CheckUpAddSchema,
+    data: CheckUpSchemaAdd,
     check_up_service: Annotated[CheckUpService, Depends(check_up_service)],
 ):
     check_up_id = await check_up_service.add_new_check_up(data)

@@ -13,11 +13,10 @@ class CheckUpSchema(BaseModel):
     prescription: str
 
 class SymptomCheckUpAddSchema(BaseModel):
-    check_up_id: Optional[int] = None
     symptom_id: Optional[int] = None
     description: Optional[str] = None
 
-class CheckUpAddSchema(BaseModel):
+class CheckUpSchemaAdd(BaseModel):
     check_up_place_id: int
     check_up_date: datetime
     doctor_id: int

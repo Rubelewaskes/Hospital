@@ -11,6 +11,18 @@ from models import (
     )
 
 class SQLAlchemyRepositoryCheckUp(SQLAlchemyRepository):
+    async def add_new_check_up(self, check_up: dict, symptom_list: list):
+        async with async_session_maker() as session:
+            async with session.begin():
+                session.add(check_up)
+                await session.flush()
+                
+                for symptom in symptom_list:
+                    symptom.check_up_id = check_up.id
+                    session.add(symptom)
+                
+                return {"id" : check_up.id}
+
     async def get_all_short_checkup(self, id):
         async with async_session_maker() as session:
             stmt = (

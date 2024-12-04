@@ -34,6 +34,7 @@ class SQLAlchemyRepository(AbstractRepository):
             await session.refresh(data)
             return {col.name: getattr(data, col.name) for col in data.__mapper__.primary_key}
 
+
     async def update_one(self, data: dict) -> int:
         async with async_session_maker() as session:
             pass
