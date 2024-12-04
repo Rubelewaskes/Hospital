@@ -10,10 +10,10 @@
       type="text"
       placeholder="Врач проводивший осмотр"
     />
-    <div>
+   
       <!-- Выпадающий список для ФИО-->
       <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
-    </div>
+ 
     <my-input v-model="post.symptoms" type="text" placeholder="Симптомы" />
     <my-input v-model="post.diagnosis" type="text" placeholder="Диагноз" />
     <my-input
