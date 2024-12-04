@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException 
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from schemas.patient import PatientSchemaAdd
 
 from api.dependencies import patient_service
@@ -10,12 +10,16 @@ router = APIRouter(
     tags=["Patient"],
 )
 
+
 @router.get("/get_all")
 async def get_all_patients(
     patient_service: Annotated[PatientService, Depends(patient_service)],
+    response: Response,
 ):
-    patient = await patient_service.get_all_patients()
-    return patient
+    patients = await patient_service.get_all_patients()
+    response.headers["X-Total-Count"] = str(len(patients))
+
+    return patients
 
 @router.get("/get_one/{patient_id}")
 async def get_one_patient(
