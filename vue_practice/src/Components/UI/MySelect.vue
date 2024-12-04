@@ -31,7 +31,6 @@ export default {
 
 <style scoped>
   .selectFIO {
- 
  border: 1px solid teal;
  padding: 10px 15px;
  margin: 15px;
