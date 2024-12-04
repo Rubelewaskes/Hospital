@@ -89,7 +89,7 @@ export default {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts",
+          "http://127.0.0.1:8000/patient/get_all",
           {
             params: {
               _page: this.page,
@@ -97,9 +97,9 @@ export default {
             },
           }
         );
-        this.totalPages = Math.ceil(
-          response.headers["x-total-count"] / this.limit
-        );
+
+        this.totalPages = Math.ceil(5 / this.limit);
+        console.log(response);
         this.posts = response.data;
       } catch (e) {
         alert("Ошибка при получении пациентов");
