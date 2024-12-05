@@ -26,6 +26,7 @@ app.add_middleware(
             "Access-Control-Allow-Origin",
             "Authorization",
         ],
+        expose_headers=["X-Total-Count"],
     )
 
 
