@@ -90,7 +90,7 @@
         try {
           this.isPostsLoading = true;
           const response = await axios.get(
-            "https://jsonplaceholder.typicode.com/posts",
+            "http://127.0.0.1:8000/patient/get_all",
             {
               params: {
                 _page: this.page,
@@ -176,6 +176,7 @@
   
   .page__wrapper {
     display: flex;
+    margin-left:15px;
     margin-top: 15px;
   }
   
