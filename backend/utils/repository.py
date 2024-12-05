@@ -40,7 +40,6 @@ class SQLAlchemyRepository(AbstractRepository):
             stmt = select(self.model).where(self.model.__table__.primary_key.columns.values()[0] == id)
             res = await session.execute(stmt)
             if obj := res.scalar_one_or_none():
-                print(data) 
                 for key, value in data.items():
                     if hasattr(obj, key):
                         setattr(obj, key, value)

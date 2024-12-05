@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
-from schemas.patient import PatientSchemaAdd
+from schemas.patient import PatientSchemaAdd, PatientSchemaUpd
 
 from api.dependencies import patient_service
 from services.patient import PatientService
@@ -57,6 +57,14 @@ async def get_all_patients_of_doctor(
 
         return patients[start:end]
     return patients
+
+@router.post("/update")
+async def update_patient(
+    upd_patient: PatientSchemaUpd,
+    patient_service: Annotated[PatientService, Depends(patient_service)],
+):
+    patient = await patient_service.update_patient(upd_patient)
+    return patient
 
 @router.post("/add_new")
 async def add_new_patient(

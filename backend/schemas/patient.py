@@ -30,3 +30,13 @@ class PatientSchemaAdd(BaseModel):
     born_date: date
     gender_id: int
     address: AddressSchema
+
+class PatientSchemaUpd(BaseModel):
+    id: int
+    first_name: str
+    second_name: str
+    third_name: str
+    phone_number: str
+    born_date: date
+    gender_id: int
+    address: AddressSchema

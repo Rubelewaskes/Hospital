@@ -11,17 +11,54 @@ from models import (
     )
 
 class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
+    async def get_all_full(self):
+        async with async_session_maker() as session:
+            stmt = (
+                select (self.model.first_name, self.model.second_name,
+                self.model.third_name, self.model.phone_number,
+                AddressArea.street, AddressArea.house, 
+                AddressArea.building, AddressArea.flat,
+                Gender.description, self.model.born_date
+                )
+                .join(AddressArea, AddressArea.id == self.model.address_id)
+                .join(Gender, Gender.id == self.model.gender_id)
+            )
+
+            res = await session.execute(stmt)
+            rows =  res.all()
+
+            result = []
+
+            for row in rows:
+                result.append({
+                    "first_name": row[0],
+                    "second_name": row[1],
+                    "third_name": row[2],
+                    "phone_number": row[3],
+                    "street": row[4],
+                    "house": row[5],
+                    "building": row[6],
+                    "flat": row[7],
+                    "description": row[8],
+                    "born_date": row[9],
+                })
+            
+            return result
+            
+
     async def find_address(self, data: dict):
         async with async_session_maker() as session:
             stmt = (
                     select(self.model)
-                    .where(self.model.street == data.street and 
-                    self.model.house == data.house and
-                    self.model.building == data.building and
-                    self.model.flat == data.flat)
+                    .where((self.model.street == data.street) & 
+                        (self.model.house == data.house) & 
+                        (self.model.building == data.building) & 
+                        (self.model.flat == data.flat)
+                    )
                 )
             res = await session.execute(stmt)
             if row := res.first():
+                print(row[0].id)
                 result = {
                     "address_id": row[0].id,
                 }
