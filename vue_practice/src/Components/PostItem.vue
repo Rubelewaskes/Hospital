@@ -1,17 +1,15 @@
 <template>
   <div class="post">
     <div>
-      <div><strong>ФИО: </strong>{{ post.title }}</div>
-      <div><strong>Дата рождения: </strong>{{ post.id }}</div>
+      <div><strong>ФИО: </strong>{{ post.first_name }} {{ post.second_name }} {{ post.third_name }}</div>
+      <div><strong>Дата рождения: </strong>{{ post.born_date }}</div>
     </div>
     <div class="post__btns">
-      <my-button class="look_up" @click="$emit('lookup', post)"
-        >Просмотреть</my-button
-      >
+      <my-button class="look_up" @click="$router.push(`/patients/${post.id}`)">Просмотреть</my-button>
       <my-button @click="$emit('remove', post)">Удалить</my-button>
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 export default {

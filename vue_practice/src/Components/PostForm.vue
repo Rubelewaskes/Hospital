@@ -10,10 +10,10 @@
       type="text"
       placeholder="Врач проводивший осмотр"
     />
-    <div>
+   
       <!-- Выпадающий список для ФИО-->
       <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
-    </div>
+ 
     <my-input v-model="post.symptoms" type="text" placeholder="Симптомы" />
     <my-input v-model="post.diagnosis" type="text" placeholder="Диагноз" />
     <my-input
@@ -75,7 +75,7 @@ export default {
     async fetchOptionsPlace() {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/check_up/get_check_up_places"
+          "http://127.0.0.1:8000/check_up/get_all_places"
         );
         console.log("Полученные данные Places:", response.data);
 
