@@ -18,6 +18,16 @@ class SymptomService:
                 status_code=400,
                 detail="Insert error"
             ) 
+    
+    async def update_symptom(self, symptom):
+        id = symptom.id
+        updatedSymptom = {"name": symptom.name}
+        if updated_symptom := await self.symptom_repo.update_one(id, updatedSymptom):
+            return updated_symptom
+        raise HTTPException(
+                status_code=400,
+                detail="Insert error"
+            ) 
             
     async def add_new_symptom_check_up(self, data):
         new_symptom_check_up_info = SymptomCheckUp(

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Query, Response
 
 from api.dependencies import symptom_service
 from services import SymptomService
-from schemas import SymptomSchemaAdd
+from schemas import SymptomSchema, SymptomSchemaAdd
 
 router = APIRouter(
     prefix="/symptom",
@@ -26,6 +26,14 @@ async def get_all_symptoms(
 
         return symptoms[start:end]
     return symptoms
+
+@router.post("/update_one")
+async def update_one_symptom(
+    upd_symptom: SymptomSchema,
+    symptom_service: Annotated[SymptomService, Depends(symptom_service)],
+):
+    symptom = await symptom_service.update_symptom(upd_symptom)
+    return symptom
 
 @router.post("/add_new")
 async def add_symptom(
