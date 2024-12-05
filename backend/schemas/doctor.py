@@ -20,3 +20,12 @@ class DoctorSchemaAdd(BaseModel):
     phone_number: str
     experience: int
     areas_list: List[AreaSchema]
+
+class DoctorSchemaUpd(BaseModel):
+    id: int
+    first_name: str
+    second_name: str
+    third_name: str
+    phone_number: str
+    experience: int
+    areas_list: List[AreaSchema]

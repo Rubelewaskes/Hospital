@@ -20,7 +20,6 @@ async def get_all_check_ups_of_patient(
     _page: int = Query(1, ge=1),
 ):
     check_ups = await check_up_service.get_all_short_checkup(patient_id)
-    check_ups = await area_service.get_all_areas()
     response.headers["X-Total-Count"] = str(len(check_ups))
 
     if _limit != 0:

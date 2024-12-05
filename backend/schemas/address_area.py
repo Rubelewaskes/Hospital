@@ -4,9 +4,9 @@ from typing import Optional
 class AddressAreaSchema(BaseModel):
     id: int
     street: str
-    house: str
-    building: str
-    flat: int
+    house: Optional[str] = None 
+    building: Optional[str] = None 
+    flat: Optional[int] = None 
     area_id: int
 
 class AddressAreaSchemaAdd(BaseModel):

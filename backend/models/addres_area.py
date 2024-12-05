@@ -18,7 +18,7 @@ class AddressArea(Base):
     area_id: Mapped[int] = mapped_column(ForeignKey("hospital.area.id"))
 
     def to_read_model(self) -> AddressAreaSchema:
-        return DoctorSchema(
+        return AddressAreaSchema(
             id=self.id,
             street=self.street,
             house=self.house,

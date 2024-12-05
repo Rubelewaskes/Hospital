@@ -27,7 +27,7 @@ class AbstractRepository(ABC):
 class SQLAlchemyRepository(AbstractRepository):
     model = None
 
-    async def add_one(self, data: dict) -> int:
+    async def add_one(self, data: dict) -> dict:
         async with async_session_maker() as session:
             session.add(data)
             await session.commit()
@@ -35,10 +35,26 @@ class SQLAlchemyRepository(AbstractRepository):
             return {col.name: getattr(data, col.name) for col in data.__mapper__.primary_key}
 
 
-    async def update_one(self, data: dict) -> int:
+    async def update_one(self, id: int, data: dict) -> dict:
         async with async_session_maker() as session:
-            pass
-    
+            stmt = select(self.model).where(self.model.__table__.primary_key.columns.values()[0] == id)
+            res = await session.execute(stmt)
+            if obj := res.scalar_one_or_none():
+                for key, value in data.items():
+                    if hasattr(obj, key):
+                        setattr(obj, key, value)
+
+                await session.commit()
+                await session.refresh(obj)
+
+                return {col.name: getattr(obj, col.name) for col in obj.__mapper__.primary_key}
+            
+            raise HTTPException(
+                    status_code=400,
+                    detail="Object not found"
+                )
+
+
     async def find_all(self):
         async with async_session_maker() as session:
             stmt = select(self.model)
