@@ -3,17 +3,20 @@
   <form @submit.prevent="createPost">
     <h4>Новый осмотр</h4>
 
-    <my-selectPlace v-model="selectedOptionPlace" :optionsPlace="optionsPlace" />
+    <my-selectPlace
+      v-model="selectedOptionPlace"
+      :optionsPlace="optionsPlace"
+    />
     <my-input v-model="post.date" type="text" placeholder="Дата осмотра" />
     <my-input
       v-model="post.doctor"
       type="text"
       placeholder="Врач проводивший осмотр"
     />
-   
-      <!-- Выпадающий список для ФИО-->
-      <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
- 
+
+    <!-- Выпадающий список для ФИО-->
+    <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
+
     <my-input v-model="post.symptoms" type="text" placeholder="Симптомы" />
     <my-input v-model="post.diagnosis" type="text" placeholder="Диагноз" />
     <my-input
@@ -29,7 +32,6 @@
       Создать
     </my-button>
   </form>
-  
 </template>
 
 <script>
