@@ -75,7 +75,7 @@ export default {
     async fetchOptionsPlace() {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/check_up/get_check_up_places"
+          "http://127.0.0.1:8000/check_up/get_all_places"
         );
         console.log("Полученные данные Places:", response.data);
 

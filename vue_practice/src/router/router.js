@@ -1,4 +1,4 @@
-import ChekupPage from "@/pages/ChekupPage.vue";
+
 import Main from "@/pages/Main.vue";
 import PatientIdPage from "@/pages/PatientIdPage.vue";
 import PatientPage from "@/pages/PatientPage.vue";
@@ -13,10 +13,7 @@ const routes = [
     path: "/patients",
     component: PatientPage,
   },
-  {
-    path: "/checkup",
-    component: ChekupPage,
-  },
+  
   {
     path: "/patients/:id",
     component: PatientIdPage,
