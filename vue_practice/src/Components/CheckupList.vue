@@ -1,7 +1,7 @@
 <template>
   <div v-if="checkups.length > 0">
     <!-- <h3>Список осмотров</h3> -->
-    <post-item
+    <checkup-item
       v-for="checkup in checkups"
       :checkup="checkup"
       :key="checkup.id"
