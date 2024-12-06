@@ -7,9 +7,13 @@
       v-model="selectedOptionPlace"
       :optionsPlace="optionsPlace"
     />
-    <my-input v-model="post.date" type="text" placeholder="Дата осмотра" />
     <my-input
-      v-model="post.doctor"
+      v-model="post.check_up_date"
+      type="text"
+      placeholder="Дата осмотра"
+    />
+    <my-input
+      v-model="post.doctor_id"
       type="text"
       placeholder="Врач проводивший осмотр"
     />
@@ -17,8 +21,8 @@
     <!-- Выпадающий список для ФИО-->
     <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
 
-    <my-input v-model="post.symptoms" type="text" placeholder="Симптомы" />
-    <my-input v-model="post.diagnosis" type="text" placeholder="Диагноз" />
+    <my-input v-model="post.symptoms_list" type="text" placeholder="Симптомы" />
+    <my-input v-model="post.diagnosis_id" type="text" placeholder="Диагноз" />
     <my-input
       v-model="post.prescription"
       type="text"
@@ -45,12 +49,13 @@ export default {
   data() {
     return {
       post: {
-        place: "",
-        date: "",
-        doctor: "",
-        diagnosis: "",
+        check_up_place_id: "",
+        check_up_date: "",
+        doctor_id: "",
+        patient_id: "",
+        diagnosis_id: "",
         prescription: "",
-        symptoms: "",
+        symptoms_list: "",
       },
       optionsFIO: [], // Данные для выпадающего списка ФИО
       selectedOptionFIO: "", // Выбранное значение из выпадающего списка
@@ -83,12 +88,34 @@ export default {
 
         // Убедитесь, что используете данные с правильным полем
         this.optionsPlace = response.data.map((item) => ({
-          place: `${item.place}`, // Имя опции для отображения
+          place: `${item.id}`, // Имя опции для отображения
         }));
       } catch (error) {
         console.error("Ошибка при загрузке данных Places:", error);
       }
     },
+    async submitForm() {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/check_up/add_new",
+          this.post, // Убедитесь, что данные имеют нужную серверу структуру
+          {
+            headers: {
+              "Content-Type": "application/json", // Заголовок для JSON
+            },
+          }
+        );
+        alert("Данные успешно отправлены!");
+        console.log("Ответ сервера:", response.data);
+      } catch (error) {
+        console.error("Ошибка отправки:", error);
+        if (error.response) {
+          console.error("Ответ сервера:", error.response.data);
+        }
+        alert("Произошла ошибка. Попробуйте снова.");
+      }
+    },
+
     createPost() {
       // Добавляем выбранное значение в объект post
       this.post.selectedOptionFIO = this.selectedOptionFIO;
@@ -97,6 +124,8 @@ export default {
       console.log("Данные формы:", this.post);
       this.post.id = Date.now(); // Генерация уникального ID
       this.$emit("create", this.post); // Передача данных в родительский компонент
+
+      this.submitForm();
 
       // Сброс формы
       this.post = {
@@ -111,6 +140,7 @@ export default {
       this.selectedOptionPlace = "";
     },
   },
+
   mounted() {
     this.fetchOptionsFIO();
     this.fetchOptionsPlace(); // Загрузка данных при монтировании
