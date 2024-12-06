@@ -37,7 +37,7 @@ export default {
       this.dialogVisible = false;
     },
     removeCheckup(checkup) {
-      this.checkups = this.checkups.filter((p) => p.id !== checkup.id);
+      this.checkups = this.checkups.filter((c) => c.check_up_id !== checkup.check_up_id );
     },
     showDialog() {
       this.dialogVisible = true;

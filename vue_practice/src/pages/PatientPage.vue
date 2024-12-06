@@ -91,7 +91,7 @@
           this.isPostsLoading = true;
           const response = await axios.get(
             "http://127.0.0.1:8000/patient/get_all",
-            {
+                        {
               params: {
                 _page: this.page,
                 _limit: this.limit,

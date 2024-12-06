@@ -1,11 +1,14 @@
 <template>
     <div class="checkup">
       <div>
-        <div><strong>ФИО: </strong>{{ checkup.doctor_FIO }} </div>
         <div><strong>Место: </strong>{{ checkup.place }}</div>
+        <div><strong>Дата: </strong>{{ checkup.check_up_date }}</div>
+        <div><strong>ФИО: </strong>{{ checkup.doctor_FIO }} </div>
+        <div><strong>Диагноз: </strong>{{ checkup.diagnosis }}</div>
+        <my-button @click="$emit('remove', checkup)">Удалить</my-button>
       </div>
       <div class="post__btns">
-        <my-button @click="$emit('remove', checkup)">Удалить</my-button>
+        
       </div>
     </div>
   </template> 
