@@ -3,9 +3,10 @@
   <form @submit.prevent="createPost">
     <h4>Новый осмотр</h4>
 
-    <my-selectPlace
-      v-model="selectedOptionPlace"
-      :optionsPlace="optionsPlace"
+    <my-input
+      v-model="post.check_up_place_id"
+      type="text"
+      placeholder="Место осмотра"
     />
     <my-input
       v-model="post.check_up_date"
@@ -19,7 +20,7 @@
     />
 
     <!-- Выпадающий список для ФИО-->
-    <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
+    <my-input v-model="post.patient_id" type="text" placeholder="id пациента" />
 
     <my-input
       v-model="symptomsInput"
