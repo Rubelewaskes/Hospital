@@ -27,7 +27,7 @@ async def get_all_addresses(
         return addresses[start:end]
     return addresses
 
-@router.post("/update_one")
+@router.put("/update_one")
 async def update_one_address(
     upd_address: AddressAreaSchema,
     address_service: Annotated[AddressService, Depends(address_service)],

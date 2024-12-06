@@ -1,6 +1,6 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
-from datetime import date
+from datetime import datetime
 
 from db.database import Base
 from schemas.check_up import CheckUpSchema
@@ -12,7 +12,7 @@ class CheckUp(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     check_up_place_id: Mapped[int] = mapped_column(ForeignKey("hospital.check_up_place.id"))
-    check_up_date: Mapped[date] = mapped_column()
+    check_up_date: Mapped[datetime] = mapped_column()
     doctor_id: Mapped[int] = mapped_column(ForeignKey("hospital.doctor.id"))
     patient_id: Mapped[int] = mapped_column(ForeignKey("hospital.patient.id"))
     diagnosis_id: Mapped[int] = mapped_column(ForeignKey("hospital.diagnosis.id"))
