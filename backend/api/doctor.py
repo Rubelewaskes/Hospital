@@ -25,7 +25,7 @@ async def add_new_doctor(
     added_doctor = await doctor_service.add_one_doctor(doctor)
     return added_doctor
 
-@router.post("/update")
+@router.put("/update")
 async def update_doctor(
     doctor: DoctorSchemaUpd, 
     doctor_service: Annotated[DoctorService, Depends(doctor_service)],

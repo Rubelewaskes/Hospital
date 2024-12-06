@@ -1,6 +1,6 @@
-from datetime import date
+from datetime import datetime, date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class PatientSchema(BaseModel):
@@ -27,9 +27,13 @@ class PatientSchemaAdd(BaseModel):
     second_name: str
     third_name: str
     phone_number: str
-    born_date: date
+    born_date: str
     gender_id: int
     address: AddressSchema
+    
+    @validator('born_date')
+    def parse_check_up_date(cls, v):
+        return datetime.strptime(v, '%d.%m.%Y')
 
 class PatientSchemaUpd(BaseModel):
     id: int
@@ -37,6 +41,10 @@ class PatientSchemaUpd(BaseModel):
     second_name: str
     third_name: str
     phone_number: str
-    born_date: date
+    born_date: str
     gender_id: int
     address: AddressSchema
+    
+    @validator('born_date')
+    def parse_check_up_date(cls, v):
+        return datetime.strptime(v, '%d.%m.%Y')
