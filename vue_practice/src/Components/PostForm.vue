@@ -21,7 +21,11 @@
     <!-- Выпадающий список для ФИО-->
     <my-selectFIO v-model="selectedOptionFIO" :optionsFIO="optionsFIO" />
 
-    <my-input v-model="post.symptoms_list" type="text" placeholder="Симптомы" />
+    <my-input
+      v-model="symptomsInput"
+      type="text"
+      placeholder="Симптомы (вводите через запятую)"
+    />
     <my-input v-model="post.diagnosis_id" type="text" placeholder="Диагноз" />
     <my-input
       v-model="post.prescription"
@@ -55,8 +59,9 @@ export default {
         patient_id: "",
         diagnosis_id: "",
         prescription: "",
-        symptoms_list: "",
+        symptoms_list: [],
       },
+      symptomsInput: "", // Для ввода строки симптомов
       optionsFIO: [], // Данные для выпадающего списка ФИО
       selectedOptionFIO: "", // Выбранное значение из выпадающего списка
       optionsPlace: [], // Данные для выпадающего списка Места осмотра
@@ -73,7 +78,7 @@ export default {
 
         // Убедитесь, что используете данные с правильным полем
         this.optionsFIO = response.data.map((item) => ({
-          name: `${item.first_name} ${item.second_name} ${item.third_name}`, // Имя опции для отображения
+          name: `${item.id}`, // Имя опции для отображения
         }));
       } catch (error) {
         console.error("Ошибка при загрузке данных Patients:", error);
@@ -117,6 +122,19 @@ export default {
     },
 
     createPost() {
+      // Преобразуем строку симптомов в массив объектов
+      this.post.symptoms_list = this.symptomsInput
+        .split(",") // Разделяем по запятой
+        .map((item) => ({
+          id: Date.now(), // Уникальный идентификатор (замените на нужный)
+          name: item.trim(), // Имя симптома
+        }));
+
+      console.log(
+        "Данные формы (массив объектов симптомов):",
+        this.post.symptoms_list
+      );
+
       // Добавляем выбранное значение в объект post
       this.post.selectedOptionFIO = this.selectedOptionFIO;
       this.post.selectedOptionPlace = this.selectedOptionPlace;
@@ -128,13 +146,15 @@ export default {
       this.submitForm();
 
       // Сброс формы
+      this.symptomsInput = "";
       this.post = {
-        place: "",
-        date: "",
-        doctor: "",
-        diagnosis: "",
+        check_up_place_id: "",
+        check_up_date: "",
+        doctor_id: "",
+        patient_id: "",
+        diagnosis_id: "",
         prescription: "",
-        symptoms: "",
+        symptoms_list: [],
       };
       this.selectedOptionFIO = ""; // Очистка выбранной опции
       this.selectedOptionPlace = "";
