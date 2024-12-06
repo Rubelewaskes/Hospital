@@ -1,11 +1,13 @@
 <template>
   <div>
-    <h1>
-      ЭТО СТРАНИЦА ОСМОТРОВ ПАЦИЕНТА С ID = {{ $route.params.id }} (СВЯЗАТЬ С БД
-      ЧЕРЕЗ ТАБЛИЦУ ОСМОТРОВj)
-    </h1>
+    <h1 v-if="checkups.length > 0">Список осмотров</h1>
+    <h2 v-else style="color: red">Отсутствуют осмотры</h2>
   </div>
-  <checkup-list :checkups="checkups" @remove="removeCheckup" v-if="!isCheckupsLoading" />
+  <checkup-list
+    :checkups="checkups"
+    @remove="removeCheckup"
+    v-if="!isCheckupsLoading"
+  />
   <div v-else>Идет загрузка...</div>
 </template>
 <script>
@@ -37,7 +39,9 @@ export default {
       this.dialogVisible = false;
     },
     removeCheckup(checkup) {
-      this.checkups = this.checkups.filter((c) => c.check_up_id !== checkup.check_up_id );
+      this.checkups = this.checkups.filter(
+        (c) => c.check_up_id !== checkup.check_up_id
+      );
     },
     showDialog() {
       this.dialogVisible = true;
@@ -52,9 +56,7 @@ export default {
         const response = await axios.get(
           `http://127.0.0.1:8000/check_up/get_all_checkups_of/${this.$route.params.id}`,
           {
-            params: {
- 
-            },
+            params: {},
           }
         );
         this.totalPages = Math.ceil(
