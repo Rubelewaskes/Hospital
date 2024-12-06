@@ -10,10 +10,13 @@ class CheckUpService:
     
     async def get_all_short_checkup(self, id):
         all_short_checkup = await self.check_up_repo.get_all_short_checkup(id)
+        for checkup in all_short_checkup:
+            checkup["check_up_date"] = checkup["check_up_date"].strftime('%d.%m.%Y %H:%M:%S')
         return all_short_checkup
     
     async def get_check_up(self, id):
         get_check_up = await self.check_up_repo.get_check_up(id)
+        get_check_up["check_up_date"] = get_check_up["check_up_date"].strftime('%d.%m.%Y %H:%M:%S')
         return get_check_up
     
     async def get_all_check_up_places(self):

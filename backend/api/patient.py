@@ -58,7 +58,7 @@ async def get_all_patients_of_doctor(
         return patients[start:end]
     return patients
 
-@router.post("/update")
+@router.put("/update")
 async def update_patient(
     upd_patient: PatientSchemaUpd,
     patient_service: Annotated[PatientService, Depends(patient_service)],
