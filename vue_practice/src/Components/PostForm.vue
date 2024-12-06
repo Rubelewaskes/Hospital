@@ -3,7 +3,12 @@
   <form @submit.prevent="createPost">
     <h4>Новый осмотр</h4>
 
-    <my-input
+ 
+    <my-selectPlace
+      
+      :optionsPlace="optionsPlace"
+      />
+      <my-input
       v-model="post.check_up_place_id"
       type="text"
       placeholder="Место осмотра"
@@ -61,6 +66,8 @@ export default {
         diagnosis_id: "",
         prescription: "",
         symptoms_list: [],
+        
+        
       },
       symptomsInput: "", // Для ввода строки симптомов
       optionsFIO: [], // Данные для выпадающего списка ФИО
@@ -79,7 +86,7 @@ export default {
 
         // Убедитесь, что используете данные с правильным полем
         this.optionsFIO = response.data.map((item) => ({
-          name: `${item.id}`, // Имя опции для отображения
+          name: `${item.place}`, // Имя опции для отображения
         }));
       } catch (error) {
         console.error("Ошибка при загрузке данных Patients:", error);
@@ -94,13 +101,17 @@ export default {
 
         // Убедитесь, что используете данные с правильным полем
         this.optionsPlace = response.data.map((item) => ({
-          place: `${item.id}`, // Имя опции для отображения
+          place: `${item.place}`, // Имя опции для отображения
         }));
       } catch (error) {
         console.error("Ошибка при загрузке данных Places:", error);
       }
     },
     async submitForm() {
+        if (!this.post.check_up_place_id) {
+    alert("Место осмотра не выбрано!");
+    return;
+  }
       try {
         const response = await axios.post(
           "http://127.0.0.1:8000/check_up/add_new",
