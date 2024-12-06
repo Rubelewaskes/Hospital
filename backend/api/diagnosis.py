@@ -27,7 +27,7 @@ async def get_all_diagnosis(
         return diagnoses[start:end]
     return diagnoses
 
-@router.post("/update_one")
+@router.put("/update_one")
 async def update_one_diagnosis(
     upd_diagnosis: DiagnosisSchema,
     diagnosis_service: Annotated[DiagnosisService, Depends(diagnosis_service)],
