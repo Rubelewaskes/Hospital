@@ -1,4 +1,4 @@
-
+import Authorization from "@/pages/Authorization.vue";
 import Main from "@/pages/Main.vue";
 import PatientIdPage from "@/pages/PatientIdPage.vue";
 import PatientPage from "@/pages/PatientPage.vue";
@@ -13,10 +13,14 @@ const routes = [
     path: "/patients",
     component: PatientPage,
   },
-  
+
   {
     path: "/patients/:id",
     component: PatientIdPage,
+  },
+  {
+    path: "/authorization",
+    component: Authorization,
   },
 ];
 

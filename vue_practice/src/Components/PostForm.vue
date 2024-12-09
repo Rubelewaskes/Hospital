@@ -3,12 +3,8 @@
   <form @submit.prevent="createPost">
     <h4>Новый осмотр</h4>
 
- 
-    <my-selectPlace
-      
-      :optionsPlace="optionsPlace"
-      />
-      <my-input
+    <my-selectPlace :optionsPlace="optionsPlace" />
+    <my-input
       v-model="post.check_up_place_id"
       type="text"
       placeholder="Место осмотра"
@@ -18,11 +14,7 @@
       type="text"
       placeholder="Дата осмотра"
     />
-    <my-input
-      v-model="post.doctor_id"
-      type="text"
-      placeholder="ID врача"
-    />
+    <my-input v-model="post.doctor_id" type="text" placeholder="ID врача" />
 
     <!-- Выпадающий список для ФИО-->
     <my-input v-model="post.patient_id" type="text" placeholder="ID пациента" />
@@ -66,8 +58,6 @@ export default {
         diagnosis_id: "",
         prescription: "",
         symptoms_list: [],
-        
-        
       },
       symptomsInput: "", // Для ввода строки симптомов
       optionsFIO: [], // Данные для выпадающего списка ФИО
@@ -108,10 +98,10 @@ export default {
       }
     },
     async submitForm() {
-        if (!this.post.check_up_place_id) {
-    alert("Место осмотра не выбрано!");
-    return;
-  }
+      if (!this.post.check_up_place_id) {
+        alert("Место осмотра не выбрано!");
+        return;
+      }
       try {
         const response = await axios.post(
           "http://127.0.0.1:8000/check_up/add_new",
@@ -182,7 +172,8 @@ export default {
 
 <style scoped>
 form {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
+  justify-content: baseline; */
 }
 </style>
