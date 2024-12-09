@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 v-if="checkups.length > 0">Список осмотров</h1>
+    <h1 class="checkup_list" v-if="checkups.length > 0">Список осмотров</h1>
     <h2 v-else style="color: red">Отсутствуют осмотры</h2>
   </div>
   <checkup-list
@@ -77,4 +77,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.checkup_list {
+  margin: 0px 15px;
+}
+</style>
