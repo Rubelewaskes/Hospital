@@ -13,7 +13,7 @@ from sqlalchemy import Column, String, Boolean
 
 
 
-DATABASE_URL = "postgresql+asyncpg://postgres:1234@127.0.0.1:5432/hospitalUsers"
+DATABASE_URL = "postgresql+asyncpg://postgres:1234@127.0.0.1:5432/hospital"
 
 class Base(DeclarativeBase):
     pass

@@ -6,7 +6,6 @@ from models import Patient
 from services.address import AddressService
 from repositories.address import AddressAreaRepository
 
-
 class PatientService:    
     def __init__(self, patient_repo: AbstractRepository):
         self.patient_repo: AbstractRepository = patient_repo()
@@ -51,6 +50,8 @@ class PatientService:
         address_info = data.address
         
         address_service = AddressService(AddressAreaRepository)
+        
+
         
         if address_id := await address_service.get_address_id(address_info):
             new_patient_info = Patient(

@@ -98,7 +98,6 @@ async def add_new_patient(
     patient_data: PatientSchemaAdd,
     patient_service: Annotated[PatientService, Depends(patient_service)],
 ):
-    
     added_data = await patient_service.add_new_patient(patient_data)
     return added_data
 
