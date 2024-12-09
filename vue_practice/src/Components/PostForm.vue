@@ -21,11 +21,11 @@
     <my-input
       v-model="post.doctor_id"
       type="text"
-      placeholder="Врач проводивший осмотр"
+      placeholder="ID врача"
     />
 
     <!-- Выпадающий список для ФИО-->
-    <my-input v-model="post.patient_id" type="text" placeholder="id пациента" />
+    <my-input v-model="post.patient_id" type="text" placeholder="ID пациента" />
 
     <my-input
       v-model="symptomsInput"
