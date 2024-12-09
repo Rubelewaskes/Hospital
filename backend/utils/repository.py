@@ -21,6 +21,10 @@ class AbstractRepository(ABC):
     @abstractmethod
     async def find_one():
         raise NotImplementedError
+    
+    @abstractmethod
+    async def find_one_uid():
+        raise NotImplementedError
 
 
 
@@ -65,6 +69,13 @@ class SQLAlchemyRepository(AbstractRepository):
     async def find_one(self, id):
         async with async_session_maker() as session:
             stmt = select(self.model).where(self.model.__table__.primary_key.columns.values()[0] == id)
+            res = await session.execute(stmt)
+            res = [row[0].to_read_model() for row in res.all()]
+            return res
+    
+    async def find_one_uid(self, uid):
+        async with async_session_maker() as session:
+            stmt = select(self.model).where(self.model.user_id == uid)
             res = await session.execute(stmt)
             res = [row[0].to_read_model() for row in res.all()]
             return res

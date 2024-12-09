@@ -1,6 +1,7 @@
 from datetime import date
-
 from pydantic import BaseModel
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 
 class PatientSchema(BaseModel):
@@ -12,6 +13,7 @@ class PatientSchema(BaseModel):
     address_id: int
     born_date: date
     gender_id: int
+    user_id: uuid.UUID
 
     class Config:
         from_attributes = True

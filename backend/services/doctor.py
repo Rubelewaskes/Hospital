@@ -6,6 +6,10 @@ from models import Doctor, AreaDoctor
 class DoctorService:
     def __init__(self, doctor_repo: AbstractRepository):
         self.doctor_repo: AbstractRepository = doctor_repo()
+    
+    async def get_one_doctor_uid(self, uid):
+        doctor = await self.doctor_repo.find_one_uid(uid)
+        return doctor
 
     async def get_all_doctors(self):
         all_doctors = await self.doctor_repo.get_all_doctors()

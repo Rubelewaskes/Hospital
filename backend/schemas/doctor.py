@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 from typing import List
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 from .area import AreaSchema
 
@@ -11,6 +13,7 @@ class DoctorSchema(BaseModel):
     third_name: str
     phone_number: str
     experience: int
+    user_id: uuid.UUID
 
 
 class DoctorSchemaAdd(BaseModel):

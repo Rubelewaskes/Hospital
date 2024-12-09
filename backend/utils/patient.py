@@ -11,6 +11,41 @@ from models import (
     )
 
 class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
+    async def get_one_uid(self, uid):
+         async with async_session_maker() as session:
+            stmt = (
+                select (self.model.id, self.model.first_name, self.model.second_name,
+                self.model.third_name, self.model.phone_number,
+                AddressArea.street, AddressArea.house, 
+                AddressArea.building, AddressArea.flat,
+                Gender.description, self.model.born_date
+                )
+                .join(AddressArea, AddressArea.id == self.model.address_id)
+                .join(Gender, Gender.id == self.model.gender_id)
+                .where(self.model.user_id == uid)
+            )
+
+            res = await session.execute(stmt)
+
+            if row := res.first():
+                result = {
+                    "patient_id": row[0],
+                    "first_name": row[1],
+                    "second_name": row[2],
+                    "third_name": row[3],
+                    "phone_number": row[4],
+                    "address":{
+                        "street": row[5],
+                        "house": row[6],
+                        "building": row[7],
+                        "flat": row[8],
+                    },
+                    "description": row[9],
+                    "born_date": row[10],
+                }
+            
+            return result
+
     async def get_all_full(self):
         async with async_session_maker() as session:
             stmt = (
@@ -58,7 +93,6 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
                 )
             res = await session.execute(stmt)
             if row := res.first():
-                print(row[0].id)
                 result = {
                     "address_id": row[0].id,
                 }

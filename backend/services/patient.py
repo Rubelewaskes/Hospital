@@ -42,6 +42,10 @@ class PatientService:
     async def get_one_patient(self, id):
         patient = await self.patient_repo.find_one(id)
         return patient
+    
+    async def get_one_patient_uid(self, uid):
+        patient = await self.patient_repo.get_one_uid(uid)
+        return patient
 
     async def get_all_patients_on_doctor_area(self, id):
         all_patients_on_doctor_area = await self.patient_repo.get_all_patients_on_doctor_area(id)
