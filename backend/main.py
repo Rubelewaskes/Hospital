@@ -1,18 +1,26 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter
-from fastapi import HTTPException
-from api.routers import all_routers
 from starlette.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
+from api.routers import all_routers
+from auth.db import create_db_and_tables
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await create_db_and_tables()
+    yield
 
 
 app = FastAPI(
-    title="Стопапупа"
+    title="Стопапупа",
+    lifespan=lifespan
 )
-
 
 for router in all_routers:
     app.include_router(router)
+
 
 app.add_middleware(
         CORSMiddleware,
