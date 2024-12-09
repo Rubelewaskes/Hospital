@@ -30,7 +30,7 @@
     <my-input
       v-model="symptomsInput"
       type="text"
-      placeholder="Симптомы (вводите через запятую)"
+      placeholder="Симптомы (через запятую)"
     />
     <my-input v-model="post.diagnosis_id" type="text" placeholder="Диагноз" />
     <my-input
