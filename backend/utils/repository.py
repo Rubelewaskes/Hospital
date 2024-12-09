@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from sqlalchemy import insert, select, func
-from sqlalchemy.orm import aliased
 from db.database import async_session_maker
 
 
@@ -20,10 +19,6 @@ class AbstractRepository(ABC):
     
     @abstractmethod
     async def find_one():
-        raise NotImplementedError
-    
-    @abstractmethod
-    async def find_one_uid():
         raise NotImplementedError
 
 

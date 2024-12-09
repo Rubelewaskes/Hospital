@@ -11,7 +11,7 @@ from models import (
     )
 
 class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
-    async def get_one_uid(self, uid):
+    async def get_one_full(self, id):
          async with async_session_maker() as session:
             stmt = (
                 select (self.model.id, self.model.first_name, self.model.second_name,
@@ -22,7 +22,7 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
                 )
                 .join(AddressArea, AddressArea.id == self.model.address_id)
                 .join(Gender, Gender.id == self.model.gender_id)
-                .where(self.model.user_id == uid)
+                .where(self.model.id == id)
             )
 
             res = await session.execute(stmt)

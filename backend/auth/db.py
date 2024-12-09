@@ -11,6 +11,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Column, String, Boolean
 
+
+
 DATABASE_URL = "postgresql+asyncpg://postgres:1234@127.0.0.1:5432/hospitalUsers"
 
 class Base(DeclarativeBase):
@@ -40,3 +42,4 @@ async def get_access_token_db(
     session: AsyncSession = Depends(get_async_session),
 ):  
     yield SQLAlchemyAccessTokenDatabase(session, AccessToken)
+
