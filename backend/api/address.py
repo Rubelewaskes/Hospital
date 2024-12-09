@@ -37,7 +37,7 @@ async def get_all_addresses(
             detail="Forbidden"
         )
 
-@router.post("/update_one")
+@router.put("/update_one")
 async def update_one_address(
     upd_address: AddressAreaSchema,
     address_service: Annotated[AddressService, Depends(address_service)],

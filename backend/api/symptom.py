@@ -36,7 +36,7 @@ async def get_all(
             detail="Forbidden"
         )
 
-@router.post("/update_one")
+@router.put("/update_one")
 async def update_one_symptom(
     upd_symptom: SymptomSchema,
     symptom_service: Annotated[SymptomService, Depends(symptom_service)],

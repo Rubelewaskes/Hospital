@@ -42,7 +42,7 @@ async def add_new_doctor(
             detail="Forbidden"
         )
 
-@router.post("/update")
+@router.put("/update")
 async def update_doctor(
     doctor: DoctorSchemaUpd, 
     doctor_service: Annotated[DoctorService, Depends(doctor_service)],

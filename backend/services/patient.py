@@ -6,13 +6,16 @@ from models import Patient
 from services.address import AddressService
 from repositories.address import AddressAreaRepository
 
+
 class PatientService:    
     def __init__(self, patient_repo: AbstractRepository):
         self.patient_repo: AbstractRepository = patient_repo()
 
     async def get_all_patients(self):
-        patient = await self.patient_repo.get_all_full()
-        return patient
+        patients = await self.patient_repo.get_all_full()
+        for patient in patients:
+            patient["born_date"] = patient["born_date"].strftime('%d.%m.%Y')
+        return patients
     
     async def update_patient(self, patient):
         id = patient.id
@@ -40,18 +43,19 @@ class PatientService:
 
     async def get_one_patient(self, id):
         patient = await self.patient_repo.get_one_full(id)
+        patient["born_date"] = patient["born_date"].strftime('%d.%m.%Y')
         return patient
 
     async def get_all_patients_on_doctor_area(self, id):
         all_patients_on_doctor_area = await self.patient_repo.get_all_patients_on_doctor_area(id)
+        for patient in all_patients_on_doctor_area:
+            patient["born_date"] = patient["born_date"].strftime('%d.%m.%Y')
         return all_patients_on_doctor_area
 
     async def add_new_patient(self, data):
         address_info = data.address
         
         address_service = AddressService(AddressAreaRepository)
-        
-
         
         if address_id := await address_service.get_address_id(address_info):
             new_patient_info = Patient(
