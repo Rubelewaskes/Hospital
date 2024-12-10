@@ -34,8 +34,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
-    yield UserManager(user_db)
-
+        yield UserManager(user_db)
 
 cookie_transport = CookieTransport(cookie_name="access_token", cookie_max_age=3600)
 
