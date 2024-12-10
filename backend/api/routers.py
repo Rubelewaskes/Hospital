@@ -15,14 +15,20 @@ from auth.users import auth_backend, fastapi_users
 from auth.schemas import UserCreate, UserRead, UserUpdate
 
 router_cookie_auth = fastapi_users.get_auth_router(auth_backend)
-router_cookie_auth.prefix = "/auth/cookie"
-router_cookie_auth.tags = ["auth"]
 router_register = fastapi_users.get_register_router(UserRead, UserCreate)
-router_register.prefix = "/auth"
-router_register.tags = ["auth"]
 router_users_auth = fastapi_users.get_users_router(UserRead, UserUpdate)
+
+router_cookie_auth.prefix = "/auth/cookie"
+router_cookie_auth.tags = ["Auth"]
+
+router_register.prefix = "/auth"
+router_register.tags = ["Auth"]
+
+print(router_register.__dict__)
 router_users_auth.prefix = "/auth"
-router_users_auth.tags = ["auth"]
+router_users_auth.tags = ["Auth"]
+
+print(router_address.__dict__)
 
 all_routers = [
     router_address, 

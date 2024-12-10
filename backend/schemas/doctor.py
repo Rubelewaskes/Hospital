@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
+from auth.schemas import UserCreate
 from .area import AreaSchema
 
 
@@ -23,6 +24,7 @@ class DoctorSchemaAdd(BaseModel):
     phone_number: str
     experience: int
     areas_list: List[AreaSchema]
+    user_create: UserCreate
 
 class DoctorSchemaUpd(BaseModel):
     id: int

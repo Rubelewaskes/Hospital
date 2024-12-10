@@ -1,5 +1,5 @@
 from utils.repository import AbstractRepository
-from fastapi import HTTPException 
+from fastapi import HTTPException
 
 from models import Patient
 
@@ -58,6 +58,7 @@ class PatientService:
         address_service = AddressService(AddressAreaRepository)
         
         if address_id := await address_service.get_address_id(address_info):
+            new_user_info = data.user_create
             new_patient_info = Patient(
                 first_name=data.first_name, 
                 second_name=data.second_name, 
@@ -67,7 +68,7 @@ class PatientService:
                 born_date=data.born_date, 
                 gender_id=data.gender_id,
             )
-            if patient := await self.patient_repo.add_one(new_patient_info):
+            if patient := await self.patient_repo.add_patient_user(new_patient_info, new_user_info):
                 return patient
             raise HTTPException(
                 status_code=404,

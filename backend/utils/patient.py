@@ -1,8 +1,13 @@
-from utils.repository import SQLAlchemyRepository
+from fastapi import Depends
 
+from utils.repository import SQLAlchemyRepository
 from sqlalchemy import insert, select, func
 from sqlalchemy.orm import aliased
 from db.database import async_session_maker
+from auth.schemas import UserCreate
+from fastapi_users.db import SQLAlchemyUserDatabase
+from auth.db import User
+from auth.users import UserManager
 
 from models import (
     Patient, Area, 
@@ -133,3 +138,20 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
                 ]
                 return result
             return None
+    
+    async def add_patient_user(
+        self, 
+        patient : Patient,
+        user: UserCreate,
+    ):
+        async with async_session_maker() as session:
+            user_db = SQLAlchemyUserDatabase(session, User)
+            user_manager = UserManager(user_db)
+            created_user = await user_manager.create(user, safe=True)
+
+            patient.user_id = created_user.id
+            session.add(patient)
+            await session.commit()
+            await session.refresh(patient)
+
+        return {"id": patient.id}
