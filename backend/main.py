@@ -35,7 +35,7 @@ app.add_middleware(
             "Authorization",
             "Cookie",
         ],
-        expose_headers=["X-Total-Count"],
+        expose_headers=["Set-Cookie","X-Total-Count", "Cookie"],
     )
 
 
