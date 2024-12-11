@@ -4,7 +4,7 @@ from fastapi import Depends
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID, SQLAlchemyUserDatabase
 
 
-DATABASE_URL = "postgresql+asyncpg://postgres:1234@127.0.0.1:5432/hospital"
+DATABASE_URL = "postgresql+asyncpg://postgres:1234@postgres_container:5432/hospital"
 
 engine = create_async_engine(url=DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)

@@ -10,10 +10,7 @@ from fastapi_users_db_sqlalchemy.access_token import (
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Column, String, Boolean
-
-
-
-DATABASE_URL = "postgresql+asyncpg://postgres:1234@127.0.0.1:5432/hospital"
+from db.database import DATABASE_URL
 
 class Base(DeclarativeBase):
     pass
