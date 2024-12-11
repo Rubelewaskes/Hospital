@@ -33,6 +33,7 @@ app.add_middleware(
             "Access-Control-Allow-Headers",
             "Access-Control-Allow-Origin",
             "Authorization",
+            "Cookie",
         ],
         expose_headers=["X-Total-Count"],
     )

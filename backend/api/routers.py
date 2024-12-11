@@ -24,11 +24,8 @@ router_cookie_auth.tags = ["Auth"]
 router_register.prefix = "/auth"
 router_register.tags = ["Auth"]
 
-print(router_register.__dict__)
 router_users_auth.prefix = "/auth"
 router_users_auth.tags = ["Auth"]
-
-print(router_address.__dict__)
 
 all_routers = [
     router_address, 
