@@ -45,6 +45,9 @@ export default {
         alert("Вы успешно вошли в систему!");
         this.auth.username = "";
         this.auth.password = "";
+
+        // Автоматически вызываем getRole после успешного POST-запроса
+        await this.getRole();
       } catch (error) {
         console.error("Ошибка авторизации:", error);
         alert("Ошибка авторизации. Проверьте данные и попробуйте снова.");
@@ -64,9 +67,6 @@ export default {
         alert("Ошибка получения роли. Попробуйте снова.");
       }
     },
-  },
-  mounted() {
-    this.getRole();
   },
 };
 </script>
