@@ -1,7 +1,11 @@
 <template>
-  <select class="selectFIO"  v-model="selectedValueFIO" @change="changeOption">
+  <select class="selectFIO" v-model="selectedValueFIO" @change="changeOption">
     <option disabled value="">ФИО</option>
-    <option v-for="option in optionsFIO" :key="option.name">
+    <option
+      v-for="option in optionsFIO"
+      :key="option.value"
+      :value="option.value"
+    >
       {{ option.name }}
     </option>
   </select>
@@ -15,25 +19,28 @@ export default {
       type: Array,
       default: () => [],
     },
+    modelValue: {
+      type: [String, Number], // Тип значения может быть string или number в зависимости от данных
+      default: "",
+    },
   },
   data() {
     return {
-      selectedValueFIO: "",
+      selectedValueFIO: this.modelValue, // Инициализируем значением props.modelValue
     };
   },
-  methods: {
-    changeOption(event) {
-      this.$emit("update:modelValue", this.selectedValueFIO);
+  watch: {
+    selectedValueFIO(newValue) {
+      this.$emit("update:modelValue", newValue); // Обновляем значение через v-model
     },
   },
 };
 </script>
 
 <style scoped>
-  .selectFIO {
- border: 1px solid teal;
- padding: 10px 15px;
- margin: 15px;
-  }
- 
+.selectFIO {
+  border: 1px solid teal;
+  padding: 10px 15px;
+  margin: 15px;
+}
 </style>

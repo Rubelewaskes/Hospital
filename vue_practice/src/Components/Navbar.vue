@@ -3,8 +3,12 @@
     <div @click="$router.push('/')">Логотип(главная)</div>
     <div class="navbar__btns">
       <my-button @click="$router.push('/patients')">Пациенты</my-button>
-      <my-button style="margin-left: 20px" @click="$router.push('/')">Выход из акка(-)</my-button>  <!--ДОЛЖЕН БЫТЬ ВЫХОД ИЗ ТЕКУЩЕГО АККАУНТА -->
-      <my-button @click="$router.push('/')">Профиль(-)</my-button>   <!--У КАЖДОГО СВОЙ ПРОФИЛЬ -->
+      <my-button class="exit_btn" @click="$router.push('/')"
+        >Выход из акка(-)</my-button
+      >
+      <!--ДОЛЖЕН БЫТЬ ВЫХОД ИЗ ТЕКУЩЕГО АККАУНТА -->
+      <my-button @click="$router.push('/')">Профиль(-)</my-button>
+      <!--У КАЖДОГО СВОЙ ПРОФИЛЬ -->
     </div>
   </div>
 </template>
@@ -19,8 +23,12 @@ export default {};
   display: flex;
   align-items: center;
   padding: 0 15px;
+  margin-bottom: 15px;
 }
 .navbar__btns {
   margin-left: auto;
+}
+.exit_btn {
+  margin: 0px 10px;
 }
 </style>

@@ -1,16 +1,7 @@
 <template>
-    <div class="nav">
-      <div class="nav-in">
-        <div class="logo">Логотип</div>
-        <div class="right-group">
-          <div class="name">Имя, фамилия</div>
-          <div class="menu-dropdown">MENU</div>
-        </div>
-      </div>
-    </div>
     <div >
       <div class="chekup">
-        <h3 v-if="posts.length > 0">Список пациентов</h3>
+        <h1 v-if="posts.length > 0">Список пациентов</h1>
         <h2 v-else style="color: red">Отсутствуют пациенты</h2>
         <div class="btn">
           <my-button @click="showDialog"> Новый осмотр </my-button>
@@ -91,7 +82,7 @@
           this.isPostsLoading = true;
           const response = await axios.get(
             "http://127.0.0.1:8000/patient/get_all",
-            {
+                        {
               params: {
                 _page: this.page,
                 _limit: this.limit,
