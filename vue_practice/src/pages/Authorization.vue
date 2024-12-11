@@ -42,12 +42,14 @@ export default {
           }
         );
 
+        console.log("POST-запрос успешен:", response);
+
         alert("Вы успешно вошли в систему!");
         this.auth.username = "";
         this.auth.password = "";
 
-        // Автоматически вызываем getRole после успешного POST-запроса
-        await this.getRole();
+        console.log("Вызов getRole");
+        await this.getRole(); // Вызов GET-запроса
       } catch (error) {
         console.error("Ошибка авторизации:", error);
         alert("Ошибка авторизации. Проверьте данные и попробуйте снова.");
@@ -56,6 +58,7 @@ export default {
 
     async getRole() {
       try {
+        console.log("Отправка GET-запроса на получение роли");
         const response = await axios.get("http://127.0.0.1:8000/get_role", {
           withCredentials: true,
         });
@@ -67,6 +70,9 @@ export default {
         alert("Ошибка получения роли. Попробуйте снова.");
       }
     },
+  },
+  mounted() {
+    this.getRole();
   },
 };
 </script>
