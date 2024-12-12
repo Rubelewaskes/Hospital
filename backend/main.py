@@ -23,8 +23,7 @@ for router in all_routers:
 
 
 app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["http://localhost:8080"],
+        CORSMiddleware,["*"],
         allow_credentials=True,
         allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
         allow_headers=[
@@ -35,7 +34,7 @@ app.add_middleware(
             "Authorization",
             "Cookie",
         ],
-        expose_headers=["Set-Cookie","X-Total-Count", "Cookie"],
+        expose_headers=["Set-Cookie","X-Total-Count"],
     )
 
 

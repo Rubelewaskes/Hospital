@@ -59,9 +59,12 @@ export default {
     async getRole() {
       try {
         console.log("Отправка GET-запроса на получение роли");
-        const response = await axios.get("http://127.0.0.1:8000/get_role", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://127.0.0.1:8000/auth/get_role",
+          {
+            withCredentials: true,
+          }
+        );
 
         console.log("Ответ сервера:", response.data);
         alert(`Ваша роль: ${response.data.role}`);
