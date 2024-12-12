@@ -143,7 +143,7 @@ export default {
 
       console.log("Данные формы:", this.post);
       this.post.id = Date.now(); // Генерация уникального ID
-      this.$emit("create", this.post); // Передача данных в родительский компонент
+      // this.$emit("create", this.post); // Передача данных в родительский компонент
 
       this.submitForm();
 
@@ -172,8 +172,8 @@ export default {
 
 <style scoped>
 form {
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: baseline; */
+  justify-content: baseline; 
 }
 </style>

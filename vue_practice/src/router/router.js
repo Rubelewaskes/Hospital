@@ -2,6 +2,7 @@ import Authorization from "@/pages/Authorization.vue";
 import Main from "@/pages/Main.vue";
 import PatientIdPage from "@/pages/PatientIdPage.vue";
 import PatientPage from "@/pages/PatientPage.vue";
+import Register from "@/pages/Register.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -21,6 +22,10 @@ const routes = [
   {
     path: "/authorization",
     component: Authorization,
+  },
+  {
+    path: "/register",
+    component: Register,
   },
 ];
 
