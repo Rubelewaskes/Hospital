@@ -1,3 +1,4 @@
+import AdminAllDoctors from "@/pages/AdminAllDoctors.vue";
 import Authorization from "@/pages/Authorization.vue";
 import Main from "@/pages/Main.vue";
 import PatientIdPage from "@/pages/PatientIdPage.vue";
@@ -26,6 +27,10 @@ const routes = [
   {
     path: "/register",
     component: Register,
+  },
+  {
+    path: "/doctors",
+    component: AdminAllDoctors,
   },
 ];
 
