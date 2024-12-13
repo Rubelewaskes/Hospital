@@ -12,7 +12,7 @@ router = APIRouter(
 
 @router.get("/get_all")
 async def get_all_doctors(
-    doctor_service: Annotated[DoctorService, Depends(doctor_service)],\
+    doctor_service: Annotated[DoctorService, Depends(doctor_service)],
     response: Response,
     _limit: int = Query(0, ge=0),
     _page: int = Query(1, ge=1),
