@@ -1,164 +1,155 @@
 <template>
-    <div >
-      <div class="chekup">
-        <h1 v-if="posts.length > 0">Список врачей</h1>
-        <h2 v-else style="color: red">Отсутствуют врачи</h2>
-        <!-- <div class="btn">
+  <div>
+    <div class="chekup">
+      <h1 v-if="doctors.length > 0">Список врачей</h1>
+      <h2 v-else style="color: red">Отсутствуют врачи</h2>
+      <!-- <div class="btn">
           <my-button @click="showDialog"> Новый осмотр </my-button>
         </div> -->
-      </div>
-      <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading" />
-  
-      <div v-else>Идет загрузка...</div>
-  
-      <!-- <div class="app__btns">
-        <my-select v-model="selectedSort" />
-      </div> -->
-  
-      <!-- <my-dialog v-model:show="dialogVisible">
-        <post-form @create="createPost" />
-      </my-dialog> -->
     </div>
-  
-    <!-- <div>
+    <doctor-list
+      :doctors="doctors"
+      @remove="removeDoctor"
+      v-if="!isDoctorsLoading"
+    />
+
+    <div v-else>Идет загрузка...</div>
+  </div>
+
+  <!-- <div>
       <my-select v-model="selectedOption" :options="options" />
     </div> -->
-    <div class="page__wrapper">
-      <div
-        class="page"
-        v-for="pageNumber in totalPages"
-        :key="pageNumber"
-        :class="{ 'current-page': page === pageNumber }"
-        @click="changePage(pageNumber)"
-      >
-        {{ pageNumber }}
-      </div>
+  <div class="page__wrapper">
+    <div
+      class="page"
+      v-for="pageNumber in totalPages"
+      :key="pageNumber"
+      :class="{ 'current-page': page === pageNumber }"
+      @click="changePage(pageNumber)"
+    >
+      {{ pageNumber }}
     </div>
-  </template>
-  
-  <script>
-  import PostForm from "@/Components/PostForm";
-  import PostList from "@/Components/PostList";
-  import axios from "axios";
-  import MySelect from "@/Components/UI/MySelect";
-  import MyButton from "@/Components/UI/MyButton.vue";
-  
-  export default {
-    components: {
-      PostForm,
-      PostList,
-      MySelect,
-    },
-    data() {
-      return {
-        posts: [],
-        dialogVisible: false,
-        isPostsLoading: false,
-        selectedSort: "",
-        page: 1,
-        limit: 3,
-        totalPages: 0,
-        // options: [], // Данные для выпадающего списка
-        // selectedOption: "", // Выбранное значение
-      };
-    },
-    methods: {
-      createPost(post) {
-        this.posts.push(post);
-        this.dialogVisible = false;
-      },
-      removePost(post) {
-        this.posts = this.posts.filter((p) => p.id !== post.id);
-      },
-      showDialog() {
-        this.dialogVisible = true;
-      },
-      changePage(pageNumber) {
-        this.page = pageNumber;
-        this.fetchPosts();
-      },
-      async fetchPosts() {
-        try {
-          this.isPostsLoading = true;
-          const response = await axios.get(
-            "http://127.0.0.1:8000/patient/get_all",
-                        {
-              params: {
-                _page: this.page,
-                _limit: this.limit,
-              },
-            }
-          );
-          this.totalPages = Math.ceil(
-            response.headers["x-total-count"] / this.limit
-          );
-          this.posts = response.data;
-        } catch (e) {
-          alert("Ошибка при получении пациентов");
-        } finally {
-          this.isPostsLoading = false;
-        }
-      },
+  </div>
+</template>
 
-    },
-    mounted() {
-      this.fetchPosts();
+<script>
+// import PostForm from "@/Components/PostForm";
+import DoctorList from "@/Components/DoctorList";
+import axios from "axios";
+// import MySelect from "@/Components/UI/MySelect";
+// import MyButton from "@/Components/UI/MyButton.vue";
 
+export default {
+  components: {
+    // PostForm,
+    DoctorList,
+    // MySelect,
+  },
+  data() {
+    return {
+      doctors: [],
+      dialogVisible: false,
+      isDoctorsLoading: false,
+      selectedSort: "",
+      page: 1,
+      limit: 3,
+      totalPages: 0,
+      // options: [], // Данные для выпадающего списка
+      // selectedOption: "", // Выбранное значение
+    };
+  },
+  methods: {
+    createDoctor(doctor) {
+      this.doctors.push(doctor);
+      this.dialogVisible = false;
     },
-  };
-  </script>
-  
-  <style>
-  
-  
-  .chekup {
-    display: flex;
-    justify-content: space-between;
-    margin: 0px 15px;
-  }
-  
-  .app__btns {
-    margin: 15px 0px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .nav {
-    width: 100%;
-    height: 50px;
-    background-color: teal;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-in {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    width: 100%;
-  }
-  
-  .right-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .page__wrapper {
-    display: flex;
-    margin-left:15px;
-    margin-top: 15px;
-  }
-  
-  .page {
-    border: 1px solid black;
-    padding: 10px;
-  }
-  
-  .current-page {
-    border: 2px solid teal;
-  }
-  </style>
-  
+    removeDoctor(doctor) {
+      this.doctors = this.doctors.filter((p) => p.id !== doctor.id);
+    },
+    showDialog() {
+      this.dialogVisible = true;
+    },
+    changePage(pageNumber) {
+      this.page = pageNumber;
+      this.fetchDoctors();
+    },
+    async fetchDoctors() {
+      try {
+        this.isDoctorsLoading = true;
+        const response = await axios.get(
+          "http://127.0.0.1:8000/doctor/get_all",
+          {
+            params: {
+              _page: this.page,
+              _limit: this.limit,
+            },
+          }
+        );
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
+        );
+        this.doctors = response.data;
+      } catch (e) {
+        alert("Ошибка при получении пациентов");
+      } finally {
+        this.isDoctorsLoading = false;
+      }
+    },
+  },
+  mounted() {
+    this.fetchDoctors();
+  },
+};
+</script>
+
+<style>
+.chekup {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 15px;
+}
+
+.app__btns {
+  margin: 15px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav {
+  width: 100%;
+  height: 50px;
+  background-color: teal;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-in {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+.right-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.page__wrapper {
+  display: flex;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.page {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.current-page {
+  border: 2px solid teal;
+}
+</style>
