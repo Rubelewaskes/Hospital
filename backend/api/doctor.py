@@ -18,13 +18,13 @@ async def get_all_doctors(
     _page: int = Query(1, ge=1),
 ):
     all_doctors = await doctor_service.get_all_doctors()
-    response.headers["X-Total-Count"] = str(len(diagnoses))
+    response.headers["X-Total-Count"] = str(len(all_doctors))
 
     if _limit != 0:
         start = (_page - 1) * _limit
         end = start + _limit
 
-        return diagnoses[start:end]
+        return all_doctors[start:end]
     return all_doctors
 
 @router.post("/add_new")
