@@ -3,6 +3,9 @@
     <div class="chekup">
       <h1 v-if="doctors.length > 0">Список врачей</h1>
       <h2 v-else style="color: red">Отсутствуют врачи</h2>
+      <div class="btn">
+          <my-button @click="showDialog"> Добавить врача </my-button>
+        </div>
       <!-- <div class="btn">
           <my-button @click="showDialog"> Новый осмотр </my-button>
         </div> -->
@@ -14,6 +17,10 @@
     />
 
     <div v-else>Идет загрузка...</div>
+
+    <my-dialog v-model:show="dialogVisible">
+        <doctor-form @create="createDoctor" />
+      </my-dialog>
   </div>
 
   <!-- <div>

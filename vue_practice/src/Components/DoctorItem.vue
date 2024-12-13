@@ -6,9 +6,9 @@
       <div><strong>Фамилия: </strong>{{ doctor.second_name }}</div>
       <div><strong>Отчество: </strong>{{ doctor.third_name }}</div>
       <div><strong>Телефон: </strong>{{ doctor.phone_number }}</div>
-      <div><strong>Опыт: </strong>{{ doctor.experience }}</div>
+      <div><strong>Опыт: </strong>{{ doctor.experience }} лет</div>
       <div><strong>Список участков: </strong>{{ doctor.areas_list }}</div>
-      <my-button @click="$emit('remove', doctor)">Удалить</my-button>
+      <my-button @click="showDialog"> Изменить </my-button>
     </div>
   </div>
 </template>
