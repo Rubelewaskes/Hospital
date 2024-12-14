@@ -3,12 +3,9 @@
     <div class="chekup">
       <h1 v-if="doctors.length > 0">Список врачей</h1>
       <h2 v-else style="color: red">Отсутствуют врачи</h2>
-      <!-- <div class="btn">
+      <div class="btn">
           <my-button @click="showDialog"> Добавить врача </my-button>
-        </div> -->
-      <!-- <div class="btn">
-          <my-button @click="showDialog"> Новый осмотр </my-button>
-        </div> -->
+        </div>
     </div>
     <doctor-list
       :doctors="doctors"
@@ -19,8 +16,9 @@
     <div v-else>Идет загрузка...</div>
 
     <my-dialog v-model:show="dialogVisible">
-        <doctor-form @create="createDoctor" />
-      </my-dialog>
+  <doctor-create-form @create="createDoctor" />
+</my-dialog>
+
   </div>
 
   <!-- <div>
@@ -43,6 +41,7 @@
 // import PostForm from "@/Components/PostForm";
 import DoctorList from "@/Components/DoctorList";
 import axios from "axios";
+import DoctorCreateForm from "@/Components/DoctorCreateForm.vue";
 // import MySelect from "@/Components/UI/MySelect";
 // import MyButton from "@/Components/UI/MyButton.vue";
 
@@ -50,6 +49,7 @@ export default {
   components: {
     // PostForm,
     DoctorList,
+    DoctorCreateForm,
     // MySelect,
   },
   data() {
