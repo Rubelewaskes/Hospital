@@ -12,7 +12,7 @@
     </div>
     <doctor-list
       :doctors="doctors"
-      @change="changeDoctor"
+      @update="fetchDoctors"
       v-if="!isDoctorsLoading"
     />
 
@@ -41,16 +41,17 @@
 
 <script>
 // import PostForm from "@/Components/PostForm";
-import DoctorList from "@/Components/DoctorList";
+import DoctorItem from "@/Components/DoctorItem.vue";
+import DoctorList from "@/Components/DoctorList.vue";
 import axios from "axios";
 // import MySelect from "@/Components/UI/MySelect";
 // import MyButton from "@/Components/UI/MyButton.vue";
 
 export default {
   components: {
-    // PostForm,
     DoctorList,
-    // MySelect,
+    DoctorItem
+  
   },
   data() {
     return {
@@ -61,8 +62,6 @@ export default {
       page: 1,
       limit: 3,
       totalPages: 0,
-      // options: [], // Данные для выпадающего списка
-      // selectedOption: "", // Выбранное значение
     };
   },
   methods: {

@@ -23,11 +23,13 @@
           <my-input v-model="formData.phone_number" placeholder="Телефон" />
           <my-input v-model="formData.experience" placeholder="Опыт (лет)" />
           <my-input
-            v-model="formData.areas_list"
+             
             placeholder="Список участков (через запятую)"
           />
+          <div class="btns">
           <my-button type="submit">Сохранить</my-button>
           <my-button @click="closeDialog" type="button">Отмена</my-button>
+        </div>
         </form>
       </div>
     </div>
@@ -46,7 +48,10 @@ export default {
   data() {
     return {
       dialogVisible: false, // Отображение диалога
-      formData: { ...this.doctor }, // Данные для редактирования
+      formData: {
+        id: this.doctor.doctor_id, // Добавляем ID
+        ...this.doctor,
+      },
     };
   },
   methods: {
@@ -64,8 +69,8 @@ export default {
             },
           }
         );
-
-        alert("Изменения успешно сохранены!");
+        this.$emit("update"); // Генерация события для обновления    
+        alert("Изменения успешно сохранены!"); 
         console.log("Ответ сервера:", response.data);
       } catch (error) {
         console.error("Ошибка обновления:", error);
@@ -82,10 +87,18 @@ export default {
       this.dialogVisible = false; // Закрыть диалог
     },
     submitForm() {
-      // Логика сохранения изменений
+      // Преобразуем строку areas_list в массив объектов { id: <number> }
+      this.formData.areas_list = this.formData.areas_list
+        .split(",") // Разделяем по запятой
+        .map((id) => {
+          return { id: parseInt(id.trim(), 10) }; // Приводим к числу и оборачиваем в объект
+        });
+      console.log("Преобразованный areas_list:", this.formData.areas_list);
       console.log("Отправка формы с данными:", this.formData);
       this.updateDoctor();
+      
       this.closeDialog();
+  
     },
   },
 };
@@ -125,5 +138,9 @@ form {
 }
 my-button {
   margin-top: 10px;
+}
+.btns{
+ display:flex;
+ justify-content: space-between;
 }
 </style>

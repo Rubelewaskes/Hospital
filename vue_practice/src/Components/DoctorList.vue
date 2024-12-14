@@ -4,7 +4,8 @@
       v-for="doctor in doctors"
       :doctor="doctor"
       :key="doctor.id"
-      @change="$emit('change', doctor)"
+      @update="handleUpdate"
+       
     />
   </div>
 </template>
@@ -13,6 +14,11 @@
 import DoctorItem from "./DoctorItem.vue";
 
 export default {
+  methods: {
+    handleUpdate() {
+      this.$emit("update"); // Поднимаем событие дальше к AdminAllDoctors
+    },
+  },
   components: { DoctorItem },
   props: {
     doctors: {
