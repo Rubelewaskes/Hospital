@@ -4,7 +4,7 @@
       v-for="doctor in doctors"
       :doctor="doctor"
       :key="doctor.id"
-      @remove="$emit('remove', doctor)"
+      @change="$emit('change', doctor)"
     />
   </div>
 </template>
