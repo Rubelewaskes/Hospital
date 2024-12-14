@@ -13,6 +13,10 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/bonjour": "^3.5.13",
+    "@types/connect": "^3.4.38",
+    "@types/connect-history-api-fallback": "^1.5.4",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
