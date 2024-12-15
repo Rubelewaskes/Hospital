@@ -7,9 +7,6 @@
         <div><strong>Диагноз: </strong>{{ checkup.diagnosis }}</div>
         <my-button @click="$emit('remove', checkup)">Удалить</my-button>
       </div>
-      <div class="post__btns">
-        
-      </div>
     </div>
   </template> 
   

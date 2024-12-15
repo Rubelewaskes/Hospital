@@ -1,25 +1,27 @@
 <template lang="html">
-    <div v-if="isFormVisible">
-      <form @submit.prevent="createDoctor">
-        <h4>Добавление доктора</h4>
-  
-        <my-input v-model="doctor.first_name" type="text" placeholder="Имя" />
-        <my-input v-model="doctor.second_name" type="text" placeholder="Фамилия" />
-        <my-input v-model="doctor.third_name" type="text" placeholder="Отчество" />
-        <my-input v-model="doctor.phone_number" type="text" placeholder="Номер телефона" />
-        <my-input v-model="doctor.experience" type="text" placeholder="Опыт(кол-во лет)" />
-        <my-input v-model="doctor.areas_list" type="text" placeholder="Участки" />
-  
-        <my-button
-          class="btn"
-          style="align-self: flex-end; margin-top: 15px"
-          type="submit"
-        >
-          Сохранить изменения
-        </my-button>
-      </form>
-    </div>
-  </template>
+  <div v-if="isFormVisible">
+    <form @submit.prevent="createDoctor">
+      <h4>Добавление доктора</h4>
+
+      <my-input v-model="doctor.first_name" type="text" placeholder="Имя" />
+      <my-input v-model="doctor.second_name" type="text" placeholder="Фамилия" />
+      <my-input v-model="doctor.third_name" type="text" placeholder="Отчество" />
+      <my-input v-model="doctor.phone_number" type="text" placeholder="Номер телефона" />
+      <my-input v-model="doctor.experience" type="text" placeholder="Опыт(кол-во лет)" />
+      <my-input v-model="doctor.areas_list" type="text" placeholder="Участки" />
+      
+
+      <my-button
+        class="btn"
+        style="align-self: flex-end; margin-top: 15px"
+        type="submit"
+      >
+        Сохранить изменения
+      </my-button>
+    </form>
+  </div>
+</template>
+
   
   <script>
   import MySelect from "@/Components/UI/MySelect";
@@ -65,10 +67,16 @@
                 "Content-Type": "application/json",
               },
             }
+            
           );
+          console.log(response.status);
+          if (response.status === 200) {
+        // Успешное создание доктора
+        window.location.reload(); // Перезагрузка страницы
+      }
   
-          // Закрыть форму после успешной отправки
-          this.isFormVisible = false;
+          this.$emit("create", this.doctor); // Передаём данные родителю
+         this.$emit("update:show", false);
   
           alert("Доктор успешно добавлен!");
         } catch (error) {
@@ -89,5 +97,9 @@
     flex-direction: column;
     justify-content: baseline;
   }
+  div:empty {
+  display: none;
+}
+
   </style>
   

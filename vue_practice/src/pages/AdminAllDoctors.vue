@@ -17,7 +17,7 @@
 
     <my-dialog v-model:show="dialogVisible">
   <doctor-create-form @create="createDoctor" />
-</my-dialog>
+    </my-dialog>
 
   </div>
 
