@@ -23,7 +23,7 @@
           <my-input v-model="formData.phone_number" placeholder="Телефон" />
           <my-input v-model="formData.experience" placeholder="Опыт (лет)" />
           <my-input
-             
+            v-model="formData.areas_list" 
             placeholder="Список участков (через запятую)"
           />
           <div class="btns">
@@ -46,61 +46,76 @@ export default {
     },
   },
   data() {
-    return {
-      dialogVisible: false, // Отображение диалога
-      formData: {
-        id: this.doctor.doctor_id, // Добавляем ID
-        ...this.doctor,
-      },
+  return {
+    dialogVisible: false, // Отображение диалога
+    formData: {
+      id: this.doctor.doctor_id, // Добавляем ID
+      first_name: this.doctor.first_name,
+      second_name: this.doctor.second_name,
+      third_name: this.doctor.third_name,
+      phone_number: this.doctor.phone_number,
+      experience: this.doctor.experience,
+      areas_list: "", // Поле остается пустым для отображения placeholder
+    },
+  };
+},
+methods: {
+  showDialog() {
+    this.dialogVisible = true; // Открыть диалог
+    this.formData = {
+      id: this.doctor.doctor_id,
+      first_name: this.doctor.first_name,
+      second_name: this.doctor.second_name,
+      third_name: this.doctor.third_name,
+      phone_number: this.doctor.phone_number,
+      experience: this.doctor.experience,
+      areas_list: "", // Поле остаётся пустым
     };
   },
-  methods: {
-    async updateDoctor() {
-      try {
-        console.log("Doctor ID:", this.doctor.doctor_id);
-        console.log("Form Data:", this.formData);
-
-        const response = await axios.put(
-          `http://127.0.0.1:8000/doctor/update/`,
-          this.formData, // Используем данные из формы
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        this.$emit("update"); // Генерация события для обновления    
-        alert("Изменения успешно сохранены!"); 
-        console.log("Ответ сервера:", response.data);
-      } catch (error) {
-        console.error("Ошибка обновления:", error);
-        if (error.response) {
-          console.error("Ответ сервера:", error.response.data);
-        }
-        alert("Произошла ошибка. Попробуйте снова.");
-      }
-    },
-    showDialog() {
-      this.dialogVisible = true; // Открыть диалог
-    },
-    closeDialog() {
-      this.dialogVisible = false; // Закрыть диалог
-    },
-    submitForm() {
-      // Преобразуем строку areas_list в массив объектов { id: <number> }
+  submitForm() {
+    // Преобразуем строку areas_list обратно в массив объектов { id: <number> }
+    if (this.formData.areas_list.trim() !== "") {
       this.formData.areas_list = this.formData.areas_list
         .split(",") // Разделяем по запятой
         .map((id) => {
           return { id: parseInt(id.trim(), 10) }; // Приводим к числу и оборачиваем в объект
         });
-      console.log("Преобразованный areas_list:", this.formData.areas_list);
-      console.log("Отправка формы с данными:", this.formData);
-      this.updateDoctor();
-      
-      this.closeDialog();
-  
-    },
+    } else {
+      this.formData.areas_list = []; // Если пустая строка, отправляем пустой массив
+    }
+    console.log("Преобразованный areas_list:", this.formData.areas_list);
+    console.log("Отправка формы с данными:", this.formData);
+    this.updateDoctor();
+    this.closeDialog();
   },
+  async updateDoctor() {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/doctor/update/`,
+        this.formData, // Используем данные из формы
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      this.$emit("update"); // Генерация события для обновления    
+      alert("Изменения успешно сохранены!");
+      console.log("Ответ сервера:", response.data);
+    } catch (error) {
+      console.error("Ошибка обновления:", error);
+      if (error.response) {
+        console.error("Ответ сервера:", error.response.data);
+      }
+      alert("Произошла ошибка. Попробуйте снова.");
+    }
+  },
+  closeDialog() {
+    this.dialogVisible = false; // Закрыть диалог
+  },
+},
+
+
 };
 </script>
 
