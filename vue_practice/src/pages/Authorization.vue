@@ -4,6 +4,10 @@
     <my-input v-model="auth.password" type="password" placeholder="Пароль" />
     <my-button class="btn" type="submit">Войти</my-button>
   </form>
+
+  <form @submit.prevent="getRole">
+    <my-button class="btn" type="submit">Войти</my-button>
+  </form>
 </template>
 
 <script>
@@ -74,8 +78,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getRole();
-  },
+  mounted() {},
 };
 </script>

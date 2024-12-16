@@ -5,6 +5,7 @@
     <router-link to="/authorization" class="patients_h1"
       >Авторизация</router-link
     >
+    <router-link to="/doctors">Врачи</router-link>
   </div>
 </template>
 <script>

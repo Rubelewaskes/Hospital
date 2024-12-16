@@ -21,6 +21,7 @@ async def get_all_doctors(
     _page: int = Query(1, ge=1),
     user: User = Depends(current_active_user),
 ):
+
     if user.is_superuser:
         all_doctors = await doctor_service.get_all_doctors()
         response.headers["X-Total-Count"] = str(len(all_doctors))
