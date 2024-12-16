@@ -16,7 +16,7 @@
       <div v-else>Идет загрузка...</div>
   
       <my-dialog v-model:show="dialogVisible">
-    <doctor-create-form @create="createDoctor" />
+    <diagnos-create-form @create="createDoctor" />
       </my-dialog>
   
     </div>
