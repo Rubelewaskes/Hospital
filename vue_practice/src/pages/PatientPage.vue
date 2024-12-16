@@ -83,6 +83,9 @@
           const response = await axios.get(
             "http://127.0.0.1:8000/patient/get_all",
                         {
+                          
+            withCredentials: true,
+          
               params: {
                 _page: this.page,
                 _limit: this.limit,

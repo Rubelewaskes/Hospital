@@ -85,7 +85,8 @@ export default {
     async fetchOptionsPlace() {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/check_up/get_all_places"
+          "http://127.0.0.1:8000/check_up/get_all_places",
+          {withCredentials: true,}
         );
         console.log("Полученные данные Places:", response.data);
 
@@ -107,6 +108,7 @@ export default {
           "http://127.0.0.1:8000/check_up/add_new",
           this.post, // Убедитесь, что данные имеют нужную серверу структуру
           {
+            withCredentials: true,
             headers: {
               "Content-Type": "application/json", // Заголовок для JSON
             },
