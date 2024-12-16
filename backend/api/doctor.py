@@ -38,9 +38,6 @@ async def get_all_doctors(
             detail="Forbidden"
         )
 
-        return all_doctors[start:end]
-    return all_doctors
-
 
 @router.post("/add_new")
 async def add_new_doctor(
