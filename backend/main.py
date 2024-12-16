@@ -1,22 +1,29 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter
-from fastapi import HTTPException
-from api.routers import all_routers
 from starlette.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
+from api.routers import all_routers
+from auth.db import create_db_and_tables
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await create_db_and_tables()
+    yield
 
 
 app = FastAPI(
-    title="Стопапупа"
+    title="Стопапупа",
+    lifespan=lifespan
 )
-
 
 for router in all_routers:
     app.include_router(router)
 
+
 app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
+        CORSMiddleware,["http://localhost:8080", "http://127.0.0.1:8080"],
         allow_credentials=True,
         allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
         allow_headers=[
@@ -25,8 +32,9 @@ app.add_middleware(
             "Access-Control-Allow-Headers",
             "Access-Control-Allow-Origin",
             "Authorization",
+            "Cookie",
         ],
-        expose_headers=["X-Total-Count"],
+        expose_headers=["Set-Cookie","X-Total-Count"],
     )
 
 

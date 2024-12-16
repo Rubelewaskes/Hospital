@@ -1,6 +1,8 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import date
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 from db.database import Base
 from schemas.patient import PatientSchema
@@ -18,6 +20,7 @@ class Patient(Base):
     address_id: Mapped[int] = mapped_column(ForeignKey("hospital.address_area.id"))
     born_date: Mapped[date] = mapped_column()
     gender_id: Mapped[int] = mapped_column(ForeignKey("hospital.gender.id"))
+    user_id: Mapped[uuid.UUID] = mapped_column()
 
 
     def to_read_model(self) -> PatientSchema:
@@ -30,4 +33,5 @@ class Patient(Base):
             address_id=self.address_id,
             born_date=self.born_date,
             gender_id=self.gender_id,
+            user_id=self.user_id,
         )

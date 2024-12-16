@@ -1,8 +1,13 @@
-from utils.repository import SQLAlchemyRepository
+from fastapi import Depends
 
+from utils.repository import SQLAlchemyRepository
 from sqlalchemy import insert, select, func
 from sqlalchemy.orm import aliased
 from db.database import async_session_maker
+from auth.schemas import UserCreate
+from fastapi_users.db import SQLAlchemyUserDatabase
+from auth.db import User
+from auth.users import UserManager
 
 from models import (
     Patient, Area, 
@@ -12,9 +17,9 @@ from models import (
 
 class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
     async def get_one_full(self, id):
-        async with async_session_maker() as session:
+         async with async_session_maker() as session:
             stmt = (
-                select (self.model.first_name, self.model.second_name,
+                select (self.model.id, self.model.first_name, self.model.second_name,
                 self.model.third_name, self.model.phone_number,
                 AddressArea.street, AddressArea.house, 
                 AddressArea.building, AddressArea.flat,
@@ -29,27 +34,27 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
 
             if row := res.first():
                 result = {
-                    "first_name": row[0],
-                    "second_name": row[1],
-                    "third_name": row[2],
-                    "phone_number": row[3],
-                    "address": {
-                        "street": row[4],
-                        "house": row[5],
-                        "building": row[6],
-                        "flat": row[7],
-                        },
-                    "gender": row[8],
-                    "born_date": row[9],
+                    "patient_id": row[0],
+                    "first_name": row[1],
+                    "second_name": row[2],
+                    "third_name": row[3],
+                    "phone_number": row[4],
+                    "address":{
+                        "street": row[5],
+                        "house": row[6],
+                        "building": row[7],
+                        "flat": row[8],
+                    },
+                    "description": row[9],
+                    "born_date": row[10],
                 }
-                return result
             
-            return None
+            return result
 
     async def get_all_full(self):
         async with async_session_maker() as session:
             stmt = (
-                select (self.model.id, self.model.first_name, self.model.second_name,
+                select (self.model.first_name, self.model.second_name,
                 self.model.third_name, self.model.phone_number,
                 AddressArea.street, AddressArea.house, 
                 AddressArea.building, AddressArea.flat,
@@ -66,19 +71,16 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
 
             for row in rows:
                 result.append({
-                    "id": row[0],
-                    "first_name": row[1],
-                    "second_name": row[2],
-                    "third_name": row[3],
-                    "phone_number": row[4],
-                    "address": {
-                        "street": row[5],
-                        "house": row[6],
-                        "building": row[7],
-                        "flat": row[8],
-                        },
-                    "gender": row[9],
-                    "born_date": row[10],
+                    "first_name": row[0],
+                    "second_name": row[1],
+                    "third_name": row[2],
+                    "phone_number": row[3],
+                    "street": row[4],
+                    "house": row[5],
+                    "building": row[6],
+                    "flat": row[7],
+                    "description": row[8],
+                    "born_date": row[9],
                 })
             
             return result
@@ -96,7 +98,6 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
                 )
             res = await session.execute(stmt)
             if row := res.first():
-                print(row[0].id)
                 result = {
                     "address_id": row[0].id,
                 }
@@ -137,3 +138,20 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
                 ]
                 return result
             return None
+    
+    async def add_patient_user(
+        self, 
+        patient : Patient,
+        user: UserCreate,
+    ):
+        async with async_session_maker() as session:
+            user_db = SQLAlchemyUserDatabase(session, User)
+            user_manager = UserManager(user_db)
+            created_user = await user_manager.create(user, safe=True)
+
+            patient.user_id = created_user.id
+            session.add(patient)
+            await session.commit()
+            await session.refresh(patient)
+
+        return {"id": patient.id}

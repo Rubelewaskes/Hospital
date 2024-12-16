@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from sqlalchemy import insert, select, func
-from sqlalchemy.orm import aliased
 from db.database import async_session_maker
 
 
@@ -65,6 +64,13 @@ class SQLAlchemyRepository(AbstractRepository):
     async def find_one(self, id):
         async with async_session_maker() as session:
             stmt = select(self.model).where(self.model.__table__.primary_key.columns.values()[0] == id)
+            res = await session.execute(stmt)
+            res = [row[0].to_read_model() for row in res.all()]
+            return res
+    
+    async def find_one_uid(self, uid):
+        async with async_session_maker() as session:
+            stmt = select(self.model).where(self.model.user_id == uid)
             res = await session.execute(stmt)
             res = [row[0].to_read_model() for row in res.all()]
             return res

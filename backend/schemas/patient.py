@@ -1,6 +1,8 @@
-from datetime import datetime, date
-
-from pydantic import BaseModel, validator
+from datetime import date
+from pydantic import BaseModel
+from auth.schemas import UserCreate
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 
 class PatientSchema(BaseModel):
@@ -12,6 +14,7 @@ class PatientSchema(BaseModel):
     address_id: int
     born_date: date
     gender_id: int
+    user_id: uuid.UUID
 
     class Config:
         from_attributes = True
@@ -27,13 +30,10 @@ class PatientSchemaAdd(BaseModel):
     second_name: str
     third_name: str
     phone_number: str
-    born_date: str
+    born_date: date
     gender_id: int
     address: AddressSchema
-    
-    @validator('born_date')
-    def parse_check_up_date(cls, v):
-        return datetime.strptime(v, '%d.%m.%Y')
+    user_create: UserCreate
 
 class PatientSchemaUpd(BaseModel):
     id: int
@@ -41,10 +41,6 @@ class PatientSchemaUpd(BaseModel):
     second_name: str
     third_name: str
     phone_number: str
-    born_date: str
+    born_date: date
     gender_id: int
     address: AddressSchema
-    
-    @validator('born_date')
-    def parse_check_up_date(cls, v):
-        return datetime.strptime(v, '%d.%m.%Y')

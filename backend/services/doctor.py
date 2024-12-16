@@ -6,6 +6,10 @@ from models import Doctor, AreaDoctor
 class DoctorService:
     def __init__(self, doctor_repo: AbstractRepository):
         self.doctor_repo: AbstractRepository = doctor_repo()
+    
+    async def get_one_doctor(self, id):
+        one_doctor = await self.doctor_repo.find_one(id)
+        return one_doctor
 
     async def get_all_doctors(self):
         all_doctors = await self.doctor_repo.get_all_doctors()
@@ -29,6 +33,8 @@ class DoctorService:
             return updated_doctor
 
     async def add_one_doctor(self, data):
+        newUser = data.user_create
+
         newDoctor = Doctor(
             first_name=data.first_name, second_name=data.second_name,
             third_name=data.third_name, phone_number=data.phone_number, 
@@ -38,7 +44,7 @@ class DoctorService:
         for area in data.areas_list:
             areas_list.append(AreaDoctor(area_id=area.id))
 
-        if added_doctor := await self.doctor_repo.add_new_doctor(newDoctor, areas_list):
+        if added_doctor := await self.doctor_repo.add_new_doctor(newDoctor, areas_list, newUser):
             return added_doctor
 
         raise HTTPException(

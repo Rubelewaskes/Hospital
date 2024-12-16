@@ -3,7 +3,11 @@ from utils.repository import SQLAlchemyRepository
 from sqlalchemy import insert, select, func, case
 from sqlalchemy.orm import aliased
 from db.database import async_session_maker
-from models import AreaDoctor
+from models import AreaDoctor, Doctor
+from auth.schemas import UserCreate
+from fastapi_users.db import SQLAlchemyUserDatabase
+from auth.db import User
+from auth.users import UserManager
 
 class SQLAlchemyRepositoryDoctor(SQLAlchemyRepository):
     async def get_all_doctors(self):
@@ -73,15 +77,25 @@ class SQLAlchemyRepositoryDoctor(SQLAlchemyRepository):
                     detail="Object not found"
             )
 
-
-    async def add_new_doctor(self, doctor: dict, area_list: list):
+    async def add_new_doctor(
+        self,
+        doctor: Doctor, 
+        area_list: list,
+        user: UserCreate
+    ):
         async with async_session_maker() as session:
-            async with session.begin():
-                session.add(doctor)
-                await session.flush()
-                
-                for area in area_list:
-                    area.doctor_id = doctor.id
-                    session.add(area)
-                
-                return {"id" : doctor.id}
+            user_db = SQLAlchemyUserDatabase(session, User)
+            user_manager = UserManager(user_db)
+            created_user = await user_manager.create(user, safe=True)
+
+            doctor.user_id = created_user.id
+            session.add(doctor)
+            await session.flush()
+
+            for area in area_list:
+                area.doctor_id = doctor.id
+                session.add(area)
+            
+            await session.commit()
+
+        return {"id": doctor.id}
