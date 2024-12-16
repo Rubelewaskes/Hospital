@@ -6,6 +6,7 @@
       >Авторизация</router-link
     >
     <router-link to="/doctors">Врачи</router-link>
+    <router-link to="/diagnosis">Диагнозы</router-link>
   </div>
 </template>
 <script>

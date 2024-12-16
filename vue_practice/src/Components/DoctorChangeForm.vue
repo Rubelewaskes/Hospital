@@ -77,6 +77,9 @@
             `http://127.0.0.1:8000/check_up/update/${this.doctor.id}`,
             this.doctor,
             {
+              
+            withCredentials: true,
+          
               headers: {
                 "Content-Type": "application/json",
               },

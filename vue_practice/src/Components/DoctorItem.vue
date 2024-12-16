@@ -49,7 +49,8 @@ export default {
   return {
     dialogVisible: false, // Отображение диалога
     formData: {
-      id: this.doctor.doctor_id, // Добавляем ID
+      id: this.doctor.doctor_id,
+      doctor_id: this.doctor.doctor_id, // Добавляем ID
       first_name: this.doctor.first_name,
       second_name: this.doctor.second_name,
       third_name: this.doctor.third_name,
@@ -64,6 +65,7 @@ methods: {
     this.dialogVisible = true; // Открыть диалог
     this.formData = {
       id: this.doctor.doctor_id,
+      doctor_id: this.doctor.doctor_id,
       first_name: this.doctor.first_name,
       second_name: this.doctor.second_name,
       third_name: this.doctor.third_name,
@@ -94,6 +96,9 @@ methods: {
         `http://127.0.0.1:8000/doctor/update/`,
         this.formData, // Используем данные из формы
         {
+          
+            withCredentials: true,
+          
           headers: {
             "Content-Type": "application/json",
           },

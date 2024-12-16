@@ -1,5 +1,6 @@
 import AdminAllDoctors from "@/pages/AdminAllDoctors.vue";
 import Authorization from "@/pages/Authorization.vue";
+import DiagnosisAll from "@/pages/DiagnosisAll.vue";
 import Main from "@/pages/Main.vue";
 import PatientIdPage from "@/pages/PatientIdPage.vue";
 import PatientPage from "@/pages/PatientPage.vue";
@@ -31,6 +32,10 @@ const routes = [
   {
     path: "/doctors",
     component: AdminAllDoctors,
+  },
+  {
+    path: "/diagnosis",
+    component: DiagnosisAll,
   },
 ];
 

@@ -63,6 +63,9 @@
             "http://127.0.0.1:8000/doctor/add_new",
             this.doctor,
             {
+              
+            withCredentials: true,
+          
               headers: {
                 "Content-Type": "application/json",
               },
