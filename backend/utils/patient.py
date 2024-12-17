@@ -1,4 +1,7 @@
 from fastapi import Depends
+from sqlalchemy.exc import SQLAlchemyError
+from fastapi import HTTPException
+from fastapi_users.exceptions import UserAlreadyExists, InvalidPasswordException
 
 from utils.repository import SQLAlchemyRepository
 from sqlalchemy import insert, select, func
@@ -139,19 +142,29 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
                 return result
             return None
     
+
+
     async def add_patient_user(
-        self, 
-        patient : Patient,
-        user: UserCreate,
-    ):
+            self, 
+            patient: Patient,
+            user: UserCreate,
+        ):
         async with async_session_maker() as session:
-            user_db = SQLAlchemyUserDatabase(session, User)
-            user_manager = UserManager(user_db)
-            created_user = await user_manager.create(user, safe=True)
+            try:
+                session.add(patient)
+                await session.flush()
 
-            patient.user_id = created_user.id
-            session.add(patient)
-            await session.commit()
-            await session.refresh(patient)
+                user_db = SQLAlchemyUserDatabase(session, User)
+                user_manager = UserManager(user_db)
 
-        return {"id": patient.id}
+                created_user = await user_manager.create(user, safe=True)
+
+                patient.user_id = created_user.id
+                await session.commit()
+
+                await session.refresh(patient)
+                return {"id": patient.id}
+
+            except (SQLAlchemyError, InvalidPasswordException, UserAlreadyExists) as e:
+                await session.rollback()
+                raise HTTPException(status_code=400, detail=str(e))

@@ -1,4 +1,7 @@
 from utils.repository import SQLAlchemyRepository
+from sqlalchemy.exc import SQLAlchemyError
+from fastapi import HTTPException
+from fastapi_users.exceptions import UserAlreadyExists, InvalidPasswordException
 
 from sqlalchemy import insert, select, func, case
 from sqlalchemy.orm import aliased
@@ -84,18 +87,24 @@ class SQLAlchemyRepositoryDoctor(SQLAlchemyRepository):
         user: UserCreate
     ):
         async with async_session_maker() as session:
-            user_db = SQLAlchemyUserDatabase(session, User)
-            user_manager = UserManager(user_db)
-            created_user = await user_manager.create(user, safe=True)
+            try:
+                session.add(doctor)
+                await session.flush()
 
-            doctor.user_id = created_user.id
-            session.add(doctor)
-            await session.flush()
+                user_db = SQLAlchemyUserDatabase(session, User)
+                user_manager = UserManager(user_db)
 
-            for area in area_list:
-                area.doctor_id = doctor.id
-                session.add(area)
-            
-            await session.commit()
+                created_user = await user_manager.create(user, safe=True)
 
-        return {"id": doctor.id}
+                doctor.user_id = created_user.id
+
+                for area in area_list:
+                    area.doctor_id = doctor.id
+                    session.add(area)
+                
+                await session.commit()
+                await session.refresh(doctor)
+
+            except (SQLAlchemyError, InvalidPasswordException, UserAlreadyExists) as e:
+                await session.rollback()
+                raise HTTPException(status_code=400, detail=str(e))
