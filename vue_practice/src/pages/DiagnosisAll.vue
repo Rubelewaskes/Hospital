@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="chekup">
-        <h1 v-if="doctors.length > 0">Список Диагнозов</h1>
+        <h1 v-if="diagnoses && diagnoses.length > 0">Список Диагнозов</h1>
         <h2 v-else style="color: red">Отсутствуют диагнозы</h2>
         <div class="btn">
             <my-button @click="showDialog"> Добавить диагноз </my-button>
@@ -16,7 +16,7 @@
       <div v-else>Идет загрузка...</div>
   
       <my-dialog v-model:show="dialogVisible">
-    <diagnos-create-form @create="createDoctor" />
+    <diagnosis-create-form @create="createDiagnosis" />
       </my-dialog>
   
     </div>
@@ -39,25 +39,25 @@
   
   <script>
   // import PostForm from "@/Components/PostForm";
-  import DoctorItem from "@/Components/DoctorItem.vue";
-  import DoctorList from "@/Components/DoctorList.vue";
   import axios from "axios";
-  import DoctorCreateForm from "@/Components/DoctorCreateForm.vue";
+import DiagnosisItem from "@/Components/DiagnosisItem.vue";
+import DiagnosisList from "@/Components/DiagnosisList.vue";
+import DiagnosisCreateForm from "@/Components/DiagnosisCreateForm.vue";
   // import MySelect from "@/Components/UI/MySelect";
   // import MyButton from "@/Components/UI/MyButton.vue";
   
   export default {
     components: {
-      DoctorList,
-      DoctorCreateForm,
-      DoctorItem
+      DiagnosisList,
+      DiagnosisCreateForm,
+      DiagnosisItem
     
     },
     data() {
       return {
-        doctors: [],
+        diagnoses: [],
         dialogVisible: false,
-        isDoctorsLoading: false,
+        isDiagnosesLoading: false,
         selectedSort: "",
         page: 1,
         limit: 3,
@@ -65,25 +65,25 @@
       };
     },
     methods: {
-      createDoctor(doctor) {
-        this.doctors.push(doctor);
+      createDiagnosis(diagnosis) {
+        this.diagnoses.push(this.diagnosis);
         this.dialogVisible = false;
       },
-      removeDoctor(doctor) {
-        this.doctors = this.doctors.filter((p) => p.id !== doctor.id);
+      removeDiagnosis(diagnosis) {
+        this.diagnoses = this.diagnoses.filter((p) => p.id !== diagnosis.id);
       },
       showDialog() {
         this.dialogVisible = true;
       },
       changePage(pageNumber) {
         this.page = pageNumber;
-        this.fetchDoctors();
+        this.fetchDiagnoses();
       },
-      async fetchDoctors() {
+      async fetchDiagnoses() {
         try {
-          this.isDoctorsLoading = true;
+          this.isDiagnosesLoading = true;
           const response = await axios.get(
-            "http://127.0.0.1:8000/doctor/get_all",
+            "http://127.0.0.1:8000/diagnosis/get_all",
             {
                 
             withCredentials: true,
@@ -97,16 +97,16 @@
           this.totalPages = Math.ceil(
             response.headers["x-total-count"] / this.limit
           );
-          this.doctors = response.data;
+          this.diagnoses = response.data;
         } catch (e) {
           alert("Ошибка при получении пациентов");
         } finally {
-          this.isDoctorsLoading = false;
+          this.isDiagnosesLoading = false;
         }
       },
     },
     mounted() {
-      this.fetchDoctors();
+      this.fetchDiagnoses();
     },
   };
   </script>

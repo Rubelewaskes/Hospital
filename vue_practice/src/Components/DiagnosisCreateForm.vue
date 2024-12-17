@@ -49,8 +49,8 @@ export default {
       try {
         // Отправка данных на сервер
         const response = await axios.post(
-          "http://127.0.0.1:8000/doctor/add_new",
-          this.doctor,
+          "http://127.0.0.1:8000/diagnosis/get_all",
+          this.diagnosis,
           {
             withCredentials: true,
 
@@ -65,7 +65,7 @@ export default {
           window.location.reload(); // Перезагрузка страницы
         }
 
-        this.$emit("create", this.doctor); // Передаём данные родителю
+        this.$emit("create", this.diagnosis); // Передаём данные родителю
         this.$emit("update:show", false);
 
         alert("Доктор успешно добавлен!");
