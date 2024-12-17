@@ -54,7 +54,7 @@ export default {
       try {
         this.isCheckupsLoading = true;
         const response = await axios.get(
-          `http://127.0.0.1:8000/check_up/get_all_checkups_of/${this.$route.params.id}`,
+          `http://127.0.0.1:8000/check_up/get_all_checkups_of/${this.$route.params.patient_id}`,
           {
             
             withCredentials: true,

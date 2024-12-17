@@ -68,7 +68,7 @@
         this.dialogVisible = false;
       },
       removePost(post) {
-        this.posts = this.posts.filter((p) => p.id !== post.id);
+        this.posts = this.posts.filter((p) => p.patient_id !== post.patient_id);
       },
       showDialog() {
         this.dialogVisible = true;

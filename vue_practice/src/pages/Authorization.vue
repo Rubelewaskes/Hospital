@@ -5,9 +5,6 @@
     <my-button class="btn" type="submit">Войти</my-button>
   </form>
 
-  <form @submit.prevent="getRole">
-    <my-button class="btn" type="submit">Войти</my-button>
-  </form>
 </template>
 
 <script>

@@ -18,7 +18,7 @@ const routes = [
   },
 
   {
-    path: "/patients/:id",
+    path: "/patients/:patient_id",
     component: PatientIdPage,
   },
   {

@@ -3,10 +3,10 @@
     <div>
       <div><strong>ФИО: </strong>{{ post.first_name }} {{ post.second_name }} {{ post.third_name }}</div>
       <div><strong>Дата рождения: </strong>{{ post.born_date }}</div>
-      <div><strong>ID: </strong>{{ post.id }}</div>
+      <div><strong>ID: </strong>{{ post.patient_id }}</div>
     </div>
     <div class="post__btns">
-      <my-button class="look_up" @click="$router.push(`/patients/${post.id}`)" >Просмотреть</my-button>
+      <my-button class="look_up" @click="$router.push(`/patients/${post.patient_id}`)" >Просмотреть</my-button>
       <my-button @click="$emit('remove', post)">Удалить</my-button>
     </div>
   </div>
