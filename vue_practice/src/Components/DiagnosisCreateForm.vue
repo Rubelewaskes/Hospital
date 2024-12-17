@@ -49,7 +49,7 @@ export default {
       try {
         // Отправка данных на сервер
         const response = await axios.post(
-          "http://127.0.0.1:8000/diagnosis/get_all",
+          "http://127.0.0.1:8000/diagnosis/add_new",
           this.diagnosis,
           {
             withCredentials: true,

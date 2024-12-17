@@ -51,15 +51,16 @@
     },
     submitForm() {
       // Преобразуем строку areas_list обратно в массив объектов { id: <number> }
-      if (this.formData.areas_list.trim() !== "") {
-        this.formData.areas_list = this.formData.areas_list
-          .split(",") // Разделяем по запятой
-          .map((id) => {
-            return { id: parseInt(id.trim(), 10) }; // Приводим к числу и оборачиваем в объект
-          });
-      } else {
-        this.formData.areas_list = []; // Если пустая строка, отправляем пустой массив
-      }
+        if (this.formData.areas_list?.trim()) {
+  this.formData.areas_list = this.formData.areas_list
+    .split(",")
+    .map((id) => {
+      return { id: parseInt(id.trim(), 10) };
+    });
+} else {
+  this.formData.areas_list = [];
+}
+
       console.log("Преобразованный areas_list:", this.formData.areas_list);
       console.log("Отправка формы с данными:", this.formData);
       this.updateDiagnosis();
@@ -68,7 +69,7 @@
     async updateDiagnosis() {
       try {
         const response = await axios.put(
-          `http://127.0.0.1:8000/diagnosis/get_all`,
+          `http://127.0.0.1:8000/diagnosis/update_one`,
           this.formData,
           {
             
