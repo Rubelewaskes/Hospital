@@ -9,6 +9,7 @@
       <div><strong>Опыт: </strong>{{ doctor.experience }} лет</div>
       <div><strong>Список участков: </strong>{{ doctor.areas_list }}</div>
       <my-button @click="showDialog">Изменить</my-button>
+      <my-button @click="deleteDoctor" class="hide-btn">Скрыть</my-button>
     </div>
 
     <!-- Диалоговое окно -->
@@ -23,13 +24,13 @@
           <my-input v-model="formData.phone_number" placeholder="Телефон" />
           <my-input v-model="formData.experience" placeholder="Опыт (лет)" />
           <my-input
-            v-model="formData.areas_list" 
+            v-model="formData.areas_list"
             placeholder="Список участков (через запятую)"
           />
           <div class="btns">
-          <my-button type="submit">Сохранить</my-button>
-          <my-button @click="closeDialog" type="button">Отмена</my-button>
-        </div>
+            <my-button type="submit">Сохранить</my-button>
+            <my-button @click="closeDialog" type="button">Отмена</my-button>
+          </div>
         </form>
       </div>
     </div>
@@ -46,81 +47,84 @@ export default {
     },
   },
   data() {
-  return {
-    dialogVisible: false, // Отображение диалога
-    formData: {
-      id: this.doctor.doctor_id,
-      doctor_id: this.doctor.doctor_id, // Добавляем ID
-      first_name: this.doctor.first_name,
-      second_name: this.doctor.second_name,
-      third_name: this.doctor.third_name,
-      phone_number: this.doctor.phone_number,
-      experience: this.doctor.experience,
-      areas_list: "", // Поле остается пустым для отображения placeholder
-    },
-  };
-},
-methods: {
-  showDialog() {
-    this.dialogVisible = true; // Открыть диалог
-    this.formData = {
-      id: this.doctor.doctor_id,
-      doctor_id: this.doctor.doctor_id,
-      first_name: this.doctor.first_name,
-      second_name: this.doctor.second_name,
-      third_name: this.doctor.third_name,
-      phone_number: this.doctor.phone_number,
-      experience: this.doctor.experience,
-      areas_list: "", // Поле остаётся пустым
+    return {
+      dialogVisible: false, // Отображение диалога
+      formData: {
+        doctor_id: this.doctor.doctor_id,
+        first_name: this.doctor.first_name,
+        second_name: this.doctor.second_name,
+        third_name: this.doctor.third_name,
+        phone_number: this.doctor.phone_number,
+        experience: this.doctor.experience,
+        areas_list: "",
+      },
     };
   },
-  submitForm() {
-    // Преобразуем строку areas_list обратно в массив объектов { id: <number> }
-    if (this.formData.areas_list.trim() !== "") {
-      this.formData.areas_list = this.formData.areas_list
-        .split(",") // Разделяем по запятой
-        .map((id) => {
-          return { id: parseInt(id.trim(), 10) }; // Приводим к числу и оборачиваем в объект
-        });
-    } else {
-      this.formData.areas_list = []; // Если пустая строка, отправляем пустой массив
-    }
-    console.log("Преобразованный areas_list:", this.formData.areas_list);
-    console.log("Отправка формы с данными:", this.formData);
-    this.updateDoctor();
-    this.closeDialog();
-  },
-  async updateDoctor() {
-    try {
-      const response = await axios.put(
-        `http://127.0.0.1:8000/doctor/update/`,
-        this.formData, // Используем данные из формы
-        {
-          
+  methods: {
+    showDialog() {
+      this.dialogVisible = true; // Открыть диалог
+      this.formData = {
+        doctor_id: this.doctor.doctor_id,
+        first_name: this.doctor.first_name,
+        second_name: this.doctor.second_name,
+        third_name: this.doctor.third_name,
+        phone_number: this.doctor.phone_number,
+        experience: this.doctor.experience,
+        areas_list: "",
+      };
+    },
+    closeDialog() {
+      this.dialogVisible = false; // Закрыть диалог
+    },
+    async deleteDoctor() {
+      try {
+        const response = await axios.delete(
+          `http://127.0.0.1:8000/auth/delete_doctor`,
+          {
+            params: { id: this.doctor.doctor_id }, // Передача ID в query-параметре
+            headers: {
+              "Content-Type": "application/json",
+            },
             withCredentials: true,
-          
-          headers: {
-            "Content-Type": "application/json",
-          },
+          }
+        );
+        if (response.status === 200) {
+          alert("Доктор успешно скрыт!");
+          this.$emit("update"); // Генерация события для обновления родительского компонента
         }
-      );
-      this.$emit("update"); // Генерация события для обновления    
-      alert("Изменения успешно сохранены!");
-      console.log("Ответ сервера:", response.data);
-    } catch (error) {
-      console.error("Ошибка обновления:", error);
-      if (error.response) {
-        console.error("Ответ сервера:", error.response.data);
+      } catch (error) {
+        console.error("Ошибка при скрытии доктора:", error);
+        if (error.response) {
+          console.error("Ответ сервера:", error.response.data);
+        }
+        alert("Не удалось скрыть доктора. Попробуйте снова.");
       }
-      alert("Произошла ошибка. Попробуйте снова.");
-    }
+    },
+    submitForm() {
+      console.log("Данные для обновления:", this.formData);
+      this.updateDoctor();
+      this.closeDialog();
+    },
+    async updateDoctor() {
+      try {
+        const response = await axios.put(
+          `http://127.0.0.1:8000/doctor/update/`,
+          this.formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        this.$emit("update");
+        alert("Изменения успешно сохранены!");
+      } catch (error) {
+        console.error("Ошибка обновления:", error);
+        alert("Произошла ошибка при обновлении. Попробуйте снова.");
+      }
+    },
   },
-  closeDialog() {
-    this.dialogVisible = false; // Закрыть диалог
-  },
-},
-
-
 };
 </script>
 
@@ -156,11 +160,16 @@ form {
   display: flex;
   flex-direction: column;
 }
-my-button {
-  margin-top: 10px;
+.btns {
+  display: flex;
+  justify-content: space-between;
 }
-.btns{
- display:flex;
- justify-content: space-between;
+.hide-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>

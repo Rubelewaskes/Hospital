@@ -81,7 +81,7 @@
         try {
           this.isPostsLoading = true;
           const response = await axios.get(
-            "http://127.0.0.1:8000/patient/get_all",
+            "http://127.0.0.1:8000/auth/get_my_patients",
                         {
                           
             withCredentials: true,
