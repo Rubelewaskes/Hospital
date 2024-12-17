@@ -5,6 +5,7 @@ import Main from "@/pages/Main.vue";
 import PatientIdPage from "@/pages/PatientIdPage.vue";
 import PatientPage from "@/pages/PatientPage.vue";
 import Register from "@/pages/Register.vue";
+import AdminAllSymptoms from "@/pages/AdminAllSymptoms.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
   {
     path: "/diagnosis",
     component: DiagnosisAll,
+  },
+  {
+    path: "/symptoms",
+    component: AdminAllSymptoms,
   },
 ];
 

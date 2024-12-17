@@ -1,7 +1,7 @@
 <template lang="html">
   <div v-if="isFormVisible">
     <form @submit.prevent="createDiagnosis">
-      <h4>Добавление доктора</h4>
+      <h4>Добавление диагноза</h4>
 
       <my-input v-model="diagnosis.id" type="text" placeholder="ID:" />
       <my-input
@@ -61,21 +61,20 @@ export default {
         );
         console.log(response.status);
         if (response.status === 200) {
-          // Успешное создание доктора
           window.location.reload(); // Перезагрузка страницы
         }
 
         this.$emit("create", this.diagnosis); // Передаём данные родителю
         this.$emit("update:show", false);
 
-        alert("Доктор успешно добавлен!");
+        alert("Диагноз успешно добавлен!");
       } catch (error) {
-        console.error("Ошибка создания доктора:", error);
+        console.error("Ошибка создания диагноза:", error);
         if (error.response && error.response.data) {
           console.error("Детали ошибки:", error.response.data);
         }
         alert(
-          "Ошибка при добавлении доктора. Проверьте данные и попробуйте снова."
+          "Ошибка при добавлении диагноза. Проверьте данные и попробуйте снова."
         );
       }
     },

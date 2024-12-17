@@ -1,22 +1,22 @@
 <template>
     <div>
       <div class="chekup">
-        <h1 v-if="diagnoses && diagnoses.length > 0">Список Диагнозов</h1>
-        <h2 v-else style="color: red">Отсутствуют диагнозы</h2>
+        <h1 v-if="symptoms.length > 0">Список симптомов</h1>
+        <h2 v-else style="color: red">Отсутствуют симптомы</h2>
         <div class="btn">
-            <my-button @click="showDialog"> Добавить диагноз </my-button>
+            <my-button @click="showDialog"> Добавить симптом </my-button>
           </div>
       </div>
-      <diagnosis-list
-        :diagnoses="diagnoses"
-        @update="fetchDiagnoses"
-        v-if="!isDiagnosesLoading"
+      <symptom-list
+        :symptoms="symptoms"
+        @update="fetchSymptoms"
+        v-if="!isSymptomsLoading"
       />
   
       <div v-else>Идет загрузка...</div>
   
       <my-dialog v-model:show="dialogVisible">
-    <diagnosis-create-form @create="createDiagnosis" />
+    <symptom-create-form @create="createSymptom" />
       </my-dialog>
   
     </div>
@@ -39,25 +39,23 @@
   
   <script>
   // import PostForm from "@/Components/PostForm";
+  import SymptomItem from "@/Components/SymptomItem.vue";
   import axios from "axios";
-import DiagnosisItem from "@/Components/DiagnosisItem.vue";
-import DiagnosisList from "@/Components/DiagnosisList.vue";
-import DiagnosisCreateForm from "@/Components/DiagnosisCreateForm.vue";
-  // import MySelect from "@/Components/UI/MySelect";
-  // import MyButton from "@/Components/UI/MyButton.vue";
+import SymptomList from "@/Components/SymptomList.vue";
+import SymptomCreateForm from "@/Components/SymptomCreateForm.vue";
   
   export default {
     components: {
-      DiagnosisList,
-      DiagnosisCreateForm,
-      DiagnosisItem
+      SymptomList,
+      SymptomCreateForm,
+      SymptomItem
     
     },
     data() {
       return {
-        diagnoses: [],
+        symptoms: [],
         dialogVisible: false,
-        isDiagnosesLoading: false,
+        isSymptomsLoading: false,
         selectedSort: "",
         page: 1,
         limit: 3,
@@ -65,29 +63,29 @@ import DiagnosisCreateForm from "@/Components/DiagnosisCreateForm.vue";
       };
     },
     methods: {
-      createDiagnosis(diagnosis) {
-        this.diagnoses.push(this.diagnosis);
+      createSymptom(symptom) {
+        this.symptoms.push(symptom);
         this.dialogVisible = false;
       },
-      removeDiagnosis(diagnosis) {
-        this.diagnoses = this.diagnoses.filter((p) => p.id !== diagnosis.id);
+      removeSymptom(symptom) {
+        this.symptoms = this.symptoms.filter((p) => p.id !== symptom.id);
       },
       showDialog() {
         this.dialogVisible = true;
       },
       changePage(pageNumber) {
         this.page = pageNumber;
-        this.fetchDiagnoses();
+        this.fetchSymptoms();
       },
-      async fetchDiagnoses() {
+      async fetchSymptoms() {
         try {
-          this.isDiagnosesLoading = true;
+          this.isSymptomsLoading = true;
           const response = await axios.get(
-            "http://127.0.0.1:8000/diagnosis/get_all",
+            "http://127.0.0.1:8000/symptom/get_all",
             {
-                
-            withCredentials: true,
-          
+              
+              withCredentials: true,
+            
               params: {
                 _page: this.page,
                 _limit: this.limit,
@@ -97,16 +95,16 @@ import DiagnosisCreateForm from "@/Components/DiagnosisCreateForm.vue";
           this.totalPages = Math.ceil(
             response.headers["x-total-count"] / this.limit
           );
-          this.diagnoses = response.data;
+          this.symptoms = response.data;
         } catch (e) {
-          alert("Ошибка при получении диагнозов");
+          alert("Ошибка при получении симптомов");
         } finally {
-          this.isDiagnosesLoading = false;
+          this.isSymptomsLoading = false;
         }
       },
     },
     mounted() {
-      this.fetchDiagnoses();
+      this.fetchSymptoms();
     },
   };
   </script>
