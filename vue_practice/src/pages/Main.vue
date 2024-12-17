@@ -2,6 +2,7 @@
   <div>
     <h1 class="welcome_h1">Добро пожаловать</h1>
     <router-link to="/patients" class="patients_h1">Пациенты</router-link>
+    <router-link to="/patientsAdmin">Пациенты(админ)</router-link>
     <router-link to="/authorization" class="patients_h1"
       >Авторизация</router-link
     >

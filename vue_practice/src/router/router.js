@@ -9,6 +9,7 @@ import AdminAllSymptoms from "@/pages/AdminAllSymptoms.vue";
 import AdminAllAreas from "@/pages/AdminAllAreas.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import AdminAllAddresses from "@/pages/AdminAllAddresses.vue";
+import PatientPageAdmin from "@/pages/PatientPageAdmin.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
   {
     path: "/patients",
     component: PatientPage,
+  },
+
+  {
+    path: "/patientsAdmin",
+    component: PatientPageAdmin,
   },
 
   {
