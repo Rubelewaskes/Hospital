@@ -22,7 +22,7 @@ async def get_all(
     user: User = Depends(current_active_user)
 ):
     if user.is_doctor or user.is_superuser:
-        symptoms = await symptom_service.get_all()
+        symptoms = await symptom_service.get_all_symptoms()
         response.headers["X-Total-Count"] = str(len(symptoms))
 
         if _limit != 0:
