@@ -52,6 +52,8 @@ async def get_patient_check_ups(response: Response,
         patient_id = await service.get_patient_id(user.id)
         local_check_up_service = check_up_service()
         check_ups = await local_check_up_service.get_all_short_checkup(patient_id)
+
+        response.headers["X-Total-Count"] = str(len(patient_id))
         
         if _limit != 0:
             start = (_page - 1) * _limit
@@ -75,6 +77,8 @@ async def get_doctor_patients(response: Response,
         doctor_id = await service.get_doctor_id(user.id)
         local_patient_service = patient_service()
         patients_info = await local_patient_service.get_all_patients_on_doctor_area(doctor_id)
+
+        response.headers["X-Total-Count"] = str(len(patients_info))
 
         if _limit != 0:
             start = (_page - 1) * _limit
