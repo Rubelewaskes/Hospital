@@ -1,4 +1,5 @@
 from utils.repository import AbstractRepository
+from fastapi import HTTPException
 
 from models import Doctor, AreaDoctor
 

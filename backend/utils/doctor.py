@@ -91,19 +91,19 @@ class SQLAlchemyRepositoryDoctor(SQLAlchemyRepository):
                 session.add(doctor)
                 await session.flush()
 
-                user_db = SQLAlchemyUserDatabase(session, User)
-                user_manager = UserManager(user_db)
-
-                created_user = await user_manager.create(user, safe=True)
-
-                doctor.user_id = created_user.id
-
                 for area in area_list:
                     area.doctor_id = doctor.id
                     session.add(area)
                 
+                user_db = SQLAlchemyUserDatabase(session, User)
+                user_manager = UserManager(user_db)
+
+                created_user = await user_manager.create(user, safe=True)
+                doctor.user_id = created_user.id
+
                 await session.commit()
                 await session.refresh(doctor)
+                return {"id": doctor.id}
 
             except (SQLAlchemyError, InvalidPasswordException, UserAlreadyExists) as e:
                 await session.rollback()
