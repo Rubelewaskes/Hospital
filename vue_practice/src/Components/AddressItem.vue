@@ -16,7 +16,11 @@
           <h3>Изменить данные адреса</h3>
           <form @submit.prevent="submitForm">
             <my-input v-model="formData.id" placeholder="ID" />
-            <my-input v-model="formData.name" placeholder="Имя" />
+            <my-input v-model="formData.street" placeholder="Улица" />
+            <my-input v-model="formData.house" placeholder="Дом" />
+            <my-input v-model="formData.building" placeholder="Здание" />
+            <my-input v-model="formData.flat" placeholder="Квартира" />
+            <my-input v-model="formData.area_id" placeholder="Участок" />
             <div class="btns">
             <my-button type="submit">Сохранить</my-button>
             <my-button @click="closeDialog" type="button">Отмена</my-button>
@@ -62,7 +66,6 @@
       };
     },
     submitForm() {
-      // Преобразуем строку areas_list обратно в массив объектов { id: <number> }
         if (this.formData.areas_list?.trim()) {
   this.formData.areas_list = this.formData.areas_list
     .split(",")

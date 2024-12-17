@@ -8,7 +8,7 @@
           </div>
       </div>
       <address-list
-        :address="address"
+        :addresses="addresses"
         @update="fetchAddresses"
         v-if="!isAddressesLoading"/>
   
