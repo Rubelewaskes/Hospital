@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, APIRouter, HTTPException
+from fastapi import Depends, FastAPI, APIRouter, HTTPException, Query, Response
 
 from auth.db import User, create_db_and_tables
 from auth.service import AuthService
@@ -43,11 +43,21 @@ async def get_user_info(user: User = Depends(current_active_user)):
         )
     
 @router.get("/get_my_check_ups")
-async def get_patient_check_ups(user: User = Depends(current_active_user)):
+async def get_patient_check_ups(response: Response,
+    _limit: int = Query(0, ge=0),
+    _page: int = Query(1, ge=1),
+    user: User = Depends(current_active_user)
+):
     if not user.is_superuser and not user.is_doctor:
         patient_id = await service.get_patient_id(user.id)
         local_check_up_service = check_up_service()
         check_ups = await local_check_up_service.get_all_short_checkup(patient_id)
+        
+        if _limit != 0:
+            start = (_page - 1) * _limit
+            end = start + _limit
+
+            return check_ups[start:end]
         return check_ups
 
     raise HTTPException(
@@ -56,11 +66,21 @@ async def get_patient_check_ups(user: User = Depends(current_active_user)):
         )
 
 @router.get("/get_my_patients")
-async def get_doctor_patients(user: User = Depends(current_active_user)):
+async def get_doctor_patients(response: Response,
+    _limit: int = Query(0, ge=0),
+    _page: int = Query(1, ge=1),
+    user: User = Depends(current_active_user)
+):
     if user.is_doctor:
         doctor_id = await service.get_doctor_id(user.id)
         local_patient_service = patient_service()
         patients_info = await local_patient_service.get_all_patients_on_doctor_area(doctor_id)
+
+        if _limit != 0:
+            start = (_page - 1) * _limit
+            end = start + _limit
+
+            return patients_info[start:end]
         return patients_info
 
     raise HTTPException(
