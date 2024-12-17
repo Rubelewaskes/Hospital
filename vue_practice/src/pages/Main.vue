@@ -8,6 +8,8 @@
     <router-link to="/doctors">Врачи</router-link>
     <router-link to="/diagnosis">Диагнозы</router-link>
     <router-link to="/symptoms">Симптомы</router-link>
+    <router-link to="/areas">Участки</router-link>
+    <router-link to="/addresses">Адреса</router-link>
   </div>
 </template>
 <script>
