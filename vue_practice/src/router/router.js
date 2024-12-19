@@ -10,6 +10,7 @@ import AdminAllAreas from "@/pages/AdminAllAreas.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import AdminAllAddresses from "@/pages/AdminAllAddresses.vue";
 import PatientPageAdmin from "@/pages/PatientPageAdmin.vue";
+import Profile from "@/pages/Profile.vue";
 
 const routes = [
   {
@@ -57,6 +58,14 @@ const routes = [
   {
     path: "/addresses",
     component: AdminAllAddresses,
+  },
+  {
+    path: "/profile",
+    component: Profile,
+  },
+  {
+    path: "/register",
+    component: Register,
   },
 ];
 
