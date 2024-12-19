@@ -1,12 +1,23 @@
 <template>
-  <div class="auth-container">
-    <form class="auth-form" @submit.prevent="createAuth">
-      <h1 class="auth-title">Авторизация</h1>
-      <my-input v-model="auth.username" type="text" placeholder="Логин" class="auth-input" />
-      <my-input v-model="auth.password" type="password" placeholder="Пароль" class="auth-input" />
-      <my-button class="auth-btn" type="submit">Войти</my-button>
-    </form>
-  </div>
+  <div class="registration-container">
+  <form class="registration-form" @submit.prevent="createAuth">
+    <h1 class="registration-title">Авторизация</h1>
+    <my-input
+      v-model="auth.username"
+      type="text"
+      placeholder="Логин"
+      class="form-input"
+    />
+    <my-input
+      v-model="auth.password"
+      type="password"
+      placeholder="Пароль"
+      class="form-input"
+    />
+    <button class="form-button" type="submit">Войти</button>
+  </form>
+</div>
+
 </template>
 
 <script>
@@ -70,65 +81,55 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f7f9fc;
-  padding: 20px;
-}
-
-.auth-form {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+.registration-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.auth-title {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
+.registration-title {
+  font-size: 2rem;
   color: #333;
+  margin-bottom: 20px;
+  font-family: "Arial", sans-serif;
 }
 
-.auth-input,
-.auth-btn {
-  width: 100%; 
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-input {
   padding: 10px;
-  margin-bottom: 15px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box; 
+  border-radius: 5px;
 }
 
-.auth-btn {
+.form-button {
+  padding: 10px;
+  font-size: 1rem;
+  color: #fff;
   background-color: #007bff;
-  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-.auth-btn:hover {
+.form-button:hover {
   background-color: #0056b3;
 }
 
-.auth-btn:active {
-  background-color: #003f7f;
-}
 
 </style>

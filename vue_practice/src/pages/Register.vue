@@ -22,16 +22,6 @@
           required
         />
   
-        <label for="isDoctor" class="form-label">
-          Вы доктор?
-        </label>
-        <input
-          id="isDoctor"
-          v-model="formData.isDoctor"
-          type="checkbox"
-          class="form-checkbox"
-        />
-  
         <button type="submit" class="form-button">Зарегистрироваться</button>
       </form>
       <p class="error-message" v-if="error">{{ error }}</p>
@@ -84,14 +74,20 @@
   
   <style scoped>
   .registration-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  width: 100%; /* Для совпадения размеров */
+  margin: 0 auto;
+  padding: 30px; /* Увеличить до совпадения */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  min-height: 400px; /* Добавлено для фиксации высоты */
+}
   
   .registration-title {
     font-size: 2rem;
