@@ -20,7 +20,8 @@
   .input {
     border: 1px solid teal;
     padding: 10px 15px;
-    margin: 0; 
+    margin-bottom: 10px;
+    margin-top: 10px; 
     width: 100%; 
     box-sizing: border-box; 
   }

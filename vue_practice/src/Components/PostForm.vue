@@ -3,7 +3,6 @@
   <form @submit.prevent="createPost">
     <h4>Новый осмотр</h4>
 
-    <my-selectPlace :optionsPlace="optionsPlace" />
     <my-input
       v-model="post.check_up_place_id"
       type="text"

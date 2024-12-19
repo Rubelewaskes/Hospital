@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <div @click="$router.push('/')">Логотип(главная)</div>
+    <div @click="$router.push('/')">Главная</div>
     <div class="navbar__btns">
       <my-button @click="$router.push('/patients')">Пациенты</my-button>
       <my-button class="exit_btn" @click="logout">Выход из акка</my-button>
