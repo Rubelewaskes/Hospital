@@ -1,7 +1,7 @@
 <template>
   <div class="post">
     <div>
-      <div><strong>ФИО: </strong>{{ post.patient_FIO}}</div>
+      <div><strong>ФИО: </strong>{{ post.first_name }} {{ post.second_name }} {{ post.third_name }}</div>
       <div><strong>Дата рождения: </strong>{{ post.born_date }}</div>
       <div><strong>ID: </strong>{{ post.patient_id }}</div>
     </div>
