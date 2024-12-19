@@ -2,7 +2,6 @@
   <div class="navbar">
     <div @click="$router.push('/')">Главная</div>
     <div class="navbar__btns">
-      <my-button @click="$router.push('/patients')">Пациенты</my-button>
       <my-button class="exit_btn" @click="logout">Выход из акка</my-button>
       <my-button @click="$router.push('/profile')">Профиль(-)</my-button>
     </div>
@@ -55,20 +54,47 @@ export default {
 
 <style scoped>
 .navbar {
-  height: 50px;
-  background-color: lightgrey;
-  box-shadow: 2px 2px 4px grey;
+  height: 60px;
+  background-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  padding: 0 15px;
-  margin-bottom: 15px;
+  padding: 0 20px;
+  border-radius: 0 0 10px 10px;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 10px;
 }
+
+.navbar div {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar div:hover {
+  color: #f9f9f9;
+  transform: scale(1.05);
+}
+
 .navbar__btns {
   margin-left: auto;
+  display: flex;
+  gap: 10px;
 }
+
 .exit_btn {
-  margin: 0px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+.exit_btn:hover {
+  background-color: #a71d2a;
+  transform: scale(1.05);
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -81,11 +107,32 @@ export default {
   align-items: center;
   z-index: 1000;
 }
+
 .modal {
-  background: white;
+  background: #f9f9f9;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
+  width: 80%;
+  max-width: 400px;
+}
+
+.modal p {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.modal my-button {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.modal my-button:hover {
+  background-color: #0056b3;
 }
 </style>
+

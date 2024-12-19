@@ -1,14 +1,20 @@
 <template>
   <div>
-    <h1 class="checkup_list" v-if="checkups.length > 0">Список осмотров</h1>
+    <div class="header-container" v-if="checkups.length > 0">
+      <!-- Стрелочка для возврата -->
+      <span class="back-arrow" @click="backToPatients" style="cursor: pointer;">←</span>
+      <!-- Заголовок -->
+      <h1 class="checkup_list">Список осмотров</h1>
+    </div>
     <h2 v-else style="color: red">Отсутствуют осмотры</h2>
+
+    <checkup-list
+      :checkups="checkups"
+      @remove="removeCheckup"
+      v-if="!isCheckupsLoading"
+    />
+    <div v-else>Идет загрузка...</div>
   </div>
-  <checkup-list
-    :checkups="checkups"
-    @remove="removeCheckup"
-    v-if="!isCheckupsLoading"
-  />
-  <div v-else>Идет загрузка...</div>
 </template>
 <script>
 //   import PostForm from "@/Components/PostForm";
@@ -72,6 +78,9 @@ export default {
         this.isCheckupsLoading = false;
       }
     },
+    backToPatients() {
+      this.$router.push("/patientsAdmin");
+    },
   },
   mounted() {
     console.log(this.$route.params);
@@ -81,7 +90,25 @@ export default {
 };
 </script>
 <style scoped>
+.header-container {
+  display: flex;
+  align-items: center; /* Выравнивание по вертикали */
+  gap: 10px; /* Расстояние между стрелкой и заголовком */
+}
+
+.back-arrow {
+  font-size: 1.5rem;
+  color: teal;
+  margin-left: 15px;
+}
+
+.back-arrow:hover {
+  color: darkblue; /* Цвет стрелочки при наведении */
+}
+
 .checkup_list {
-  margin: 0px 15px;
+  margin: 0; /* Убираем отступы */
+  font-size: 1.5rem;
+  color: black;
 }
 </style>
