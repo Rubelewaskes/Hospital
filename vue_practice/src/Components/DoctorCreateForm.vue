@@ -1,7 +1,7 @@
 <template lang="html">
   <div v-if="isFormVisible">
     <form @submit.prevent="createDoctor">
-      <h4 class="add_doc">Добавление доктора</h4>
+      <h4>Добавление доктора</h4>
 
       <my-input v-model="doctor.first_name" type="text" placeholder="Имя" />
       <my-input v-model="doctor.second_name" type="text" placeholder="Фамилия"/>
@@ -116,8 +116,6 @@ form {
 div:empty {
   display: none;
 }
-.add_doc {
-  margin-bottom: 5px;
-}
+
 
 </style>
