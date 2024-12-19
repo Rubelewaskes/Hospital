@@ -113,9 +113,9 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
             stmt = (
                 select(
                     Patient.id,
-                    func.concat(
-                        Patient.first_name, ' ', Patient.second_name, ' ', Patient.third_name
-                    ).label('Patient_FIO'),
+                    Patient.first_name, 
+                    Patient.second_name, 
+                    Patient.third_name,
                     Gender.description,
                     Patient.born_date,
                     Patient.phone_number,
@@ -133,10 +133,12 @@ class SQLAlchemyRepositoryPatient(SQLAlchemyRepository):
             if rows := res.all():
                 result = [{
                     "patient_id": row[0],
-                    "patient_FIO": row[1],
-                    "gender": row[2],
-                    "born_date": row[3],
-                    "phone_number": row[4],
+                    "first_name": row[1],
+                    "second_name": row[2],
+                    "third_name": row[3],
+                    "gender": row[4],
+                    "born_date": row[5],
+                    "phone_number": row[6],
                 }
                     for row in rows
                 ]
