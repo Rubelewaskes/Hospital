@@ -34,7 +34,7 @@ async def get_user_info(user: User = Depends(current_active_user)):
     elif user:
         patient_id = await service.get_patient_id(user.id)
         local_patient_service = patient_service()
-        patient_info = await local_patient_service.get_one_patient(user.id)
+        patient_info = await local_patient_service.get_one_patient(patient_id)
         return patient_info
 
     raise HTTPException(
