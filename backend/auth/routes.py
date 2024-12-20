@@ -16,11 +16,11 @@ service = AuthService()
 @router.get("/get_role")
 async def get_user_role(user: User = Depends(current_active_user)):
     if user.is_superuser:
-        return {"message": f"Hello Admin {user.email}!"}
+        return {"role": "admin"}
     if user.is_doctor:
-        return {"message": f"Hello Doctor {user.email}!"}
+        return {"role": "doctor"}
     else:
-        return {"message": f"Hello Patient {user.email}!"}
+        return {"role": "patient"}
 
 @router.get("/get_me")
 async def get_user_info(user: User = Depends(current_active_user)):
